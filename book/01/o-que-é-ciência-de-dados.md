@@ -155,14 +155,13 @@ Estatística</a></li>
 <!-- Main Content -->
 <div style="overflow: hidden">
 
-<!-- This prevents content from wrapping under the floated index -->
-<h1 id="titulo-texto-principal" style="text-align: center">O que é Ciência de Dados?</h1>
-<p style="text-align: justify">Ciência de Dados trata de tirar conclusões úteis de conjuntos de dados grandes e diversos por meio de exploração, predição e inferência.</p>
-<p style="text-align: justify">A exploração envolve a identificação de padrões nas informações. A predição envolve o uso de informações que conhecemos para fazer suposições informadas sobre valores que desejaríamos de saber. A inferência envolve quantificar o nosso grau de certeza: os padrões que encontramos nos nossos dados também aparecerão em novas observações? Quão precisas são nossas predições?</p>
-<p style="text-align: justify">Nossas principais ferramentas para exploração são visualizações e estatísticas descritivas, para predição são aprendizado de máquina e otimização e para inferência são testes e modelos estatísticos.</p>
-<p style="text-align: justify">A estatística é um componente central da ciência de dados porque a estatística estuda como tirar conclusões robustas com base em informações incompletas.</p>
-<p style="text-align: justify">A computação é um componente central porque a programação nos permite aplicar técnicas de análise aos grandes e diversos conjuntos de dados que surgem em aplicações do mundo real: não apenas números, mas textos, imagens, vídeos e leituras de sensores.</p>
-<p style="text-align: justify">Ciência de dados é tudo isso, mas é mais do que a soma de suas partes por causa das aplicações. Ao compreender um domínio específico, os cientistas de dados aprendem a fazer perguntas apropriadas sobre seus dados e a interpretar corretamente as respostas fornecidas por nossas ferramentas inferenciais e computacionais.</p>
+O que é ciência de dados?
+====================
+
+Ciência de Dados trata de tirar conclusões úteis de conjuntos de dados grandes e diversos por meio de exploração, predição e inferência. A exploração envolve a identificação de padrões nas informações. A predição envolve o uso de informações que conhecemos para fazer suposições informadas sobre valores que desejaríamos de saber. A inferência envolve quantificar o nosso grau de certeza: os padrões que encontramos nos nossos dados também aparecerão em novas observações? Quão precisas são nossas predições? Nossas principais ferramentas para exploração são visualizações e estatísticas descritivas, para predição são aprendizado de máquina e otimização e para inferência são testes e modelos estatísticos.
+
+A estatística é um componente central da ciência de dados porque a estatística estuda como tirar conclusões robustas com base em informações incompletas. A computação é um componente central porque a programação nos permite aplicar técnicas de análise aos grandes e diversos conjuntos de dados que surgem em aplicações do mundo real: não apenas números, mas textos, imagens, vídeos e leituras de sensores. Ciência de dados é tudo isso, mas é mais do que a soma de suas partes por causa das aplicações. Ao compreender um domínio específico, os cientistas de dados aprendem a fazer perguntas apropriadas sobre seus dados e a interpretar corretamente as respostas fornecidas por nossas ferramentas inferenciais e computacionais.
+
 
 <table width="100%">
 <tbody>
