@@ -1,12 +1,9 @@
-[//]: # (O que é ciência de dados?)
-
-[//]: # (====================)
-
-[//]: # ()
-[//]: # (Ciência de Dados trata de tirar conclusões úteis de conjuntos de dados grandes e diversos por meio de exploração, predição e inferência. A exploração envolve a identificação de padrões nas informações. A predição envolve o uso de informações que conhecemos para fazer suposições informadas sobre valores que desejaríamos de saber. A inferência envolve quantificar o nosso grau de certeza: os padrões que encontramos nos nossos dados também aparecerão em novas observações? Quão precisas são nossas predições? Nossas principais ferramentas para exploração são visualizações e estatísticas descritivas, para predição são aprendizado de máquina e otimização e para inferência são testes e modelos estatísticos.)
-
-[//]: # ()
-[//]: # (A estatística é um componente central da ciência de dados porque a estatística estuda como tirar conclusões robustas com base em informações incompletas. A computação é um componente central porque a programação nos permite aplicar técnicas de análise aos grandes e diversos conjuntos de dados que surgem em aplicações do mundo real: não apenas números, mas textos, imagens, vídeos e leituras de sensores. Ciência de dados é tudo isso, mas é mais do que a soma de suas partes por causa das aplicações. Ao compreender um domínio específico, os cientistas de dados aprendem a fazer perguntas apropriadas sobre seus dados e a interpretar corretamente as respostas fornecidas por nossas ferramentas inferenciais e computacionais.)
+---
+title: Capítulo 1
+menu_order: 2
+taxonomy:
+    doc_category: wordpress-plugins
+---
 <div style="position: relative">
 <div style="float: left;width: 300px;background-color: #f5f5f5;border: 1px solid #ddd;border-radius: 5px;padding: 15px;margin-right: 20px;margin-bottom: 5px;overflow: hidden">
 <h3 style="margin: 0 0 10px 0;padding-bottom: 8px;border-bottom: 1px solid #ddd">Índice</h3>
