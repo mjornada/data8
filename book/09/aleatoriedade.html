@@ -152,248 +152,236 @@
         <!--###########################################################################################################################################################-->
 
         <pre><code><span style="color: black">from datascience import *
+path_data = '../../../assets/data/'
+import numpy as np
+
 import matplotlib
-path_data = '../../assets/data/'
 matplotlib.use('Agg')
 %matplotlib inline
 import matplotlib.pyplot as plots
-plots.style.use('fivethirtyeight')
-import numpy as np</span></code></pre>
+plots.style.use('fivethirtyeight')</span></code></pre>
 
+        <h1 id="aleatoriedade">Aleatoriedade</h1>
 
-        <h1 id="fun-es-e-tabelas">Funções e Tabelas</h1>
-        <p>Estamos construindo um inventário útil de técnicas para identificar padrões e temas em um conjunto de dados usando funções já disponíveis em Python. Agora vamos explorar um recurso central da linguagem de programação Python: a definição de funções.</p>
-        <p>Já usamos funções extensivamente neste texto, mas nunca definimos uma função própria. O objetivo de definir uma função é dar um nome a um processo computacional que pode ser aplicado várias vezes. Existem muitas situações na computação que exigem cálculos repetidos. Por exemplo, frequentemente queremos realizar a mesma manipulação em cada valor em uma coluna de uma tabela.</p>
-        <h2>Definindo uma Função</h2>
+        <p style="text-align: justify;">Nos capítulos anteriores, desenvolvemos habilidades necessárias para fazer descrições perspicazes de dados. Cientistas de dados também precisam ser capazes de entender a aleatoriedade. Por exemplo, eles precisam ser capazes de atribuir indivíduos a grupos de tratamento e controle aleatoriamente e, em seguida, tentar dizer se quaisquer diferenças observadas nos resultados dos dois grupos são simplesmente devido à atribuição aleatória ou genuinamente devido
+            ao tratamento.</p>
 
-        <p>A definição da função <code>double</code> abaixo simplesmente duplica um número.</p>
+        <p style="text-align: justify;">Neste capítulo, começamos nossa análise da aleatoriedade. Para começar, usaremos Python para fazer escolhas aleatórias. No <code>numpy</code>, há um sub-módulo chamado <code>random</code> que contém muitas funções que envolvem seleção aleatória. Uma dessas funções é chamada <code>choice</code>. Ela escolhe um item aleatoriamente de um array, e é igualmente provável escolher qualquer um dos itens. A chamada da função é
+            <code>np.random.choice(array_name)</code>, onde <code>array_name</code> é o nome do array de onde se fará a escolha.</p>
 
+        <p style="text-align: justify;">Assim, o código a seguir avalia <code>treatment</code> com 50% de chance e <code>control</code> com 50% de chance.</p>
 
-        <pre><code><span style="color: black"># Nossa primeira definição de função
-
-def double(x):
-    """ Double x """
-    return 2*x</span></code></pre>
-
-        Começamos qualquer definição de função escrevendo `def`. Aqui está um detalhamento das outras partes (a *sintaxe*) desta pequena função:
-
-        ![function syntax](../../images/function_definition.jpg)
-
-        <p>Quando executamos a célula acima, nenhum número específico é duplicado, e o código dentro do corpo de <code>double</code> ainda não é avaliado. Nesse aspecto, nossa função é análoga a uma <em>receita</em>. Cada vez que seguimos as instruções em uma receita, precisamos começar com ingredientes. Cada vez que queremos usar nossa função para dobrar um número, precisamos especificar um número.</p>
-        <p>Podemos chamar <code>double</code> exatamente da mesma forma que chamamos outras funções. Cada vez que fazemos isso, o código no corpo é executado, com o valor do argumento recebendo o nome <code>x</code>.</p>
-
-
-        <pre><code><span style="color: black">double(17)</span></code></pre>
+        <pre><code><span style="color: black">two_groups = make_array('treatment', 'control')
+np.random.choice(two_groups)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
-                <td style="text-align: left;">34</td>
+                <td style="text-align: left;">'treatment'</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">A grande diferença entre o código acima e todo o outro código que executamos até agora é que o código acima não sempre retorna o mesmo valor. Ele pode retornar <code>treatment</code> ou <code>control</code>, e não sabemos de antemão qual ele escolherá. Podemos repetir o processo fornecendo um segundo argumento, o número de vezes para repetir o processo.</p>
+
+        <pre><code><span style="color: black">np.random.choice(two_groups, 10)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
+                <td style="text-align: left;">array(['control', 'control', 'treatment', 'treatment', 'control',
+                    'control', 'control', 'control', 'control', 'control'], dtype='
+                    <U9
+                    ')
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Uma questão fundamental sobre eventos aleatórios é se eles ocorrem ou não. Por exemplo:</p>
+
+        <ul>
+            <li>Um indivíduo foi designado para o grupo de tratamento ou não?</li>
+            <li>Um jogador vai ganhar dinheiro ou não?</li>
+            <li>Uma pesquisa fez uma previsão precisa ou não?</li>
+        </ul>
+
+        <p style="text-align: justify;">Uma vez que o evento ocorreu, você pode responder "sim" ou "não" a todas essas perguntas. Em programação, é convencional fazer isso rotulando declarações como True ou False. Por exemplo, se um indivíduo foi designado para o grupo de tratamento, então a declaração "O indivíduo foi designado para o grupo de tratamento" seria <code>True</code>. Caso contrário, seria <code>False</code>.</p>
+
+        <h2>Booleans e Comparação</h2>
+
+        <p style="text-align: justify;">Em Python, valores Booleanos, nomeados em homenagem ao lógico <a href="https://en.wikipedia.org/wiki/George_Boole">George Boole</a>, representam a verdade e assumem apenas dois valores possíveis: <code>True</code> e <code>False</code>. Quer os problemas envolvam aleatoriedade ou não, os valores Booleanos surgem mais frequentemente de operadores de comparação. Python inclui uma variedade de operadores que comparam valores. Por exemplo, <code>3</code> é
+            maior que <code>1 + 1</code>.</p>
+
+        <pre><code><span style="color: black">3 > 1 + 1</span></code></pre>
+
+        <p style="text-align: justify;">O valor <code>True</code> indica que a comparação é válida; Python confirmou esse simples fato sobre a relação entre <code>3</code> e <code>1+1</code>. O conjunto completo de operadores de comparação comuns está listado abaixo.</p>
+
+        <table border="1" class="dataframe">
+            <thead>
+            <tr>
+                <th>Comparação</th>
+                <th>Operador</th>
+                <th>Exemplo True</th>
+                <th>Exemplo False</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Menor que</td>
+                <td>&lt;</td>
+                <td>2 &lt; 3</td>
+                <td>2 &lt; 2</td>
+            </tr>
+            <tr>
+                <td>Maior que</td>
+                <td>&gt;</td>
+                <td>3 &gt; 2</td>
+                <td>3 &gt; 3</td>
+            </tr>
+            <tr>
+                <td>Menor ou igual</td>
+                <td>&lt;=</td>
+                <td>2 &lt;= 2</td>
+                <td>3 &lt;= 2</td>
+            </tr>
+            <tr>
+                <td>Maior ou igual</td>
+                <td>&gt;=</td>
+                <td>3 &gt;= 3</td>
+                <td>2 &gt;= 3</td>
+            </tr>
+            <tr>
+                <td>Igual</td>
+                <td>==</td>
+                <td>3 == 3</td>
+                <td>3 == 2</td>
+            </tr>
+            <tr>
+                <td>Diferente</td>
+                <td>!=</td>
+                <td>3 != 2</td>
+                <td>2 != 2</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Note os dois sinais de igual <code>==</code> na comparação para determinar a igualdade. Isso é necessário porque Python já usa <code>=</code> para significar atribuição a um nome, como vimos. Não pode usar o mesmo símbolo para um propósito diferente. Portanto, se você quiser verificar se 5 é igual a 10/2, precisa ser cuidadoso: <code>5 = 10/2</code> retorna uma mensagem de erro porque Python assume que você está tentando atribuir o valor da expressão 10/2
+            a um nome que é o numeral 5. Em vez disso, você deve usar <code>5 == 10/2</code>, que avalia para <code>True</code>.</p>
+
+        <pre><code><span style="color: black">5 = 10/2</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
+                <td style="text-align: left;"> File "
+                    <ipython-input-5-e8c755f5e450>", line 1
+                        5 = 10/2
+                        ^
+                        SyntaxError: can't assign to literal
+                </td>
             </tr>
             </tbody>
         </table>
 
         <br>
-
-
-        <pre><code><span style="color: black">double(-0.6/4)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
-                <td style="text-align: left;">-0.3</td>
-            </tr>
-            </tbody>
-        </table>
-
-
-        <p>As duas expressões acima são ambas <em>expressões de chamada</em>. Na segunda, o valor da expressão <code>-0.6/4</code> é calculado e então passado como o argumento nomeado <code>x</code> para a função <code>double</code>. Cada expressão de chamada resulta na execução do corpo de <code>double</code>, mas com um valor diferente de <code>x</code>.</p>
-        <p>O corpo de <code>double</code> tem apenas uma única linha:</p>
-        <p><code>return 2*x</code></p>
-        <p>Executar esta <em>instrução <code>return</code></em> completa a execução do corpo da função <code>double</code> e calcula o valor da expressão de chamada.</p>
-        <p>O argumento para <code>double</code> pode ser qualquer expressão, desde que seu valor seja um número. Por exemplo, pode ser um nome. A função <code>double</code> não sabe ou se importa com a forma como seu argumento é calculado ou armazenado; seu único trabalho é executar seu próprio corpo usando os valores dos argumentos passados para ela.</p>
-
-        <pre><code><span style="color: black">any_name = 42
-double(any_name)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
-                <td style="text-align: left;">84</td>
-            </tr>
-            </tbody>
-        </table>
-
-
-        <p>O argumento também pode ser qualquer valor que possa ser duplicado. Por exemplo, uma matriz inteira de números pode ser passada como argumento para <code>double</code> e o resultado será outra matriz.</p>
-
-        <pre><code><span style="color: black">double(make_array(3, 4, 5))</span></code></pre>
+        <pre><code><span style="color: black">5 == 10/2</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
-                <td style="text-align: left;">array([ 6, 8, 10])</td>
+                <td style="text-align: left;">True</td>
             </tr>
             </tbody>
         </table>
 
-        <p>No entanto, nomes que são definidos dentro de uma função, incluindo argumentos como <code>x</code> de <code>double</code>, têm apenas uma existência passageira. Eles são definidos apenas enquanto a função está sendo chamada e só são acessíveis dentro do corpo da função. Não podemos nos referir a <code>x</code> fora do corpo de <code>double</code>. A terminologia técnica é que <code>x</code> tem <em>escopo local</em>.</p>
-        <p>Portanto, o nome <code>x</code> não é reconhecido fora do corpo da função, mesmo que tenhamos chamado <code>double</code> nas células acima.</p>
+        <p style="text-align: justify;">Uma expressão pode conter várias comparações, e todas elas devem ser verdadeiras para que a expressão inteira seja <code>True</code>. Por exemplo, podemos expressar que <code>1+1</code> está entre <code>1</code> e <code>3</code> usando a seguinte expressão.</p>
 
-
-        <pre><code><span style="color: black">x</span></code></pre>
+        <pre><code><span style="color: black">1 < 1 + 1 < 3</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
-                <td style="text-align: left;">
-                    ---------------------------------------------------------------------------
-                    NameError Traceback (most recent call last)
-                    &lt;ipython-input-7-6fcf9dfbd479&gt; in &lt;module&gt;
-                    ----> 1 x
-
-                    NameError: name 'x' is not defined
-                </td>
+                <td style="text-align: left;">True</td>
             </tr>
             </tbody>
         </table>
 
-        **Docstrings.** Embora `double` seja relativamente fácil de entender, muitas funções realizam tarefas complicadas e são difíceis de usar sem explicação. (Você pode ter descoberto isso por si mesmo!) Portanto, uma função bem elaborada tem um nome que evoca seu comportamento, bem como documentação. Em Python, isso é chamado de *docstring* — uma descrição de seu comportamento e expectativas sobre seus argumentos. A docstring também pode mostrar chamadas de exemplo para a função, onde a
-        chamada é precedida por `>>>`.
+        <p style="text-align: justify;">A média de dois números está sempre entre o número menor e o número maior. Expressamos essa relação para os números <code>x</code> e <code>y</code> abaixo. Você pode tentar valores diferentes de <code>x</code> e <code>y</code> para confirmar esta relação.</p>
 
-        Uma docstring pode ser qualquer string, desde que seja a primeira coisa no corpo de uma função. Docstrings geralmente são definidas usando aspas triplas no início e no fim, o que permite que uma string abranja várias linhas. A primeira linha é convencionalmente uma descrição completa, mas curta, da função, enquanto as linhas seguintes fornecem orientação adicional para futuros usuários da função.
-
-        Aqui está uma definição de uma função chamada `percent` que recebe dois argumentos. A definição inclui uma docstring.
-
-        <pre><code><span style="color: black"># Uma função com mais de um argumento
-
-def percent(x, total):
-    """Converte x em uma porcentagem do total.
-
-    Mais precisamente, esta função divide x por total,
-    multiplica o resultado por 100 e arredonda o resultado
-    para duas casas decimais.
-
-    >>> percent(4, 16)
-    25.0
-    >>> percent(1, 6)
-    16.67
-    """
-    return round((x/total)*100, 2)</span></code></pre>
-        <pre><code><span style="color: black">percent(33, 200)</span></code></pre>
+        <pre><code><span style="color: black">x = 12
+y = 5
+min(x, y) <= (x+y)/2 <= max(x, y)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[6]:</td>
-                <td style="text-align: left;">16.5</td>
+                <td style="text-align: left;">True</td>
             </tr>
             </tbody>
         </table>
 
-        <p>Compare a função <code>percent</code> definida acima com a função <code>percents</code> definida abaixo. Esta última toma uma matriz como argumento e converte todos os números da matriz em porcentagens do total dos valores na matriz. As porcentagens são todos arredondados para duas casas decimais, desta vez substituindo <code>round</code> por <code>np.round</code> porque o argumento é uma matriz e não um número.</p>
+        <h2>Comparando Strings</h2>
 
-        <pre><code><span style="color: black">def percents(counts):
-    """Converta os valores em array_x em porcentagens do total de array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, 2)</span></code></pre>
+        <p style="text-align: justify;">Strings também podem ser comparadas, e sua ordem é alfabética. Uma string mais curta é menor que uma string mais longa que começa com a string mais curta.</p>
 
-        <p>A função <code>percents</code> retorna uma matriz de porcentagens que somam 100, sem arredondamento.</p>
-
-        <pre><code><span style="color: black">some_array = make_array(7, 10, 4)
-percents(some_array)</span></code></pre>
+        <pre><code><span style="color: black">'Dog' > 'Catastrophe' > 'Cat'</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[7]:</td>
-                <td style="text-align: left;">array([33.33, 47.62, 19.05])</td>
+                <td style="text-align: left;">True</td>
             </tr>
             </tbody>
         </table>
 
-        <p>É útil entender as etapas que o Python executa para executar uma função. Para facilitar isso, colocamos uma definição de função e uma chamada para essa função na mesma célula abaixo.</p>
+        <p style="text-align: justify;">Vamos voltar à seleção aleatória. Lembre-se do array <code>two_groups</code> que consiste em apenas dois elementos, <code>treatment</code> e <code>control</code>. Para ver se um indivíduo designado aleatoriamente foi para o grupo de tratamento, você pode usar uma comparação:</p>
 
-
-        <pre><code><span style="color: black">def biggest_difference(array_x):
-    """Encontre a maior diferença em valor absoluto entre dois elementos adjacentes de array_x."""
-    diffs = np.diff(array_x)
-    absolute_diffs = abs(diffs)
-    return max(absolute_diffs)
-
-some_numbers = make_array(2, 4, 5, 6, 4, -1, 1)
-big_diff = biggest_difference(some_numbers)
-print("The biggest difference is", big_diff)</span></code></pre>
+        <pre><code><span style="color: black">np.random.choice(two_groups) == 'treatment'</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[8]:</td>
-                <td style="text-align: left;">The biggest difference is 5</td>
+                <td style="text-align: left;">True</td>
             </tr>
             </tbody>
         </table>
 
-        <p>Aqui está o que acontece quando executamos aquela célula:</p>
-        <p><img src="../../images/function_execution.jpg" alt="function execution"></p>
+        <p style="text-align: justify;">Como antes, a escolha aleatória não será sempre a mesma, então o resultado da comparação também não será sempre o mesmo. Dependerá se <code>treatment</code> ou <code>control</code> foi escolhido. Com qualquer célula que envolva seleção aleatória, é uma boa ideia executar a célula várias vezes para ter uma ideia da variabilidade no resultado.</p>
 
-        <h2>Argumentos Múltiplos</h2>
+        <h2>Comparando uma Array e um Valor</h2>
 
-        <p>Pode haver várias maneiras de generalizar uma expressão ou bloco de código e, portanto, uma função pode receber vários argumentos, cada um determinando diferentes aspectos do resultado. Por exemplo, a função <code>percents</code> que definimos anteriormente, arredondada para duas casas decimais a cada vez . A definição de dois argumentos a seguir permite que chamadas diferentes sejam arredondadas para valores diferentes.</p>
+        <p style="text-align: justify;">Lembre-se de que podemos realizar operações aritméticas em muitos números em uma array de uma vez. Por exemplo, <code>make_array(0, 5, 2)*2</code> é equivalente a <code>make_array(0, 10, 4)</code>. De maneira semelhante, se compararmos uma array e um valor, cada elemento da array será comparado a esse valor, e a comparação resultará em uma array de Booleanos.</p>
 
-
-        <pre><code><span style="color: black">def percents(counts, decimal_places):
-    """Convert the values in array_x to percents out of the total of array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, decimal_places)
-
-parts = make_array(2, 1, 4)
-print("Rounded to 1 decimal place: ", percents(parts, 1))
-print("Rounded to 2 decimal places:", percents(parts, 2))
-print("Rounded to 3 decimal places:", percents(parts, 3))</span></code></pre>
+        <pre><code><span style="color: black">tosses = make_array('Tails', 'Heads', 'Tails', 'Heads', 'Heads')
+tosses == 'Heads'</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[9]:</td>
-                <td style="text-align: left;">Rounded to 1 decimal place: [28.6 14.3 57.1]
-                    Rounded to 2 decimal places: [28.57 14.29 57.14]
-                    Rounded to 3 decimal places: [28.571 14.286 57.143]
-                </td>
+                <td style="text-align: left;">array([False, True, False, True, True])</td>
             </tr>
             </tbody>
         </table>
 
-        <p>A flexibilidade desta nova definição tem um preço pequeno: cada vez que a função é chamada, o número de casas decimais deve ser especificado. Os valores padrão dos argumentos permitem que uma função seja chamada com um número variável de argumentos; qualquer argumento que seja especificado na expressão de chamada recebe seu valor padrão, que é indicado na primeira linha da instrução <code>def</code>. Por exemplo, nesta definição final de <code>percents</code>, o argumento opcional
-            <code>decimal_places</code> recebe um valor padrão de 2.</p>
+        <p style="text-align: justify;">O método <code>numpy</code> <code>count_nonzero</code> avalia o número de elementos diferentes de zero (ou seja, <code>True</code>) da matriz.</p>
 
-
-        <pre><code><span style="color: black">def percents(counts, decimal_places=2):
-    """Converta os valores em array_x em porcentagens do total de array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, decimal_places)
-
-parts = make_array(2, 1, 4)
-print("Rounded to 1 decimal place:", percents(parts, 1))
-print("Rounded to the default number of decimal places:", percents(parts))</span></code></pre>
+        <pre><code><span style="color: black">np.count_nonzero(tosses == 'Heads')</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[10]:</td>
-                <td style="text-align: left;">Rounded to 1 decimal place: [28.6 14.3 57.1]
-                    Rounded to the default number of decimal places: [28.57 14.29 57.14]
-                </td>
+                <td style="text-align: left;">3</td>
             </tr>
             </tbody>
         </table>
-
-        <h2>Nota: Métodos</h2>
-
-        <p>As funções são chamadas colocando expressões de argumento entre parênteses após o nome da função. Qualquer função definida isoladamente é chamada desta forma. Você também viu exemplos de métodos, que são como funções, mas são chamados usando notação de ponto, como <code>some_table.sort(some_label)</code>. As funções que você define sempre serão chamadas usando o nome da função primeiro, passando todos os argumentos.</p>
-
 
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/7-0/7-3/">← Capítulo 7.3 - Gráficos Sobrepostos</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/8-1/">Capítulo 8.1 - Aplicando Uma Função a Uma Coluna →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/8-4/">← Capítulo 8.4 - Unindo Tabelas por Colunas</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/9-0/9-1/">Capítulo 9.1 - Declarações Condicionais →</a></td>
             </tr>
             </tbody>
         </table>

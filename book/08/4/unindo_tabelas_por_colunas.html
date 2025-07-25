@@ -151,7 +151,580 @@
 
         <!--###########################################################################################################################################################-->
 
-<pre><code><span style="color: black"></span></code></pre>
+<pre><code><span style="color: black">from datascience import *
+path_data = '../../../assets/data/'
+import numpy as np
+
+import matplotlib
+matplotlib.use('Agg')
+%matplotlib inline
+import matplotlib.pyplot as plots
+plots.style.use('fivethirtyeight')</span></code></pre>
+
+        <h1 id="unindo-tabelas-por-colunas">Unindo Tabelas por Colunas</h1>
+
+        <p style="text-align: justify;">Até agora, vimos como trabalhar com dados contidos em uma única tabela. No entanto, em muitas situações, os dados que precisamos analisar estão distribuídos em várias tabelas diferentes. Nesta seção, aprenderemos como unir tabelas por colunas, combinando informações de diferentes fontes.</p>
+
+        <h2>O Método <code>join</code></h2>
+
+        <p style="text-align: justify;">O método <code>join</code> permite combinar duas tabelas com base em colunas que contêm valores correspondentes. Vamos começar com um exemplo simples para entender como funciona.</p>
+
+        <p style="text-align: justify;">Suponha que temos duas tabelas: uma contendo informações sobre estudantes e outra contendo suas notas em um exame.</p>
+
+        <pre><code><span style="color: black">estudantes = Table().with_columns(
+    'ID', make_array(1, 2, 3, 4, 5),
+    'Nome', make_array('Ana', 'Bruno', 'Carlos', 'Diana', 'Eduardo')
+)
+estudantes</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Ana</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Bruno</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Carlos</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Diana</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Eduardo</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <pre><code><span style="color: black">notas = Table().with_columns(
+    'ID', make_array(1, 2, 4, 5, 6),
+    'Nota', make_array(85, 92, 78, 95, 88)
+)
+notas</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nota</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>85</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>92</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>78</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>95</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>88</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Observe que ambas as tabelas têm uma coluna chamada 'ID', que contém identificadores únicos para cada estudante. No entanto, as tabelas não contêm exatamente os mesmos IDs: o estudante com ID 3 (Carlos) está na tabela de estudantes, mas não tem nota registrada, e há uma nota para o ID 6, que não corresponde a nenhum estudante na primeira tabela.</p>
+
+        <p style="text-align: justify;">Para combinar essas tabelas com base na coluna 'ID', usamos o método <code>join</code>:</p>
+
+        <pre><code><span style="color: black">estudantes.join('ID', notas)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Nota</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Ana</td>
+                            <td>85</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Bruno</td>
+                            <td>92</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Diana</td>
+                            <td>78</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Eduardo</td>
+                            <td>95</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">O resultado é uma nova tabela que contém apenas as linhas onde o valor da coluna 'ID' aparece em ambas as tabelas originais. Observe que Carlos (ID 3) e a nota do ID 6 não aparecem no resultado, pois esses IDs não estão presentes em ambas as tabelas.</p>
+
+        <h2>Tipos de Junções</h2>
+
+        <p style="text-align: justify;">A operação que acabamos de realizar é chamada de <em>junção interna</em> (inner join), que retorna apenas as linhas com valores correspondentes em ambas as tabelas. No entanto, às vezes queremos manter todas as linhas de uma das tabelas, mesmo que não haja correspondência na outra tabela.</p>
+
+        <p style="text-align: justify;">Para isso, podemos usar o parâmetro <code>keep</code> do método <code>join</code>:</p>
+
+        <pre><code><span style="color: black"># Manter todas as linhas da tabela de estudantes
+estudantes.join('ID', notas, keep=True)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Nota</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Ana</td>
+                            <td>85</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Bruno</td>
+                            <td>92</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Carlos</td>
+                            <td>nan</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Diana</td>
+                            <td>78</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Eduardo</td>
+                            <td>95</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Agora, Carlos aparece no resultado, mas com um valor <code>nan</code> (not a number) na coluna 'Nota', indicando que não há nota correspondente para ele.</p>
+
+        <p style="text-align: justify;">Se quisermos manter todas as linhas da segunda tabela, podemos inverter a ordem das tabelas:</p>
+
+        <pre><code><span style="color: black"># Manter todas as linhas da tabela de notas
+notas.join('ID', estudantes, keep=True)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nota</th>
+                            <th>Nome</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>85</td>
+                            <td>Ana</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>92</td>
+                            <td>Bruno</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>78</td>
+                            <td>Diana</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>95</td>
+                            <td>Eduardo</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>88</td>
+                            <td>nan</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Agora, a nota do ID 6 aparece no resultado, mas com um valor <code>nan</code> na coluna 'Nome', indicando que não há estudante correspondente para esse ID.</p>
+
+        <h2>Junção com Colunas de Nomes Diferentes</h2>
+
+        <p style="text-align: justify;">Em alguns casos, as colunas que queremos usar para unir as tabelas podem ter nomes diferentes. Vamos ver um exemplo:</p>
+
+        <pre><code><span style="color: black">cursos = Table().with_columns(
+    'Estudante_ID', make_array(1, 2, 3, 4, 5),
+    'Curso', make_array('Matemática', 'Física', 'Química', 'Biologia', 'História')
+)
+cursos</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[6]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Estudante_ID</th>
+                            <th>Curso</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Matemática</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Física</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Química</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Biologia</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>História</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Neste caso, a tabela <code>cursos</code> usa 'Estudante_ID' como identificador, enquanto a tabela <code>estudantes</code> usa 'ID'. Para unir essas tabelas, precisamos especificar ambos os nomes de colunas:</p>
+
+        <pre><code><span style="color: black">estudantes.join('ID', cursos, 'Estudante_ID')</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[7]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Curso</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Ana</td>
+                            <td>Matemática</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Bruno</td>
+                            <td>Física</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Carlos</td>
+                            <td>Química</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Diana</td>
+                            <td>Biologia</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Eduardo</td>
+                            <td>História</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Combinando Múltiplas Tabelas</h2>
+
+        <p style="text-align: justify;">Podemos combinar mais de duas tabelas realizando junções sequenciais. Vamos combinar as três tabelas que criamos:</p>
+
+        <pre><code><span style="color: black"># Primeiro, unimos estudantes e cursos
+estudantes_cursos = estudantes.join('ID', cursos, 'Estudante_ID')
+
+# Em seguida, unimos o resultado com a tabela de notas
+estudantes_cursos.join('ID', notas)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[8]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Curso</th>
+                            <th>Nota</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Ana</td>
+                            <td>Matemática</td>
+                            <td>85</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Bruno</td>
+                            <td>Física</td>
+                            <td>92</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Diana</td>
+                            <td>Biologia</td>
+                            <td>78</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Eduardo</td>
+                            <td>História</td>
+                            <td>95</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Observe que Carlos (ID 3) não aparece no resultado final porque ele não tem uma nota correspondente na tabela <code>notas</code>.</p>
+
+        <h2>Exemplo: Dados de Censo</h2>
+
+        <p style="text-align: justify;">Vamos ver um exemplo mais realista usando dados de censo. Suponha que temos duas tabelas: uma contendo informações demográficas e outra contendo informações sobre renda.</p>
+
+        <pre><code><span style="color: black"># Tabela com informações demográficas
+demograficos = Table().with_columns(
+    'ID', make_array(1, 2, 3, 4, 5),
+    'Idade', make_array(25, 32, 45, 28, 36),
+    'Gênero', make_array('F', 'M', 'F', 'M', 'F')
+)
+
+# Tabela com informações de renda
+renda = Table().with_columns(
+    'Pessoa_ID', make_array(1, 2, 4, 5, 6),
+    'Renda_Anual', make_array(45000, 62000, 55000, 70000, 48000),
+    'Setor', make_array('Educação', 'Tecnologia', 'Saúde', 'Finanças', 'Varejo')
+)
+
+# Unindo as tabelas
+censo = demograficos.join('ID', renda, 'Pessoa_ID')
+censo</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[9]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Idade</th>
+                            <th>Gênero</th>
+                            <th>Renda_Anual</th>
+                            <th>Setor</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>25</td>
+                            <td>F</td>
+                            <td>45000</td>
+                            <td>Educação</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>32</td>
+                            <td>M</td>
+                            <td>62000</td>
+                            <td>Tecnologia</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>28</td>
+                            <td>M</td>
+                            <td>55000</td>
+                            <td>Saúde</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>36</td>
+                            <td>F</td>
+                            <td>70000</td>
+                            <td>Finanças</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Agora podemos analisar os dados combinados. Por exemplo, podemos calcular a renda média por gênero:</p>
+
+        <pre><code><span style="color: black">censo.group('Gênero', np.mean)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[10]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Gênero</th>
+                            <th>ID mean</th>
+                            <th>Idade mean</th>
+                            <th>Renda_Anual mean</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>F</td>
+                            <td>3</td>
+                            <td>30.5</td>
+                            <td>57500</td>
+                        </tr>
+                        <tr>
+                            <td>M</td>
+                            <td>3</td>
+                            <td>30</td>
+                            <td>58500</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Ou podemos analisar a distribuição de idades por setor:</p>
+
+        <pre><code><span style="color: black">censo.group('Setor', np.mean).select('Setor', 'Idade mean')</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[11]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Setor</th>
+                            <th>Idade mean</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Educação</td>
+                            <td>25</td>
+                        </tr>
+                        <tr>
+                            <td>Finanças</td>
+                            <td>36</td>
+                        </tr>
+                        <tr>
+                            <td>Saúde</td>
+                            <td>28</td>
+                        </tr>
+                        <tr>
+                            <td>Tecnologia</td>
+                            <td>32</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Conclusão</h2>
+
+        <p style="text-align: justify;">Unir tabelas por colunas é uma operação fundamental na análise de dados, permitindo combinar informações de diferentes fontes para obter insights mais completos. O método <code>join</code> oferece flexibilidade para diferentes tipos de junções, dependendo das necessidades da análise.</p>
+
+        <p style="text-align: justify;">Ao trabalhar com conjuntos de dados reais, é comum que as informações estejam distribuídas em várias tabelas, e saber como combiná-las corretamente é essencial para uma análise eficaz.</p>
 
 
 
@@ -159,8 +732,8 @@
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/7-0/7-2/">← Capítulo 7.2 - Visualizando Distribuições Numéricas</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/">Capítulo 8 - Funções e Tabelas →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/8-3/">← Capítulo 8.3 - Classificação Cruzada</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/8-5/">Capítulo 8.5 - Compartilhamento de Bicicletas →</a></td>
             </tr>
             </tbody>
         </table>

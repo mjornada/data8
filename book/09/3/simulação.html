@@ -152,248 +152,262 @@
         <!--###########################################################################################################################################################-->
 
         <pre><code><span style="color: black">from datascience import *
+path_data = '../../../assets/data/'
 import matplotlib
-path_data = '../../assets/data/'
 matplotlib.use('Agg')
 %matplotlib inline
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
 
+        <h1 id="simulacao">Simulação</h1>
 
-        <h1 id="fun-es-e-tabelas">Funções e Tabelas</h1>
-        <p>Estamos construindo um inventário útil de técnicas para identificar padrões e temas em um conjunto de dados usando funções já disponíveis em Python. Agora vamos explorar um recurso central da linguagem de programação Python: a definição de funções.</p>
-        <p>Já usamos funções extensivamente neste texto, mas nunca definimos uma função própria. O objetivo de definir uma função é dar um nome a um processo computacional que pode ser aplicado várias vezes. Existem muitas situações na computação que exigem cálculos repetidos. Por exemplo, frequentemente queremos realizar a mesma manipulação em cada valor em uma coluna de uma tabela.</p>
-        <h2>Definindo uma Função</h2>
+        <p style="text-align: justify;">A simulação é o processo de usar um computador para imitar um experimento físico. Nesta disciplina, esses experimentos quase invariavelmente envolverão o acaso.</p>
 
-        <p>A definição da função <code>double</code> abaixo simplesmente duplica um número.</p>
+        <p style="text-align: justify;">Vimos como simular os resultados de lançamentos de uma moeda. Os passos dessa simulação foram exemplos dos passos que constituirão cada simulação que faremos neste curso. Nesta seção, vamos estabelecer esses passos e segui-los em exemplos.</p>
 
+        <h2>O Processo</h2>
 
-        <pre><code><span style="color: black"># Nossa primeira definição de função
+        <p style="text-align: justify;"><strong>Passo 1: O Que Simular</strong></p>
 
-def double(x):
-    """ Double x """
-    return 2*x</span></code></pre>
+        <p style="text-align: justify;">Decida qual quantidade você deseja simular. Por exemplo, você pode decidir que deseja simular os resultados dos lançamentos de uma moeda. Cada valor simulado será uma Cara ou uma Coroa.</p>
 
-        Começamos qualquer definição de função escrevendo `def`. Aqui está um detalhamento das outras partes (a *sintaxe*) desta pequena função:
+        <p style="text-align: justify;"><strong>Passo 2: Simulando Um Valor</strong></p>
 
-        ![function syntax](../../images/function_definition.jpg)
+        <p style="text-align: justify;">Descubra como simular <em>um</em> valor da quantidade especificada no Passo 1. Em nosso exemplo, você precisa descobrir como simular o resultado de <em>um</em> lançamento de uma moeda. Se sua quantidade for mais complicada, talvez você precise de várias linhas de código para obter um valor simulado. Tipicamente, definiremos uma função que retorna o valor simulado.</p>
 
-        <p>Quando executamos a célula acima, nenhum número específico é duplicado, e o código dentro do corpo de <code>double</code> ainda não é avaliado. Nesse aspecto, nossa função é análoga a uma <em>receita</em>. Cada vez que seguimos as instruções em uma receita, precisamos começar com ingredientes. Cada vez que queremos usar nossa função para dobrar um número, precisamos especificar um número.</p>
-        <p>Podemos chamar <code>double</code> exatamente da mesma forma que chamamos outras funções. Cada vez que fazemos isso, o código no corpo é executado, com o valor do argumento recebendo o nome <code>x</code>.</p>
+        <p style="text-align: justify;"><strong>Passo 3: Número de Repetições</strong></p>
 
+        <p style="text-align: justify;">Decida quantas vezes você deseja simular a quantidade. Você terá que repetir a simulação no Passo 2 tantas vezes. Em um de nossos exemplos anteriores, decidimos simular os resultados de 1000 lançamentos de uma moeda, então precisamos de 1000 repetições para gerar o resultado de um único lançamento.</p>
 
-        <pre><code><span style="color: black">double(17)</span></code></pre>
+        <p style="text-align: justify;"><strong>Passo 4: Simulando Múltiplos Valores</strong></p>
+
+        <p style="text-align: justify;">Finalmente, coloque tudo junto da seguinte maneira.</p>
+
+        <ul>
+            <li>Crie uma matriz vazia na qual coletará todos os valores simulados. Chamaremos isso de matriz de coleção.</li>
+            <li>Crie uma "sequência de repetições," ou seja, uma sequência cujo comprimento é o número de repetições especificado no Passo 3. Para <code>n</code> repetições, quase sempre usaremos a sequência <code>np.arange(n)</code>.</li>
+            <li>Crie um loop <code>for</code>. Para cada elemento da sequência de repetições:
+                <ul>
+                    <li>Simule <em>um</em> valor usando a função que você escreveu no Passo 2.</li>
+                    <li>Acrescente a matriz de coleção com este valor simulado.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <p style="text-align: justify;">Isso é tudo! Uma vez que você tenha realizado os passos acima, sua simulação está pronta. A matriz de coleção contém todos os valores simulados.</p>
+
+        <p style="text-align: justify;">Neste ponto, você pode usar a matriz de coleção como faria com qualquer outra matriz. Você pode contar quantos valores simulados caem em uma categoria específica, colocar a matriz na coluna de uma tabela e visualizar a distribuição dos valores simulados, e assim por diante.</p>
+
+        <h2>Exemplo: Número de Caras em 100 Lançamentos</h2>
+
+        <p style="text-align: justify;">É natural esperar que em 100 lançamentos de uma moeda, haverá 50 caras, com algumas variações.</p>
+
+        <p style="text-align: justify;">Mas quantas são "algumas"? Qual é a chance de obter exatamente 50 caras? Questões como essas são importantes na ciência de dados não apenas porque são sobre aspectos interessantes de aleatoriedade, mas também porque podem ser usadas na análise de experimentos nos quais as atribuições aos grupos de tratamento e controle são decididas pelo lançamento de uma moeda.</p>
+
+        <p style="text-align: justify;">Neste exemplo, vamos simular o número de caras em 100 lançamentos de uma moeda. O histograma de nossos resultados nos dará algumas ideias sobre quantas caras são prováveis.</p>
+
+        <p style="text-align: justify;">Vamos começar a simulação, seguindo as etapas acima.</p>
+
+        <p style="text-align: justify;"><strong>Etapa 1: O que Simular</strong></p>
+
+        <p style="text-align: justify;">A quantidade que vamos simular é o número de caras em 100 lançamentos.</p>
+
+        <p style="text-align: justify;"><strong>Etapa 2: Simulando Um Valor</strong></p>
+
+        <p style="text-align: justify;">Temos que descobrir como fazer um conjunto de 100 lançamentos e contar o número de caras. Vamos começar criando uma moeda.</p>
+
+        <pre><code><span style="color: black">coin = make_array('Heads', 'Tails')</span></code></pre>
+
+        <p style="text-align: justify;">Em nosso exemplo anterior, usamos <code>np.random.choice</code> e um loop <code>for</code> para gerar vários lançamentos. Mas conjuntos de lançamentos de moeda são necessários com tanta frequência na ciência de dados que <code>np.random.choice</code> os simula para nós se incluímos um segundo argumento que é o número de vezes que deve ser lançado.</p>
+
+        <p style="text-align: justify;">Aqui estão os resultados de 10 lançamentos.</p>
+
+        <pre><code><span style="color: black">ten_tosses = np.random.choice(coin, 10)
+ten_tosses</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
-                <td style="text-align: left;">34</td>
+                <td style="text-align: left;">array(['Heads', 'Tails', 'Heads', 'Tails', 'Tails', 'Heads', 'Tails',
+                    'Tails', 'Tails', 'Heads'], dtype='
+                    <U5
+                    ')
+                </td>
             </tr>
             </tbody>
         </table>
 
-        <br>
+        <p style="text-align: justify;">Podemos contar o número de caras usando <code>np.count_nonzero</code> como antes:</p>
 
-
-        <pre><code><span style="color: black">double(-0.6/4)</span></code></pre>
+        <pre><code><span style="color: black">np.count_nonzero(ten_tosses == 'Heads')</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
-                <td style="text-align: left;">-0.3</td>
+                <td style="text-align: left;">4</td>
             </tr>
             </tbody>
         </table>
 
 
-        <p>As duas expressões acima são ambas <em>expressões de chamada</em>. Na segunda, o valor da expressão <code>-0.6/4</code> é calculado e então passado como o argumento nomeado <code>x</code> para a função <code>double</code>. Cada expressão de chamada resulta na execução do corpo de <code>double</code>, mas com um valor diferente de <code>x</code>.</p>
-        <p>O corpo de <code>double</code> tem apenas uma única linha:</p>
-        <p><code>return 2*x</code></p>
-        <p>Executar esta <em>instrução <code>return</code></em> completa a execução do corpo da função <code>double</code> e calcula o valor da expressão de chamada.</p>
-        <p>O argumento para <code>double</code> pode ser qualquer expressão, desde que seu valor seja um número. Por exemplo, pode ser um nome. A função <code>double</code> não sabe ou se importa com a forma como seu argumento é calculado ou armazenado; seu único trabalho é executar seu próprio corpo usando os valores dos argumentos passados para ela.</p>
+        <p style="text-align: justify;">Nosso objetivo é simular o número de caras em 100 lançamentos, e não 10. Para fazer isso podemos simplesmente repetir o mesmo código, substituindo 10 por 100.</p>
 
-        <pre><code><span style="color: black">any_name = 42
-double(any_name)</span></code></pre>
+        <pre><code><span style="color: black">outcomes = np.random.choice(coin, 100)
+num_heads = np.count_nonzero(outcomes == 'Heads')
+num_heads</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
-                <td style="text-align: left;">84</td>
+                <td style="text-align: left;">46</td>
             </tr>
             </tbody>
         </table>
 
+        <p style="text-align: justify;">Como queremos fazer isso várias vezes, vamos definir uma função que retorne o valor simulado do número de caras. Podemos fazer isso usando o código desenvolvido na célula acima.</p>
 
-        <p>O argumento também pode ser qualquer valor que possa ser duplicado. Por exemplo, uma matriz inteira de números pode ser passada como argumento para <code>double</code> e o resultado será outra matriz.</p>
+        <pre><code><span style="color: black">def one_simulated_value():
+    outcomes = np.random.choice(coin, 100)
+    return np.count_nonzero(outcomes == 'Heads')</span></code></pre>
 
-        <pre><code><span style="color: black">double(make_array(3, 4, 5))</span></code></pre>
+        <p style="text-align: justify;"><strong>Etapa 3: Número de Repetições</strong></p>
+
+        <p style="text-align: justify;">Quantas repetições vamos usar depende de nós. Quanto mais usarmos, mais confiáveis serão nossas simulações, mas mais tempo levará para executar o código. O Python é bastante rápido para lançar moedas, então vamos para 20.000 repetições. Isso significa que vamos fazer o seguinte 20.000 vezes:</p>
+        <ul>
+            <li>Lançar uma moeda 100 vezes e contar o número de caras.</li>
+        </ul>
+
+        <p style="text-align: justify;">Isso é muitos lançamentos! É bom que tenhamos o Python para fazer isso por nós.</p>
+
+        <p style="text-align: justify;"><strong>Etapa 4: Simulando Múltiplos Valores</strong></p>
+
+        <p style="text-align: justify;">Estamos prontos para criar uma matriz de 20.000 valores simulados do número de caras em 100 lançamentos de uma moeda.</p>
+
+        <pre><code><span style="color: black">num_repetitions = 20000   # number of repetitions
+
+heads = make_array() # empty collection array
+
+for i in np.arange(num_repetitions):   # repita o processo num_repetitions vezes
+    new_value = one_simulated_value()  # simular um valor usando a função definida
+    heads = np.append(heads, new_value) # aumente a matriz da coleção com o valor simulado
+
+# É isso! A simulação está feita.</span></code></pre>
+
+        <p style="text-align: justify;">Verifique se a matriz <code>heads</code> contém 20.000 entradas, uma para cada repetição do experimento.</p>
+
+        <pre><code><span style="color: black">len(heads)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
-                <td style="text-align: left;">array([ 6, 8, 10])</td>
+                <td style="text-align: left;">2000</td>
             </tr>
             </tbody>
         </table>
 
-        <p>No entanto, nomes que são definidos dentro de uma função, incluindo argumentos como <code>x</code> de <code>double</code>, têm apenas uma existência passageira. Eles são definidos apenas enquanto a função está sendo chamada e só são acessíveis dentro do corpo da função. Não podemos nos referir a <code>x</code> fora do corpo de <code>double</code>. A terminologia técnica é que <code>x</code> tem <em>escopo local</em>.</p>
-        <p>Portanto, o nome <code>x</code> não é reconhecido fora do corpo da função, mesmo que tenhamos chamado <code>double</code> nas células acima.</p>
+        <p style="text-align: justify;">Para ter uma noção da variabilidade no número de caras em 100 lançamentos, podemos reunir os resultados numa tabela e desenhar um histograma.</p>
 
-
-        <pre><code><span style="color: black">x</span></code></pre>
+        <pre><code><span style="color: black">simulation_results = Table().with_columns(
+    'Repetition', np.arange(1, num_repetitions + 1),
+    'Number of Heads', heads
+)</span></code></pre>
+        <br>
+        <pre><code><span style="color: black">simulation_results.show(3)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
                 <td style="text-align: left;">
-                    ---------------------------------------------------------------------------
-                    NameError Traceback (most recent call last)
-                    &lt;ipython-input-7-6fcf9dfbd479&gt; in &lt;module&gt;
-                    ----> 1 x
-
-                    NameError: name 'x' is not defined
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Repetition</th>
+                            <th>Number of Heads</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>44</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>54</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>44</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
             </tbody>
         </table>
+        <br>
+        <pre><code><span style="color: black">simulation_results.hist('Number of Heads', bins = np.arange(30.5, 69.6, 1))</span></code></pre>
 
-        **Docstrings.** Embora `double` seja relativamente fácil de entender, muitas funções realizam tarefas complicadas e são difíceis de usar sem explicação. (Você pode ter descoberto isso por si mesmo!) Portanto, uma função bem elaborada tem um nome que evoca seu comportamento, bem como documentação. Em Python, isso é chamado de *docstring* — uma descrição de seu comportamento e expectativas sobre seus argumentos. A docstring também pode mostrar chamadas de exemplo para a função, onde a
-        chamada é precedida por `>>>`.
+        <p style="text-align: justify;">Cada intervalo tem largura 1 e está centrado em cada valor do número de caras.</p>
 
-        Uma docstring pode ser qualquer string, desde que seja a primeira coisa no corpo de uma função. Docstrings geralmente são definidas usando aspas triplas no início e no fim, o que permite que uma string abranja várias linhas. A primeira linha é convencionalmente uma descrição completa, mas curta, da função, enquanto as linhas seguintes fornecem orientação adicional para futuros usuários da função.
+        <p style="text-align: justify;">Não é surpreendente que o histograma pareça aproximadamente simétrico em torno de 50 caras. A altura da barra em 50 é cerca de 8% por unidade. Como cada intervalo tem largura 1 unidade, isso significa que cerca de 8% das repetições produziram exatamente 50 caras. Não é uma porcentagem enorme, mas é a maior em comparação com a porcentagem em cada outro número de caras.</p>
 
-        Aqui está uma definição de uma função chamada `percent` que recebe dois argumentos. A definição inclui uma docstring.
+        <p style="text-align: justify;">O histograma também mostra que em quase todas as repetições, o número de caras em 100 lançamentos estava entre 35 e 65. De fato, a maioria das repetições produziu números de caras no intervalo de 45 a 55.</p>
 
-        <pre><code><span style="color: black"># Uma função com mais de um argumento
+        <p style="text-align: justify;">Embora teoricamente seja <em>possível</em> que o número de caras possa estar em qualquer lugar entre 0 e 100, a simulação mostra que o intervalo de valores <em>prováveis</em> é muito menor.</p>
 
-def percent(x, total):
-    """Converte x em uma porcentagem do total.
+        <p style="text-align: justify;">Este é um exemplo de um fenômeno mais geral sobre a variabilidade no lançamento de moedas, como veremos mais adiante no curso.</p>
 
-    Mais precisamente, esta função divide x por total,
-    multiplica o resultado por 100 e arredonda o resultado
-    para duas casas decimais.
+        <h2>Exemplo: Movimentos no Monopoly</h2>
 
-    >>> percent(4, 16)
-    25.0
-    >>> percent(1, 6)
-    16.67
-    """
-    return round((x/total)*100, 2)</span></code></pre>
-        <pre><code><span style="color: black">percent(33, 200)</span></code></pre>
+        <p style="text-align: justify;">Cada movimento no jogo Monopoly é determinado pelo número total de casas de dois lançamentos de um dado. Se você jogar Monopoly, o que deve esperar obter quando lançar o dado duas vezes?</p>
+
+        <p style="text-align: justify;">Podemos explorar isso simulando a soma de dois lançamentos de um dado. Vamos executar a simulação 10.000 vezes. Observe que neste parágrafo concluímos as Etapas 1 e 3 do nosso processo de simulação.</p>
+
+        <p style="text-align: justify;">A Etapa 2 é aquela em que escrevemos uma função para simular o número total de casas em um par de lançamentos. Primeiro, vamos planejar nosso código. Criaremos uma array contendo os números de 1 a 6, faremos dois sorteios aleatórios com reposição da array e somaremos os dois números sorteados.</p>
+
+        <pre><code><span style="color: black">die = np.arange(1, 7)
+sum(np.random.choice(die, 2))</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[6]:</td>
-                <td style="text-align: left;">16.5</td>
+                <td style="text-align: left;">7</td>
             </tr>
             </tbody>
         </table>
 
-        <p>Compare a função <code>percent</code> definida acima com a função <code>percents</code> definida abaixo. Esta última toma uma matriz como argumento e converte todos os números da matriz em porcentagens do total dos valores na matriz. As porcentagens são todos arredondados para duas casas decimais, desta vez substituindo <code>round</code> por <code>np.round</code> porque o argumento é uma matriz e não um número.</p>
+        <p style="text-align: justify;">Podemos usar o array <code>die</code> e a expressão acima para definir uma função que simula um movimento no Monopoly.</p>
 
-        <pre><code><span style="color: black">def percents(counts):
-    """Converta os valores em array_x em porcentagens do total de array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, 2)</span></code></pre>
+        <pre><code><span style="color: black">def one_simulated_move():
+    return sum(np.random.choice(die, 2))</span></code></pre>
 
-        <p>A função <code>percents</code> retorna uma matriz de porcentagens que somam 100, sem arredondamento.</p>
+        <p style="text-align: justify;">Agora podemos criar uma matriz de 10.000 movimentos simulados de Monopólio, começando com uma matriz de coleção vazia e aumentando-a a cada novo movimento simulado.</p>
 
-        <pre><code><span style="color: black">some_array = make_array(7, 10, 4)
-percents(some_array)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[7]:</td>
-                <td style="text-align: left;">array([33.33, 47.62, 19.05])</td>
-            </tr>
-            </tbody>
-        </table>
+        <pre><code><span style="color: black">num_repetitions = 10000
 
-        <p>É útil entender as etapas que o Python executa para executar uma função. Para facilitar isso, colocamos uma definição de função e uma chamada para essa função na mesma célula abaixo.</p>
+moves = make_array()
+for i in np.arange(num_repetitions):
+    new_move = one_simulated_move()
+    moves = np.append(moves, new_move)</span></code></pre>
 
+        <p style="text-align: justify;">Aqui está um histograma dos resultados.</p>
 
-        <pre><code><span style="color: black">def biggest_difference(array_x):
-    """Encontre a maior diferença em valor absoluto entre dois elementos adjacentes de array_x."""
-    diffs = np.diff(array_x)
-    absolute_diffs = abs(diffs)
-    return max(absolute_diffs)
+        <pre><code><span style="color: black">results = Table().with_columns(
+    'Repetition', np.arange(1, num_repetitions + 1),
+    'Sum of Two Rolls', moves
+)
 
-some_numbers = make_array(2, 4, 5, 6, 4, -1, 1)
-big_diff = biggest_difference(some_numbers)
-print("The biggest difference is", big_diff)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[8]:</td>
-                <td style="text-align: left;">The biggest difference is 5</td>
-            </tr>
-            </tbody>
-        </table>
+results.hist('Sum of Two Rolls', bins = np.arange(1.5, 12.6, 1))</span></code></pre>
 
-        <p>Aqui está o que acontece quando executamos aquela célula:</p>
-        <p><img src="../../images/function_execution.jpg" alt="function execution"></p>
-
-        <h2>Argumentos Múltiplos</h2>
-
-        <p>Pode haver várias maneiras de generalizar uma expressão ou bloco de código e, portanto, uma função pode receber vários argumentos, cada um determinando diferentes aspectos do resultado. Por exemplo, a função <code>percents</code> que definimos anteriormente, arredondada para duas casas decimais a cada vez . A definição de dois argumentos a seguir permite que chamadas diferentes sejam arredondadas para valores diferentes.</p>
-
-
-        <pre><code><span style="color: black">def percents(counts, decimal_places):
-    """Convert the values in array_x to percents out of the total of array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, decimal_places)
-
-parts = make_array(2, 1, 4)
-print("Rounded to 1 decimal place: ", percents(parts, 1))
-print("Rounded to 2 decimal places:", percents(parts, 2))
-print("Rounded to 3 decimal places:", percents(parts, 3))</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[9]:</td>
-                <td style="text-align: left;">Rounded to 1 decimal place: [28.6 14.3 57.1]
-                    Rounded to 2 decimal places: [28.57 14.29 57.14]
-                    Rounded to 3 decimal places: [28.571 14.286 57.143]
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>A flexibilidade desta nova definição tem um preço pequeno: cada vez que a função é chamada, o número de casas decimais deve ser especificado. Os valores padrão dos argumentos permitem que uma função seja chamada com um número variável de argumentos; qualquer argumento que seja especificado na expressão de chamada recebe seu valor padrão, que é indicado na primeira linha da instrução <code>def</code>. Por exemplo, nesta definição final de <code>percents</code>, o argumento opcional
-            <code>decimal_places</code> recebe um valor padrão de 2.</p>
-
-
-        <pre><code><span style="color: black">def percents(counts, decimal_places=2):
-    """Converta os valores em array_x em porcentagens do total de array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, decimal_places)
-
-parts = make_array(2, 1, 4)
-print("Rounded to 1 decimal place:", percents(parts, 1))
-print("Rounded to the default number of decimal places:", percents(parts))</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[10]:</td>
-                <td style="text-align: left;">Rounded to 1 decimal place: [28.6 14.3 57.1]
-                    Rounded to the default number of decimal places: [28.57 14.29 57.14]
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <h2>Nota: Métodos</h2>
-
-        <p>As funções são chamadas colocando expressões de argumento entre parênteses após o nome da função. Qualquer função definida isoladamente é chamada desta forma. Você também viu exemplos de métodos, que são como funções, mas são chamados usando notação de ponto, como <code>some_table.sort(some_label)</code>. As funções que você define sempre serão chamadas usando o nome da função primeiro, passando todos os argumentos.</p>
-
+        <p style="text-align: justify;">Sete é o valor mais comum, com as frequências caindo simetricamente em ambos os lados.</p>
 
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/7-0/7-3/">← Capítulo 7.3 - Gráficos Sobrepostos</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/8-1/">Capítulo 8.1 - Aplicando Uma Função a Uma Coluna →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/9-0/9-2/">← Capítulo 9.2 - Iteração</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/9-0/9-4/">Capítulo 9.4 - Problema Monty Hall →</a></td>
             </tr>
             </tbody>
         </table>

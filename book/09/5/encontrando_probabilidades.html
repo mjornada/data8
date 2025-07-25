@@ -152,248 +152,236 @@
         <!--###########################################################################################################################################################-->
 
         <pre><code><span style="color: black">from datascience import *
-import matplotlib
-path_data = '../../assets/data/'
-matplotlib.use('Agg')
-%matplotlib inline
+path_data = '../../../assets/data/'
+import numpy as np
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
-import numpy as np</span></code></pre>
+%matplotlib inline</span></code></pre>
 
+        <h1 id="encontrando-probabilidades">Encontrando Probabilidades</h1>
 
-        <h1 id="fun-es-e-tabelas">Funções e Tabelas</h1>
-        <p>Estamos construindo um inventário útil de técnicas para identificar padrões e temas em um conjunto de dados usando funções já disponíveis em Python. Agora vamos explorar um recurso central da linguagem de programação Python: a definição de funções.</p>
-        <p>Já usamos funções extensivamente neste texto, mas nunca definimos uma função própria. O objetivo de definir uma função é dar um nome a um processo computacional que pode ser aplicado várias vezes. Existem muitas situações na computação que exigem cálculos repetidos. Por exemplo, frequentemente queremos realizar a mesma manipulação em cada valor em uma coluna de uma tabela.</p>
-        <h2>Definindo uma Função</h2>
+        <p style="text-align: justify;">Ao longo dos séculos, houve um considerável debate filosófico sobre o que são probabilidades. Algumas pessoas pensam que probabilidades são frequências relativas; outras pensam que são frequências relativas de longo prazo; outras ainda pensam que probabilidades são uma medida subjetiva de seu próprio grau pessoal de incerteza.</p>
 
-        <p>A definição da função <code>double</code> abaixo simplesmente duplica um número.</p>
+        <p style="text-align: justify;">Neste curso, a maioria das probabilidades será de frequências relativas, embora muitas tenham interpretações subjetivas. Independentemente disso, as maneiras pelas quais as probabilidades são calculadas e combinadas são consistentes entre as diferentes interpretações.</p>
 
+        <p style="text-align: justify;">Por convenção, as probabilidades são números entre 0 e 1, ou, de forma equivalente, 0% e 100%. Eventos impossíveis têm probabilidade 0. Eventos que são certos têm probabilidade 1.</p>
 
-        <pre><code><span style="color: black"># Nossa primeira definição de função
+        <p style="text-align: justify;">A matemática é a principal ferramenta para encontrar probabilidades exatamente, embora os computadores sejam úteis para esse propósito também. A simulação pode fornecer excelentes aproximações, com alta probabilidade. Nesta seção, desenvolveremos informalmente algumas regras simples que governam o cálculo de probabilidades. Nas seções subsequentes, retornaremos às simulações para aproximar as probabilidades de eventos complexos.</p>
 
-def double(x):
-    """ Double x """
-    return 2*x</span></code></pre>
+        <p style="text-align: justify;">Usaremos a notação padrão P(evento) para denotar a probabilidade de que o "evento" aconteça, e usaremos as palavras "chance" e "probabilidade" de forma intercambiável.</p>
 
-        Começamos qualquer definição de função escrevendo `def`. Aqui está um detalhamento das outras partes (a *sintaxe*) desta pequena função:
+        <h2>Quando um Evento Não Acontece</h2>
 
-        ![function syntax](../../images/function_definition.jpg)
+        <p style="text-align: justify;">Se a chance de um evento acontecer é 40%, então a chance de que ele não aconteça é 60%. Este cálculo natural pode ser descrito de forma geral como segue:</p>
 
-        <p>Quando executamos a célula acima, nenhum número específico é duplicado, e o código dentro do corpo de <code>double</code> ainda não é avaliado. Nesse aspecto, nossa função é análoga a uma <em>receita</em>. Cada vez que seguimos as instruções em uma receita, precisamos começar com ingredientes. Cada vez que queremos usar nossa função para dobrar um número, precisamos especificar um número.</p>
-        <p>Podemos chamar <code>double</code> exatamente da mesma forma que chamamos outras funções. Cada vez que fazemos isso, o código no corpo é executado, com o valor do argumento recebendo o nome <code>x</code>.</p>
+        <p style="text-align: center;">P(um evento não acontece) = 1 - P(o evento acontece)</p>
 
+        <h2>Quando Todos os Resultados são Igualmente Prováveis</h2>
 
-        <pre><code><span style="color: black">double(17)</span></code></pre>
+        <p style="text-align: justify;">Se você estiver lançando um dado comum, uma suposição natural é que todas as seis faces são igualmente prováveis. Sob essa suposição, as probabilidades de como um lançamento sai podem ser facilmente calculadas como uma proporção. Por exemplo, a chance de o dado mostrar um número par é</p>
+
+        <p style="text-align: center;">número de faces pares / número de todas as faces = #{2, 4, 6} / #{1, 2, 3, 4, 5, 6} = 3/6</p>
+
+        <p style="text-align: justify;">Semelhantemente,</p>
+
+        <p style="text-align: center;">P(dado mostra um múltiplo de 3) = #{3, 6} / #{1, 2, 3, 4, 5, 6} = 2/6</p>
+
+        <p style="text-align: justify;">Em geral, <strong>se todos os resultados são igualmente prováveis</strong>,</p>
+
+        <p style="text-align: center;">P(um evento acontece) = #{resultados que fazem o evento acontecer} / #{todos os resultados}</p>
+
+        <p style="text-align: justify;">Nem todos os fenômenos aleatórios são tão simples quanto o lançamento de um dado. As duas regras principais de probabilidade, desenvolvidas a seguir, permitem que os matemáticos encontrem probabilidades mesmo em situações complexas.</p>
+
+        <h2>Quando Ambos os Eventos Devem Acontecer</h2>
+
+        <p style="text-align: justify;">Suponha que você tenha uma caixa que contém três bilhetes: um vermelho, um azul e um verde. Suponha que você tire dois bilhetes aleatoriamente sem reposição; ou seja, você embaralha os três bilhetes, tira um, embaralha os dois restantes e tira outro desses dois. Qual é a chance de obter o bilhete verde primeiro, seguido pelo vermelho?</p>
+
+        <p style="text-align: justify;">Existem seis pares possíveis de cores: RB, BR, RG, GR, BG, GB (abreviamos os nomes de cada cor para apenas sua primeira letra). Todos esses pares são igualmente prováveis pelo esquema de amostragem, e apenas um deles (GR) faz o evento acontecer. Portanto,</p>
+
+        <p style="text-align: center;">P(verde primeiro, depois vermelho) = #{GR} / #{RB, BR, RG, GR, BG, GB} = 1/6</p>
+
+        <p style="text-align: justify;">Mas há outra maneira de chegar à resposta, pensando no evento em duas etapas. Primeiro, o bilhete verde precisa ser tirado. Isso tem chance de 1/3, o que significa que o bilhete verde é tirado primeiro em cerca de 1/3 de todas as repetições do experimento. Mas isso não completa o evento. <em>Entre os 1/3 das repetições em que o verde é tirado primeiro</em>, o bilhete vermelho precisa ser tirado em seguida. Isso acontece em cerca de 1/2 dessas repetições, e
+            então:</p>
+
+        <p style="text-align: center;">P(verde primeiro, depois vermelho) = 1/2 de 1/3 = 1/6</p>
+
+        <p style="text-align: justify;">Este cálculo é geralmente escrito "em ordem cronológica," como segue.</p>
+
+        <p style="text-align: center;">P(verde primeiro, depois vermelho) = 1/3 × 1/2 = 1/6</p>
+
+        <p style="text-align: justify;">O fator de 1/2 é chamado de "a chance condicional de que o bilhete vermelho apareça em segundo lugar, dado que o bilhete verde apareceu primeiro."</p>
+
+        <p style="text-align: justify;">Em geral, temos a <strong>regra de multiplicação</strong>:</p>
+
+        <p style="text-align: center;">P(dois eventos acontecem ambos) = P(um evento acontece) × P(o outro evento acontece, dado que o primeiro aconteceu)</p>
+
+        <p style="text-align: justify;">Assim, quando há duas condições – um evento deve acontecer, bem como outro – a chance é <em>uma fração de uma fração</em>, que é menor do que qualquer uma das duas frações componentes. Quanto mais condições precisam ser satisfeitas, menos provável é que todas sejam satisfeitas.</p>
+
+        <h2>Quando um Evento Pode Acontecer de Duas Maneiras Diferentes</h2>
+
+        <p style="text-align: justify;">Suponha agora que queremos a chance de um dos dois bilhetes ser verde e o outro vermelho. Este evento não especifica a ordem em que as cores devem aparecer. Então elas podem aparecer em qualquer ordem.</p>
+
+        <p style="text-align: justify;">Uma maneira boa de lidar com problemas como esse é <em>particionar</em> o evento para que ele possa acontecer exatamente de uma entre várias maneiras diferentes. A partição natural de "um verde e um vermelho" é: GR, RG.</p>
+
+        <p style="text-align: justify;">Cada uma de GR e RG tem chance 1/6 pelo cálculo acima. Então você pode calcular a chance de "um verde e um vermelho" somando-os.</p>
+
+        <p style="text-align: center;">P(um verde e um vermelho) = P(GR) + P(RG) = 1/6 + 1/6 = 2/6</p>
+
+        <p style="text-align: justify;">Em geral, temos a <strong>regra da adição</strong>:</p>
+
+        <p style="text-align: center;">P(um evento acontece) = P(primeira maneira como pode acontecer) + P(segunda maneira como pode acontecer)</p>
+
+        <p style="text-align: justify;">desde que o evento aconteça exatamente de uma das duas maneiras.</p>
+
+        <p style="text-align: justify;">Assim, quando um evento pode acontecer de duas maneiras diferentes, a chance de que isso aconteça é uma soma de chances, e portanto maior do que a chance de qualquer uma das maneiras individuais.</p>
+
+        <p style="text-align: justify;">A regra da multiplicação tem uma extensão natural para mais de dois eventos, como veremos abaixo. Da mesma forma, a regra da adição tem uma extensão natural para eventos que podem acontecer de várias maneiras diferentes.</p>
+
+        <p style="text-align: justify;">Encerramos a seção com exemplos que usam combinações de todas essas regras.</p>
+
+        <h2>Pelo Menos Um Sucesso</h2>
+
+        <p style="text-align: justify;">Os cientistas de dados frequentemente trabalham com amostras aleatórias de populações. Uma questão que às vezes surge é sobre a probabilidade de que um indivíduo específico na população seja selecionado para estar na amostra. Para calcular a chance, esse indivíduo é chamado de "sucesso," e o problema é encontrar a probabilidade de que a amostra contenha um sucesso.</p>
+
+        <p style="text-align: justify;">Para entender como essas chances podem ser calculadas, começamos com uma configuração mais simples: lançar uma moeda duas vezes.</p>
+
+        <p style="text-align: justify;">Se você lançar uma moeda duas vezes, existem quatro resultados igualmente prováveis: HH, HT, TH e TT. Nós abreviamos "Cara" para C e "Coroa" para T. A chance de obter pelo menos uma cara em dois lançamentos, portanto, é de 3/4.</p>
+
+        <p style="text-align: justify;">Outra maneira de chegar a essa resposta é calcular o que acontece se você <em>não</em> obter pelo menos uma cara. Isso é quando ambos os lançamentos resultam em coroas. Então</p>
+
+        <p style="text-align: center;">P(pelo menos uma cara em dois lançamentos) = 1 - P(ambos coroas) = 1 - 1/4 = 3/4</p>
+
+        <p style="text-align: justify;">Observe também que</p>
+
+        <p style="text-align: center;">P(ambos coroas) = 1/4 = 1/2 · 1/2 = (1/2)²</p>
+
+        <p style="text-align: justify;">pela regra da multiplicação.</p>
+
+        <p style="text-align: justify;">Essas duas observações nos permitem encontrar a chance de pelo menos uma cara em qualquer número dado de lançamentos. Por exemplo,</p>
+
+        <p style="text-align: center;">P(pelo menos uma cara em 17 lançamentos) = 1 - P(todos os 17 são coroas) = 1 - (1/2)¹⁷</p>
+
+        <p style="text-align: justify;">E agora estamos em posição de encontrar a chance de que o lado com seis pontos apareça pelo menos uma vez em jogadas de um dado.</p>
+
+        <p style="text-align: justify;">Por exemplo,</p>
+
+        <p style="text-align: center;">P(um único lançamento não é 6) = 1 - P(6) = 5/6</p>
+
+        <p style="text-align: justify;">Portanto,</p>
+
+        <p style="text-align: center;">P(pelo menos um 6 em dois lançamentos) = 1 - P(ambos os lançamentos não são 6) = 1 - (5/6)²</p>
+
+        <p style="text-align: justify;">e</p>
+
+        <p style="text-align: center;">P(pelo menos um 6 em 17 lançamentos) = 1 - (5/6)¹⁷</p>
+
+        <p style="text-align: justify;">A tabela abaixo mostra essas probabilidades à medida que o número de lançamentos aumenta de 1 para 50.</p>
+
+        <pre><code><span style="color: black">rolls = np.arange(1, 51, 1)
+results = Table().with_columns(
+    'Rolls', rolls,
+    'Chance of at least one 6', 1 - (5/6)**rolls
+)
+results</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
-                <td style="text-align: left;">34</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Rolls</th>
+                            <th>Chance of at least one 6</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>0.166667</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>0.305556</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>0.421296</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>0.517747</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>0.598122</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>0.665102</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>0.720918</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>0.767432</td>
+                        </tr>
+                        <tr>
+                            <td>9</td>
+                            <td>0.806193</td>
+                        </tr>
+                        <tr>
+                            <td>10</td>
+                            <td>0.838494</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
             </tr>
             </tbody>
         </table>
 
-        <br>
+        <p style="text-align: justify;">A chance de um 6 aparecer pelo menos uma vez aumenta rapidamente à medida que o número de lançamentos aumenta.</p>
 
+        <pre><code><span style="color: black">results.scatter('Rolls')</span></code></pre>
 
-        <pre><code><span style="color: black">double(-0.6/4)</span></code></pre>
+        <p style="text-align: justify;">Em 50 lançamentos, é quase certo que você obterá pelo menos um 6.</p>
+
+        <pre><code><span style="color: black">results.where('Rolls', are.equal_to(50))</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
-                <td style="text-align: left;">-0.3</td>
-            </tr>
-            </tbody>
-        </table>
-
-
-        <p>As duas expressões acima são ambas <em>expressões de chamada</em>. Na segunda, o valor da expressão <code>-0.6/4</code> é calculado e então passado como o argumento nomeado <code>x</code> para a função <code>double</code>. Cada expressão de chamada resulta na execução do corpo de <code>double</code>, mas com um valor diferente de <code>x</code>.</p>
-        <p>O corpo de <code>double</code> tem apenas uma única linha:</p>
-        <p><code>return 2*x</code></p>
-        <p>Executar esta <em>instrução <code>return</code></em> completa a execução do corpo da função <code>double</code> e calcula o valor da expressão de chamada.</p>
-        <p>O argumento para <code>double</code> pode ser qualquer expressão, desde que seu valor seja um número. Por exemplo, pode ser um nome. A função <code>double</code> não sabe ou se importa com a forma como seu argumento é calculado ou armazenado; seu único trabalho é executar seu próprio corpo usando os valores dos argumentos passados para ela.</p>
-
-        <pre><code><span style="color: black">any_name = 42
-double(any_name)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
-                <td style="text-align: left;">84</td>
-            </tr>
-            </tbody>
-        </table>
-
-
-        <p>O argumento também pode ser qualquer valor que possa ser duplicado. Por exemplo, uma matriz inteira de números pode ser passada como argumento para <code>double</code> e o resultado será outra matriz.</p>
-
-        <pre><code><span style="color: black">double(make_array(3, 4, 5))</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
-                <td style="text-align: left;">array([ 6, 8, 10])</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>No entanto, nomes que são definidos dentro de uma função, incluindo argumentos como <code>x</code> de <code>double</code>, têm apenas uma existência passageira. Eles são definidos apenas enquanto a função está sendo chamada e só são acessíveis dentro do corpo da função. Não podemos nos referir a <code>x</code> fora do corpo de <code>double</code>. A terminologia técnica é que <code>x</code> tem <em>escopo local</em>.</p>
-        <p>Portanto, o nome <code>x</code> não é reconhecido fora do corpo da função, mesmo que tenhamos chamado <code>double</code> nas células acima.</p>
-
-
-        <pre><code><span style="color: black">x</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
                 <td style="text-align: left;">
-                    ---------------------------------------------------------------------------
-                    NameError Traceback (most recent call last)
-                    &lt;ipython-input-7-6fcf9dfbd479&gt; in &lt;module&gt;
-                    ----> 1 x
-
-                    NameError: name 'x' is not defined
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Rolls</th>
+                            <th>Chance of at least one 6</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>50</td>
+                            <td>0.99989</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
             </tbody>
         </table>
 
-        **Docstrings.** Embora `double` seja relativamente fácil de entender, muitas funções realizam tarefas complicadas e são difíceis de usar sem explicação. (Você pode ter descoberto isso por si mesmo!) Portanto, uma função bem elaborada tem um nome que evoca seu comportamento, bem como documentação. Em Python, isso é chamado de *docstring* — uma descrição de seu comportamento e expectativas sobre seus argumentos. A docstring também pode mostrar chamadas de exemplo para a função, onde a
-        chamada é precedida por `>>>`.
-
-        Uma docstring pode ser qualquer string, desde que seja a primeira coisa no corpo de uma função. Docstrings geralmente são definidas usando aspas triplas no início e no fim, o que permite que uma string abranja várias linhas. A primeira linha é convencionalmente uma descrição completa, mas curta, da função, enquanto as linhas seguintes fornecem orientação adicional para futuros usuários da função.
-
-        Aqui está uma definição de uma função chamada `percent` que recebe dois argumentos. A definição inclui uma docstring.
-
-        <pre><code><span style="color: black"># Uma função com mais de um argumento
-
-def percent(x, total):
-    """Converte x em uma porcentagem do total.
-
-    Mais precisamente, esta função divide x por total,
-    multiplica o resultado por 100 e arredonda o resultado
-    para duas casas decimais.
-
-    >>> percent(4, 16)
-    25.0
-    >>> percent(1, 6)
-    16.67
-    """
-    return round((x/total)*100, 2)</span></code></pre>
-        <pre><code><span style="color: black">percent(33, 200)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[6]:</td>
-                <td style="text-align: left;">16.5</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>Compare a função <code>percent</code> definida acima com a função <code>percents</code> definida abaixo. Esta última toma uma matriz como argumento e converte todos os números da matriz em porcentagens do total dos valores na matriz. As porcentagens são todos arredondados para duas casas decimais, desta vez substituindo <code>round</code> por <code>np.round</code> porque o argumento é uma matriz e não um número.</p>
-
-        <pre><code><span style="color: black">def percents(counts):
-    """Converta os valores em array_x em porcentagens do total de array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, 2)</span></code></pre>
-
-        <p>A função <code>percents</code> retorna uma matriz de porcentagens que somam 100, sem arredondamento.</p>
-
-        <pre><code><span style="color: black">some_array = make_array(7, 10, 4)
-percents(some_array)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[7]:</td>
-                <td style="text-align: left;">array([33.33, 47.62, 19.05])</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>É útil entender as etapas que o Python executa para executar uma função. Para facilitar isso, colocamos uma definição de função e uma chamada para essa função na mesma célula abaixo.</p>
-
-
-        <pre><code><span style="color: black">def biggest_difference(array_x):
-    """Encontre a maior diferença em valor absoluto entre dois elementos adjacentes de array_x."""
-    diffs = np.diff(array_x)
-    absolute_diffs = abs(diffs)
-    return max(absolute_diffs)
-
-some_numbers = make_array(2, 4, 5, 6, 4, -1, 1)
-big_diff = biggest_difference(some_numbers)
-print("The biggest difference is", big_diff)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[8]:</td>
-                <td style="text-align: left;">The biggest difference is 5</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>Aqui está o que acontece quando executamos aquela célula:</p>
-        <p><img src="../../images/function_execution.jpg" alt="function execution"></p>
-
-        <h2>Argumentos Múltiplos</h2>
-
-        <p>Pode haver várias maneiras de generalizar uma expressão ou bloco de código e, portanto, uma função pode receber vários argumentos, cada um determinando diferentes aspectos do resultado. Por exemplo, a função <code>percents</code> que definimos anteriormente, arredondada para duas casas decimais a cada vez . A definição de dois argumentos a seguir permite que chamadas diferentes sejam arredondadas para valores diferentes.</p>
-
-
-        <pre><code><span style="color: black">def percents(counts, decimal_places):
-    """Convert the values in array_x to percents out of the total of array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, decimal_places)
-
-parts = make_array(2, 1, 4)
-print("Rounded to 1 decimal place: ", percents(parts, 1))
-print("Rounded to 2 decimal places:", percents(parts, 2))
-print("Rounded to 3 decimal places:", percents(parts, 3))</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[9]:</td>
-                <td style="text-align: left;">Rounded to 1 decimal place: [28.6 14.3 57.1]
-                    Rounded to 2 decimal places: [28.57 14.29 57.14]
-                    Rounded to 3 decimal places: [28.571 14.286 57.143]
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p>A flexibilidade desta nova definição tem um preço pequeno: cada vez que a função é chamada, o número de casas decimais deve ser especificado. Os valores padrão dos argumentos permitem que uma função seja chamada com um número variável de argumentos; qualquer argumento que seja especificado na expressão de chamada recebe seu valor padrão, que é indicado na primeira linha da instrução <code>def</code>. Por exemplo, nesta definição final de <code>percents</code>, o argumento opcional
-            <code>decimal_places</code> recebe um valor padrão de 2.</p>
-
-
-        <pre><code><span style="color: black">def percents(counts, decimal_places=2):
-    """Converta os valores em array_x em porcentagens do total de array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, decimal_places)
-
-parts = make_array(2, 1, 4)
-print("Rounded to 1 decimal place:", percents(parts, 1))
-print("Rounded to the default number of decimal places:", percents(parts))</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[10]:</td>
-                <td style="text-align: left;">Rounded to 1 decimal place: [28.6 14.3 57.1]
-                    Rounded to the default number of decimal places: [28.57 14.29 57.14]
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <h2>Nota: Métodos</h2>
-
-        <p>As funções são chamadas colocando expressões de argumento entre parênteses após o nome da função. Qualquer função definida isoladamente é chamada desta forma. Você também viu exemplos de métodos, que são como funções, mas são chamados usando notação de ponto, como <code>some_table.sort(some_label)</code>. As funções que você define sempre serão chamadas usando o nome da função primeiro, passando todos os argumentos.</p>
-
+        <p style="text-align: justify;">Cálculos como esses podem ser usados para encontrar a chance de um determinado indivíduo ser selecionado em uma amostra aleatória. O cálculo exato dependerá do esquema de amostragem. Mas o que observamos acima geralmente pode ser generalizado: aumentar o tamanho da amostra aleatória aumenta a chance de um indivíduo ser selecionado.</p>
 
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/7-0/7-3/">← Capítulo 7.3 - Gráficos Sobrepostos</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/8-1/">Capítulo 8.1 - Aplicando Uma Função a Uma Coluna →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/9-0/9-4/">← Capítulo 9.4 - Problema Monty Hall</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/10-0/">Capítulo 10 - Amostragem e Distribuições Empíricas →</a></td>
             </tr>
             </tbody>
         </table>

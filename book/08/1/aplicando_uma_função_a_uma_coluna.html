@@ -150,17 +150,636 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
+        <h1 id="aplicando-uma-fun-o-a-uma-coluna" style="text-align: center;">Aplicando uma função a uma coluna</h1>
 
-<pre><code><span style="color: black"></span></code></pre>
+        <p style="text-align: justify;">Temos visto muitos exemplos de criação de novas colunas de tabelas aplicando funções a colunas existentes ou a outros arrays. Todas essas funções tomavam arrays como argumentos. Mas frequentemente desejaremos converter as entradas em uma coluna por uma função que não recebe um array como seu argumento. Por exemplo, ele pode usar apenas um número como argumento, como na função <code>cut_off_at_100</code> definida abaixo.</p>
 
+        <pre><code><span style="color: black">def cut_off_at_100(x):
+    """O menor entre x e 100"""
+    return min(x, 100)</span></code></pre>
 
+        <pre><code><span style="color: black">cut_off_at_100(17)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
+                <td style="text-align: left;">17</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <pre><code><span style="color: black">cut_off_at_100(117)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
+                <td style="text-align: left;">100</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <pre><code><span style="color: black">cut_off_at_100(100)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
+                <td style="text-align: left;">100</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">A função <code>cut_off_at_100</code> simplesmente retorna seu argumento se o argumento for menor ou igual a 100. Mas se o argumento for maior que 100, ela retorna 100.</p>
+
+        <p style="text-align: justify;">Em nossos exemplos anteriores usando dados do censo, vimos que a variável <code>AGE</code> tinha um valor de 100 que significava "100 anos ou mais". Cortar idades em 100 desta maneira é exatamente o que <code>cut_off_at_100</code> faz.</p>
+
+        <p style="text-align: justify;">Para usar esta função em muitas idades de uma vez, precisaremos ser capazes de <em>referenciar</em> a função em si, sem realmente chamá-la. Analogamente, poderíamos mostrar uma receita de bolo a um chef e pedir a ele para usá-la para assar 6 bolos. Nesse cenário, não estamos usando a receita para assar nenhum bolo nós mesmos; nosso papel é apenas referir o chef à receita. Da mesma forma, podemos pedir a uma tabela para chamar <code>cut_off_at_100</code> em
+            6 números diferentes em uma coluna.</p>
+
+        <p style="text-align: justify;">Primeiro, criamos a tabela <code>ages</code> com uma coluna para as pessoas e outra para suas idades. Por exemplo, a pessoa <code>C</code> tem 52 anos.</p>
+
+        <pre><code><span style="color: black">ages = Table().with_columns(
+    'Person', make_array('A', 'B', 'C', 'D', 'E', 'F'),
+    'Age', make_array(17, 117, 52, 100, 6, 101)
+)
+ages</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Person</th>
+                            <th>Age</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td>17</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>117</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>52</td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>E</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>F</td>
+                            <td>101</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>apply</h2>
+
+        <p style="text-align: justify;">Para cortar cada uma das idades em 100, usaremos um novo método Table. O método <code>apply</code> chama uma função em cada elemento de uma coluna, formando um novo array de valores de retorno. Para indicar qual função chamar, basta nomeá-la (sem aspas ou parênteses). O nome da coluna de valores de entrada é uma string que ainda deve aparecer entre aspas.</p>
+
+        <pre><code><span style="color: black">ages.apply(cut_off_at_100, 'Age')</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
+                <td style="text-align: left;">array([ 17, 100, 52, 100, 6, 100])</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">O que fizemos aqui foi <code>apply</code> a função <code>cut_off_at_100</code> a cada valor na coluna <code>Age</code> da tabela <code>ages</code>. A saída é a matriz de valores de retorno correspondentes da função. Por exemplo, 17 permaneceu 17, 117 se tornou 100, 52 permaneceu 52, e assim por diante.</p>
+
+        <p style="text-align: justify;">Esta matriz, que tem o mesmo comprimento que a coluna <code>Age</code> original da tabela <code>ages</code>, pode ser usada como os valores em uma nova coluna chamada <code>Cut Off Age</code> junto com as colunas existentes <code>Person</code> e <code>Age</code>.</p>
+
+        <pre><code><span style="color: black">ages.with_column(
+    'Cut Off Age', ages.apply(cut_off_at_100, 'Age')
+)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[6]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Person</th>
+                            <th>Age</th>
+                            <th>Cut Off Age</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>A</td>
+                            <td>17</td>
+                            <td>17</td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>117</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>52</td>
+                            <td>52</td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>100</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>E</td>
+                            <td>6</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>F</td>
+                            <td>101</td>
+                            <td>100</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>Funções como Valores</h2>
+
+        <p style="text-align: justify;">Já vimos que o Python possui muitos tipos de valores. Por exemplo, <code>6</code> é um valor numérico, <code>"bolo"</code> é um valor de texto, <code>Table()</code> é uma tabela vazia, e <code>ages</code> é um nome para um valor de tabela (já que o definimos acima).</p>
+
+        <p style="text-align: justify;">Em Python, cada função, incluindo <code>cut_off_at_100</code>, também é um valor. Ajuda a pensar novamente sobre receitas. Uma receita para bolo é uma coisa real, distinta de bolos ou ingredientes, e você pode dar a ela um nome como "Receita de bolo da Ani". Quando definimos <code>cut_off_at_100</code> com uma instrução <code>def</code>, na verdade fizemos duas coisas separadas: criamos uma função que corta números em 100, e a nomeamos de <code>cut_off_at_100</code>.
+        </p>
+
+        <p style="text-align: justify;">Podemos nos referir a qualquer função escrevendo seu nome, sem os parênteses ou argumentos necessários para realmente chamá-la. Fizemos isso quando chamamos <code>apply</code> acima. Quando escrevemos o nome de uma função sozinho como a última linha em uma célula, o Python produz uma representação de texto da função, assim como imprimiria um número ou um valor de string.</p>
+
+        <pre><code><span style="color: black">cut_off_at_100</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[7]:</td>
+                <td style="text-align: left;">&lt;function __main__.cut_off_at_100(x)&gt;</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Observe que não escrevemos <code>"cut_off_at_100"</code> com aspas (que é apenas um pedaço de texto), ou <code>cut_off_at_100()</code> (que é uma chamada de função, e uma inválida). Simplesmente escrevemos <code>cut_off_at_100</code> para nos referirmos à função.</p>
+
+        <p style="text-align: justify;">Assim como podemos definir novos nomes para outros valores, podemos definir novos nomes para funções. Por exemplo, suponha que queiramos nos referir à nossa função como <code>cut_off</code> em vez de <code>cut_off_at_100</code>. Podemos simplesmente escrever isso:</p>
+
+        <pre><code><span style="color: black">cut_off = cut_off_at_100</span></code></pre>
+
+        <p style="text-align: justify;">Agora <code>cut_off</code> é o nome de uma função. É a mesma função que <code>cut_off_at_100</code>, então o valor impresso é exatamente o mesmo.</p>
+
+        <pre><code><span style="color: black">cut_off</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[8]:</td>
+                <td style="text-align: left;">&lt;function __main__.cut_off_at_100(x)&gt;</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Vejamos outra aplicação de <code>apply</code>.</p>
+
+        <h2>Exemplo: Previsão</h2>
+
+        <p style="text-align: justify;">A ciência de dados é frequentemente usada para fazer previsões sobre o futuro. Se estivermos tentando prever um resultado para um determinado indivíduo – por exemplo, como ele responderá a um tratamento ou se ele comprará um produto – é natural basear-se a previsão dos resultados de outros indivíduos semelhantes.</p>
+
+        <p style="text-align: justify;">A tabela abaixo foi adaptada de um conjunto de dados históricos sobre a altura dos pais e de seus filhos adultos. Cada linha corresponde a um filho adulto. As variáveis ​​são um código numérico para a família, as alturas (em polegadas) do pai e da mãe , o número de filhos na família, bem como a classe de nascimento da criança (1 = mais velho), sexo (codificado apenas como "masculino" ou "feminino") e altura em polegadas.</p>
+
+        <pre><code><span style="color: black"># Dados sobre a altura dos pais e dos filhos adultos
+family_heights = Table.read_table(path_data + 'family_heights.csv').drop(3)
+family_heights</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[9]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>family</th>
+                            <th>father</th>
+                            <th>mother</th>
+                            <th>nkids</th>
+                            <th>birth</th>
+                            <th>gender</th>
+                            <th>childHeight</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>78.5</td>
+                            <td>67</td>
+                            <td>4</td>
+                            <td>1</td>
+                            <td>male</td>
+                            <td>73.2</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>78.5</td>
+                            <td>67</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>female</td>
+                            <td>69.2</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>78.5</td>
+                            <td>67</td>
+                            <td>4</td>
+                            <td>3</td>
+                            <td>female</td>
+                            <td>69</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>78.5</td>
+                            <td>67</td>
+                            <td>4</td>
+                            <td>4</td>
+                            <td>female</td>
+                            <td>69</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>75.5</td>
+                            <td>66.5</td>
+                            <td>4</td>
+                            <td>1</td>
+                            <td>male</td>
+                            <td>73.5</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>75.5</td>
+                            <td>66.5</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>male</td>
+                            <td>72.5</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>75.5</td>
+                            <td>66.5</td>
+                            <td>4</td>
+                            <td>3</td>
+                            <td>female</td>
+                            <td>65.5</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>75.5</td>
+                            <td>66.5</td>
+                            <td>4</td>
+                            <td>4</td>
+                            <td>female</td>
+                            <td>65.5</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>75</td>
+                            <td>64</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>female</td>
+                            <td>68</td>
+                        </tr>
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Um dos principais motivos para coletar os dados era poder prever a altura adulta de uma criança nascida de pais semelhantes aos da base de dados. Vamos tentar fazer isso, usando a média simples da altura dos pais como a variável na qual basearemos nossa previsão.</p>
+
+        <p style="text-align: justify;">Esta altura média dos pais é nossa variável <em>preditora</em>. Na célula abaixo, seus valores estão no array <code>parent_averages</code>.</p>
+
+        <p style="text-align: justify;">A tabela <code>heights</code> consiste apenas das alturas médias dos pais e das alturas das crianças. O gráfico de dispersão das duas variáveis mostra uma associação positiva, como esperado para essas variáveis.</p>
+
+        <pre><code><span style="color: black">parent_averages = (family_heights.column('father') + family_heights.column('mother'))/2
+heights = Table().with_columns(
+    'Parent Average', parent_averages,
+    'Child', family_heights.column('childHeight')
+)
+heights</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[10]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Parent Average</th>
+                            <th>Child</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>72.75</td>
+                            <td>73.2</td>
+                        </tr>
+                        <tr>
+                            <td>72.75</td>
+                            <td>69.2</td>
+                        </tr>
+                        <tr>
+                            <td>72.75</td>
+                            <td>69</td>
+                        </tr>
+                        <tr>
+                            <td>72.75</td>
+                            <td>69</td>
+                        </tr>
+                        <tr>
+                            <td>71</td>
+                            <td>73.5</td>
+                        </tr>
+                        <tr>
+                            <td>71</td>
+                            <td>72.5</td>
+                        </tr>
+                        <tr>
+                            <td>71</td>
+                            <td>65.5</td>
+                        </tr>
+                        <tr>
+                            <td>71</td>
+                            <td>65.5</td>
+                        </tr>
+                        <tr>
+                            <td>69.5</td>
+                            <td>68</td>
+                        </tr>
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <pre><code><span style="color: black">heights.scatter('Parent Average')</span></code></pre>
+
+        <p style="text-align: justify;">Agora, suponha que os pesquisadores encontrem um novo casal, semelhante aos da base de dados, e se perguntem qual seria a altura de seu filho. Qual seria uma boa maneira para eles preverem a altura da criança, dado que a altura média dos pais era, digamos, 68 polegadas?</p>
+
+        <p style="text-align: justify;">Uma abordagem razoável seria basear a previsão em todos os pontos que correspondem a uma altura média dos pais de cerca de 68 polegadas. A previsão seria igual à média da altura das crianças calculada apenas a partir desses pontos.</p>
+
+        <p style="text-align: justify;">Vamos executar esse plano. Por enquanto, faremos uma definição razoável do que significa "cerca de 68 polegadas" e trabalharemos com isso. Mais tarde no curso, examinaremos as consequências de tais escolhas.</p>
+
+        <p style="text-align: justify;">Vamos considerar "próximo" como "dentro de meia polegada". A figura abaixo mostra todos os pontos correspondentes a uma altura média dos pais entre 67,5 polegadas e 68,5 polegadas. Esses são todos os pontos na faixa entre as linhas vermelhas. Cada um desses pontos corresponde a uma criança; nossa previsão da altura do filho do novo casal é a altura média de todas as crianças na faixa. Isso é representado pelo ponto dourado.</p>
+
+        <p style="text-align: justify;">Ignore o código e concentre-se apenas em entender o processo mental de chegar a esse ponto dourado.</p>
+
+        <pre><code><span style="color: black">heights.scatter('Parent Average')
+plots.plot([67.5, 67.5], [50, 85], color='red', lw=2)
+plots.plot([68.5, 68.5], [50, 85], color='red', lw=2)
+plots.scatter(68, 67.62, color='gold', s=40);</span></code></pre>
+
+        <p style="text-align: justify;">Para calcular exatamente onde o ponto dourado deveria estar, primeiro precisamos identificar todos os pontos na faixa. Eles correspondem às linhas onde a <code>Parente Average</code> está entre 67,5 polegadas e 68,5 polegadas.</p>
+
+        <pre><code><span style="color: black">close_to_68 = heights.where('Parent Average', are.between(67.5, 68.5))
+close_to_68</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[11]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Parent Average</th>
+                            <th>Child</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>68</td>
+                            <td>66.5</td>
+                        </tr>
+                        <tr>
+                            <td>68</td>
+                            <td>66.5</td>
+                        </tr>
+                        <tr>
+                            <td>68</td>
+                            <td>64.5</td>
+                        </tr>
+                        <tr>
+                            <td>68</td>
+                            <td>64</td>
+                        </tr>
+                        <tr>
+                            <td>68</td>
+                            <td>67</td>
+                        </tr>
+                        <tr>
+                            <td>68</td>
+                            <td>73</td>
+                        </tr>
+                        <tr>
+                            <td>68</td>
+                            <td>71</td>
+                        </tr>
+                        <tr>
+                            <td>68</td>
+                            <td>68</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">A altura prevista de uma criança cuja altura média dos pais é de 68 polegadas é a altura média das crianças nessas fileiras. Isso é 67,62 polegadas.</p>
+
+        <pre><code><span style="color: black">np.average(close_to_68.column('Child'))</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[12]:</td>
+                <td style="text-align: left;">67.625</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Agora temos uma maneira de prever a altura de uma criança, dado qualquer valor da altura média dos pais próximo daqueles em nosso conjunto de dados. Podemos definir uma função <code>predict_child</code> que faz isso. O corpo da função consiste no código nas duas células acima, além das escolhas de nomes.</p>
+
+        <pre><code><span style="color: black">def predict_child(p_avg):
+    """Preveja a altura de uma criança cujos pais têm uma altura média dos pais de p_avg.
+    
+    A previsão é a altura média das crianças cuja altura média dos pais está
+    no intervalo p_avg mais ou menos 0,5.
+    """
+    
+    close_points = heights.where('Parent Average', are.between(p_avg-0.5, p_avg + 0.5))
+    return np.average(close_points.column('Child'))</span></code></pre>
+
+        <p style="text-align: justify;">Dada uma altura média dos pais de 68 polegadas, a função <code>predict_child</code> retorna a mesma previsão (67,62 polegadas) que obtivemos anteriormente. A vantagem de definir a função é que podemos facilmente alterar o valor do preditor e obter uma nova previsão.</p>
+
+        <pre><code><span style="color: black">predict_child(68)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[13]:</td>
+                <td style="text-align: left;">67.625</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <pre><code><span style="color: black">predict_child(66)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[14]:</td>
+                <td style="text-align: left;">66.83333333333333</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Quão boas são essas previsões? Podemos ter uma ideia disso comparando as previsões com os dados que já temos. Para fazer isso, primeiro aplicamos a função <code>predict_child</code> à coluna de alturas <code>Parent Average</code> e coletamos os resultados em uma nova coluna chamada <code>Prediction</code>.</p>
+
+        <pre><code><span style="color: black"># Aplique predict_child a todas as alturas do pai médio
+
+heights_with_predictions = heights.with_column(
+    'Prediction', heights.apply(predict_child, 'Parent Average')
+)</span></code></pre>
+
+        <pre><code><span style="color: black">heights_with_predictions</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[15]:</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Parent Average</th>
+                            <th>Child</th>
+                            <th>Prediction</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>72.75</td>
+                            <td>73.2</td>
+                            <td>70.3</td>
+                        </tr>
+                        <tr>
+                            <td>72.75</td>
+                            <td>69.2</td>
+                            <td>70.3</td>
+                        </tr>
+                        <tr>
+                            <td>72.75</td>
+                            <td>69</td>
+                            <td>70.3</td>
+                        </tr>
+                        <tr>
+                            <td>72.75</td>
+                            <td>69</td>
+                            <td>70.3</td>
+                        </tr>
+                        <tr>
+                            <td>71</td>
+                            <td>73.5</td>
+                            <td>69.5</td>
+                        </tr>
+                        <tr>
+                            <td>71</td>
+                            <td>72.5</td>
+                            <td>69.5</td>
+                        </tr>
+                        <tr>
+                            <td>71</td>
+                            <td>65.5</td>
+                            <td>69.5</td>
+                        </tr>
+                        <tr>
+                            <td>71</td>
+                            <td>65.5</td>
+                            <td>69.5</td>
+                        </tr>
+                        <tr>
+                            <td>69.5</td>
+                            <td>68</td>
+                            <td>68.5</td>
+                        </tr>
+                        <tr>
+                            <td>...</td>
+                            <td>...</td>
+                            <td>...</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Para ver onde as previsões estão em relação aos dados observados, podemos desenhar gráficos de dispersão sobrepostos com <code>Parent Average</code> como o eixo horizontal comum.</p>
+
+        <pre><code><span style="color: black">heights_with_predictions.scatter('Parent Average')</span></code></pre>
+
+        <p style="text-align: justify;">O gráfico de pontos dourados é chamado de <em>gráfico de médias</em>, porque cada ponto dourado é o centro de uma faixa vertical como a que desenhamos anteriormente. Cada um fornece uma previsão da altura de uma criança dada a altura média dos pais. Por exemplo, o gráfico de dispersão mostra que para uma altura média dos pais de 65 polegadas, a altura prevista da criança seria pouco acima de 65 polegadas, e de fato <code>predict_child(65)</code> avalia
+            para cerca de 65.84.</p>
+
+        <pre><code><span style="color: black">predict_child(65)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[16]:</td>
+                <td style="text-align: left;">65.84</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Observe que o gráfico de médias segue aproximadamente uma linha reta. Esta linha reta é agora chamada de <em>linha de regressão</em> e é um dos métodos mais comuns de fazer previsões. O cálculo que acabamos de fazer é muito semelhante ao cálculo que levou ao desenvolvimento do método de regressão, usando os mesmos dados.</p>
+
+        <p style="text-align: justify;">Este exemplo, assim como o exemplo da análise das mortes por cólera de John Snow, mostra como alguns dos conceitos fundamentais da ciência de dados moderna têm raízes que remontam a muito tempo atrás. O método usado aqui foi um precursor dos métodos de previsão <em>vizinho mais próximo</em> que agora têm aplicações poderosas em diversos contextos. O campo moderno de <em>aprendizado de máquina</em> inclui a automação de tais métodos para fazer previsões com
+            base em conjuntos de dados vastos e em rápida evolução.</p>
 
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/7-0/7-2/">← Capítulo 7.2 - Visualizando Distribuições Numéricas</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/">Capítulo 8 - Funções e Tabelas →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/">← Capítulo 8 - Funções e Tabelas</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/8-2/">Capítulo 8.2 - Classificando por uma Variável →</a></td>
             </tr>
             </tbody>
         </table>

@@ -151,240 +151,180 @@
 
         <!--###########################################################################################################################################################-->
 
-<pre><code><span style="color: black">from datascience import *
+        <pre><code><span style="color: black">from datascience import *
 path_data = '../../../assets/data/'
-import numpy as np
-
 import matplotlib
 matplotlib.use('Agg')
 %matplotlib inline
 import matplotlib.pyplot as plots
-plots.style.use('fivethirtyeight')</span></code></pre>
+plots.style.use('fivethirtyeight')
+import numpy as np</span></code></pre>
 
-        <h1 id="compartilhamento-de-bicicletas">Compartilhamento de Bicicletas</h1>
+        <h1 id="problema-monty-hall">O Problema de Monty Hall</h1>
 
-        <p style="text-align: justify;">Nesta seção, aplicaremos os conceitos que aprendemos sobre funções e tabelas para analisar dados de um sistema de compartilhamento de bicicletas. Sistemas de compartilhamento de bicicletas se tornaram populares em muitas cidades ao redor do mundo, permitindo que as pessoas aluguem bicicletas por curtos períodos de tempo, pegando-as e devolvendo-as em vários pontos de estacionamento pela cidade.</p>
+        <p style="text-align: justify;">Este <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">problema</a> tem confundido muitas pessoas ao longo dos anos, <a href="https://web.archive.org/web/20140413131827/http://www.decisionsciences.org/DecisionLine/Vol30/30_1/vazs30_1.pdf">incluindo matemáticos</a>. Vamos ver se conseguimos resolvê-lo por meio de simulação.</p>
 
-        <h2>Dados de Compartilhamento de Bicicletas</h2>
+        <p style="text-align: justify;">O cenário é derivado de um programa de televisão chamado "Let's Make a Deal". Monty Hall apresentou este programa nos anos 60, e desde então gerou vários spin-offs. Uma parte emocionante do programa era que, enquanto os participantes tinham a chance de ganhar grandes prêmios, eles poderiam acabar com "zonks" que eram menos desejáveis. Esta é a base para o que agora é conhecido como <em>o problema de Monty Hall</em>.</p>
 
-        <p style="text-align: justify;">Vamos analisar dados do sistema de compartilhamento de bicicletas de uma grande cidade. Os dados contêm informações sobre viagens realizadas, incluindo duração, estações de início e fim, e informações sobre o usuário.</p>
+        <p style="text-align: justify;">O cenário é um game show no qual o participante se depara com três portas fechadas. Atrás de uma das portas está um carro luxuoso, e atrás de cada uma das outras duas há um bode. O participante não sabe onde está o carro e deve tentar encontrá-lo sob as seguintes regras.</p>
 
-        <pre><code><span style="color: black"># Carregando os dados
-bike_trips = Table.read_table(path_data + 'bike_sharing.csv')
-bike_trips</span></code></pre>
+        <ul>
+            <li>O participante faz uma escolha inicial, mas essa porta não é aberta.</li>
+            <li>Pelo menos uma das outras duas portas deve ter um bode atrás dela. Monty abre uma dessas portas para revelar um bode, exibido em toda a sua glória na <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">Wikipedia</a>.</li>
+            <li>Restam duas portas, uma das quais era a escolha original do participante. Uma das portas tem o carro atrás dela, e a outra tem um bode. O participante agora pode escolher qual das duas portas abrir.</li>
+        </ul>
+
+        <p style="text-align: justify;">O participante tem uma decisão a tomar. Qual porta ela deve escolher para abrir, se quiser o carro? Ela deve manter sua escolha inicial ou trocar para a outra porta? Esse é o problema de Monty Hall.</p>
+
+        <h2>A Solução</h2>
+
+        <p style="text-align: justify;">Em qualquer problema envolvendo chances, as suposições sobre aleatoriedade são importantes. É razoável supor que há uma chance de 1/3 de que a escolha inicial do participante seja a porta que tem o carro atrás dela.</p>
+
+        <p style="text-align: justify;">A solução para o problema é bastante direta sob essa suposição, embora a solução direta não convença a todos. Aqui está ela de qualquer maneira.</p>
+
+        <ul>
+            <li>A chance de que o carro esteja atrás da porta escolhida inicialmente é de 1/3.</li>
+            <li>O carro está atrás da porta escolhida inicialmente ou da porta que resta. Não pode estar em outro lugar.</li>
+            <li>Portanto, a chance de que o carro esteja atrás da porta que resta é de 2/3.</li>
+            <li>Portanto, o participante deve trocar.</li>
+        </ul>
+
+        <p style="text-align: justify;">É isso. Fim da história.</p>
+
+        <p style="text-align: justify;">Não está convencido? Então vamos simular o jogo e ver como os resultados se desenrolam.</p>
+
+        <h2>Simulação</h2>
+
+        <p style="text-align: justify;">A simulação será mais complexa do que as que fizemos até agora. Vamos dividi-la.</p>
+
+        <p style="text-align: justify;"><strong>Passo 1: O que Simular</strong></p>
+
+        <p style="text-align: justify;">Para cada jogo, vamos simular o que está atrás das três portas:</p>
+        <ul>
+            <li>a que o participante escolhe primeiro</li>
+            <li>a que Monty abre</li>
+            <li>a porta restante</li>
+        </ul>
+
+        <p style="text-align: justify;">Assim, vamos acompanhar três quantidades, não apenas uma.</p>
+
+        <p style="text-align: justify;"><strong>Passo 2: Simulando um Jogo</strong></p>
+
+        <p style="text-align: justify;">Como é frequente em simulações de jogos, a maior parte do trabalho consiste em simular uma partida do jogo. Isso envolve várias partes.</p>
+
+        <p style="text-align: justify;"><strong>Os bodes:</strong> Começamos configurando uma array <code>goats</code> que contém nomes pouco imaginativos para os dois bodes.</p>
+
+        <pre><code><span style="color: black">goats = make_array('first goat', 'second goat')</span></code></pre>
+
+        <p style="text-align: justify;">Para ajudar Monty a conduzir o jogo, teremos que identificar qual cabra está selecionada e qual está revelada atrás da porta aberta. A função <code>other_goat</code> pega uma cabra e devolve a outra.</p>
+
+        <pre><code><span style="color: black">def other_goat(x):
+    if x == 'first goat':
+        return 'second goat'
+    elif x == 'second goat':
+        return 'first goat'</span></code></pre>
+        <br>
+        <pre><code><span style="color: black">other_goat('first goat'), other_goat('second goat'), other_goat('watermelon')</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Trip ID</th>
-                            <th>Duration</th>
-                            <th>Start Date</th>
-                            <th>Start Station</th>
-                            <th>End Station</th>
-                            <th>User Type</th>
-                            <th>Weather</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1001</td>
-                            <td>12.5</td>
-                            <td>2023-01-15</td>
-                            <td>Downtown</td>
-                            <td>University</td>
-                            <td>Member</td>
-                            <td>Clear</td>
-                        </tr>
-                        <tr>
-                            <td>1002</td>
-                            <td>8.2</td>
-                            <td>2023-01-15</td>
-                            <td>Park</td>
-                            <td>Downtown</td>
-                            <td>Casual</td>
-                            <td>Clear</td>
-                        </tr>
-                        <tr>
-                            <td>1003</td>
-                            <td>15.7</td>
-                            <td>2023-01-15</td>
-                            <td>University</td>
-                            <td>Park</td>
-                            <td>Member</td>
-                            <td>Clear</td>
-                        </tr>
-                        <tr>
-                            <td>1004</td>
-                            <td>22.3</td>
-                            <td>2023-01-16</td>
-                            <td>Downtown</td>
-                            <td>Beach</td>
-                            <td>Casual</td>
-                            <td>Cloudy</td>
-                        </tr>
-                        <tr>
-                            <td>1005</td>
-                            <td>10.1</td>
-                            <td>2023-01-16</td>
-                            <td>Beach</td>
-                            <td>Downtown</td>
-                            <td>Member</td>
-                            <td>Cloudy</td>
-                        </tr>
-                        <tr>
-                            <td>1006</td>
-                            <td>18.5</td>
-                            <td>2023-01-17</td>
-                            <td>Park</td>
-                            <td>University</td>
-                            <td>Member</td>
-                            <td>Rainy</td>
-                        </tr>
-                        <tr>
-                            <td>1007</td>
-                            <td>7.8</td>
-                            <td>2023-01-17</td>
-                            <td>University</td>
-                            <td>Downtown</td>
-                            <td>Member</td>
-                            <td>Rainy</td>
-                        </tr>
-                        <tr>
-                            <td>1008</td>
-                            <td>25.2</td>
-                            <td>2023-01-18</td>
-                            <td>Downtown</td>
-                            <td>Park</td>
-                            <td>Casual</td>
-                            <td>Clear</td>
-                        </tr>
-                        <tr>
-                            <td>1009</td>
-                            <td>13.4</td>
-                            <td>2023-01-18</td>
-                            <td>University</td>
-                            <td>Beach</td>
-                            <td>Member</td>
-                            <td>Clear</td>
-                        </tr>
-                        <tr>
-                            <td>1010</td>
-                            <td>9.6</td>
-                            <td>2023-01-19</td>
-                            <td>Beach</td>
-                            <td>Park</td>
-                            <td>Casual</td>
-                            <td>Cloudy</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="text-align: left;">('second goat', 'first goat', None)</td>
             </tr>
             </tbody>
         </table>
 
-        <p style="text-align: justify;">Cada linha da tabela representa uma viagem de bicicleta. Vamos entender o que cada coluna significa:</p>
 
-        <ul>
-            <li><strong>Trip ID</strong>: Identificador único para cada viagem</li>
-            <li><strong>Duration</strong>: Duração da viagem em minutos</li>
-            <li><strong>Start Date</strong>: Data em que a viagem começou</li>
-            <li><strong>Start Station</strong>: Estação onde a bicicleta foi retirada</li>
-            <li><strong>End Station</strong>: Estação onde a bicicleta foi devolvida</li>
-            <li><strong>User Type</strong>: Tipo de usuário (Member = assinante, Casual = usuário casual)</li>
-            <li><strong>Weather</strong>: Condição climática durante a viagem</li>
-        </ul>
+        <p style="text-align: justify;">A string <code>watermelon</code> não é o nome de uma das cabras, então quando <code>watermelon</code> é a entrada, <code>other_goat</code> não faz nada.</p>
 
-        <h2>Análise da Duração das Viagens</h2>
+        <p style="text-align: justify;"><strong>As opções:</strong> O array <code>hidden_behind_doors</code> contém as três coisas que estão atrás das portas.</p>
 
-        <p style="text-align: justify;">Vamos começar analisando a duração das viagens. Primeiro, vamos calcular algumas estatísticas básicas:</p>
-
-        <pre><code><span style="color: black"># Estatísticas da duração das viagens
-bike_trips.select('Duration').stats()</span></code></pre>
+        <pre><code><span style="color: black">hidden_behind_doors = np.append(goats, 'car')
+hidden_behind_doors</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>statistic</th>
-                            <th>Duration</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>min</td>
-                            <td>7.8</td>
-                        </tr>
-                        <tr>
-                            <td>max</td>
-                            <td>25.2</td>
-                        </tr>
-                        <tr>
-                            <td>median</td>
-                            <td>12.95</td>
-                        </tr>
-                        <tr>
-                            <td>mean</td>
-                            <td>14.33</td>
-                        </tr>
-                        <tr>
-                            <td>count</td>
-                            <td>10</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                <td style="text-align: left;">array(['first goat', 'second goat', 'car'], dtype='
+                    <U11
+                    ')
                 </td>
             </tr>
             </tbody>
         </table>
 
-        <p style="text-align: justify;">Agora, vamos comparar a duração média das viagens por tipo de usuário:</p>
+        <p style="text-align: justify;">Agora estamos prontos para simular uma jogada. Para fazer isso, vamos definir uma função <code>monty_hall_game</code> que não recebe argumentos. Quando a função é chamada, ela joga o jogo de Monty uma vez e retorna uma lista consistindo de:</p>
 
-        <pre><code><span style="color: black"># Duração média por tipo de usuário
-bike_trips.group('User Type', np.mean).select('User Type', 'Duration mean')</span></code></pre>
+        <ul>
+            <li>a escolha do participante</li>
+            <li>o que Monty revela quando ele abre uma porta</li>
+            <li>o que permanece atrás da outra porta</li>
+        </ul>
+
+        <p style="text-align: justify;">O jogo começa com o participante escolhendo uma porta aleatoriamente. Ao fazer isso, o participante faz uma escolha aleatória entre o primeiro bode, o segundo bode e o carro.</p>
+
+        <p style="text-align: justify;">Se o participante escolher um dos bodes, então o outro bode é revelado e o carro está atrás da porta restante.</p>
+
+        <p style="text-align: justify;">Se o participante escolher o carro, então Monty revela um dos bodes e o outro bode está atrás da porta restante.</p>
+
+        <pre><code><span style="color: black">def monty_hall_game():
+    """Return 
+    [contestant's guess, what Monty reveals, what remains behind the other door]"""
+    
+    contestant_guess = np.random.choice(hidden_behind_doors)
+    
+    if contestant_guess == 'first goat':
+        return [contestant_guess, 'second goat', 'car']
+    
+    if contestant_guess == 'second goat':
+        return [contestant_guess, 'first goat', 'car']
+    
+    if contestant_guess == 'car':
+        revealed = np.random.choice(goats)
+        return [contestant_guess, revealed, other_goat(revealed)]</span></code></pre>
+
+        <p style="text-align: justify;">Vamos brincar! Execute a célula várias vezes e veja como os resultados mudam.</p>
+
+        <pre><code><span style="color: black">monty_hall_game()</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>User Type</th>
-                            <th>Duration mean</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Casual</td>
-                            <td>16.325</td>
-                        </tr>
-                        <tr>
-                            <td>Member</td>
-                            <td>13</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="text-align: left;">['car', 'first goat', 'second goat']</td>
             </tr>
             </tbody>
         </table>
 
-        <p style="text-align: justify;">Podemos observar que os usuários casuais tendem a fazer viagens mais longas em média (16.3 minutos) do que os membros assinantes (13 minutos). Isso faz sentido, pois os membros geralmente usam as bicicletas para deslocamentos regulares, como ir ao trabalho, enquanto os usuários casuais podem estar usando as bicicletas para lazer ou turismo.</p>
+        <p style="text-align: justify;"><strong>Passo 3: Número de Repetições</strong></p>
 
-        <h2>Análise por Estação</h2>
+        <p style="text-align: justify;">Para medir a frequência com que os diferentes resultados ocorrem, precisamos jogar o jogo muitas vezes e coletar os resultados. Vamos executar 10.000 repetições.</p>
 
-        <p style="text-align: justify;">Vamos analisar quais são as estações mais populares para início de viagens:</p>
+        <p style="text-align: justify;"><strong>Passo 4: Simulando Múltiplas Repetições</strong></p>
 
-        <pre><code><span style="color: black"># Contagem de viagens por estação de início
-bike_trips.group('Start Station')</span></code></pre>
+        <p style="text-align: justify;">É hora de rodar toda a simulação. Mas, ao contrário das nossas simulações anteriores, em que cada simulação produzia um único valor, neste exemplo simulamos uma lista de três valores cada vez.</p>
+
+        <p style="text-align: justify;">Vamos tratar essa lista simulada como uma linha de uma tabela. Então, em vez de começar com uma array vazia e aumentá-la com cada novo valor simulado, começaremos com uma tabela vazia e aumentaremos a tabela com cada nova linha simulada. Cada linha conterá o resultado completo de um jogo.</p>
+
+        <p style="text-align: justify;">Uma maneira de aumentar uma tabela adicionando uma nova linha é usar o método <code>append</code>. Se <code>my_table</code> for uma tabela e <code>new_row</code> for uma lista contendo os elementos de uma nova linha, então <code>my_table.append(new_row)</code> adiciona a nova linha ao final de <code>my_table</code>.</p>
+
+        <p style="text-align: justify;">Note que <code>append</code> não cria uma nova tabela. Ele altera <code>my_table</code> para ter uma linha a mais do que tinha antes.</p>
+
+        <p style="text-align: justify;">Começaremos com uma tabela de coleta <code>games</code> que possui três colunas vazias. Podemos fazer isso apenas especificando uma lista de rótulos de coluna na mesma ordem em que <code>monty_hall_game</code> retorna o resultado de um jogo.</p>
+
+        <p style="text-align: justify;">Agora podemos adicionar 10.000 linhas a <code>games</code>. Cada linha representará o resultado de uma jogada do jogo de Monty.</p>
+
+        <pre><code><span style="color: black"># tabela de coleção vazia
+games = Table(['Guess', 'Revealed', 'Remaining'])
+
+# Jogue o jogo 10.000 vezes e 
+# registre os resultados nos jogos de mesa
+
+for i in np.arange(10000):
+    games.append(monty_hall_game())</span></code></pre>
+
+        <p style="text-align: justify;">A simulação está concluída. Observe como o código é curto. A maior parte do trabalho foi feita na simulação do resultado de um jogo.</p>
+
+        <pre><code><span style="color: black">games.show(3)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -393,26 +333,26 @@ bike_trips.group('Start Station')</span></code></pre>
                     <table border="1" class="dataframe">
                         <thead>
                         <tr>
-                            <th>Start Station</th>
-                            <th>count</th>
+                            <th>Guess</th>
+                            <th>Revealed</th>
+                            <th>Remaining</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>Beach</td>
-                            <td>2</td>
+                            <td>first goat</td>
+                            <td>second goat</td>
+                            <td>car</td>
                         </tr>
                         <tr>
-                            <td>Downtown</td>
-                            <td>3</td>
+                            <td>first goat</td>
+                            <td>second goat</td>
+                            <td>car</td>
                         </tr>
                         <tr>
-                            <td>Park</td>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>University</td>
-                            <td>3</td>
+                            <td>car</td>
+                            <td>first goat</td>
+                            <td>second goat</td>
                         </tr>
                         </tbody>
                     </table>
@@ -421,10 +361,15 @@ bike_trips.group('Start Station')</span></code></pre>
             </tbody>
         </table>
 
-        <p style="text-align: justify;">E as estações mais populares para fim de viagens:</p>
 
-        <pre><code><span style="color: black"># Contagem de viagens por estação de fim
-bike_trips.group('End Station')</span></code></pre>
+        <h2>Visualização</h2>
+
+        <p style="text-align: justify;">Para ver se o competidor deve manter sua escolha ou troca original, vamos ver com que frequência o carro fica atrás de cada uma de suas duas opções.</p>
+
+        <p style="text-align: justify;">Não é nenhuma surpresa que as três portas apareçam com a mesma frequência que a suposição original do competidor.</p>
+
+        <pre><code><span style="color: black">original_choice = games.group('Guess')
+original_choice</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -433,26 +378,22 @@ bike_trips.group('End Station')</span></code></pre>
                     <table border="1" class="dataframe">
                         <thead>
                         <tr>
-                            <th>End Station</th>
+                            <th>Guess</th>
                             <th>count</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>Beach</td>
-                            <td>2</td>
+                            <td>car</td>
+                            <td>3319</td>
                         </tr>
                         <tr>
-                            <td>Downtown</td>
-                            <td>3</td>
+                            <td>first goat</td>
+                            <td>3311</td>
                         </tr>
                         <tr>
-                            <td>Park</td>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>University</td>
-                            <td>2</td>
+                            <td>second goat</td>
+                            <td>3370</td>
                         </tr>
                         </tbody>
                     </table>
@@ -461,12 +402,10 @@ bike_trips.group('End Station')</span></code></pre>
             </tbody>
         </table>
 
-        <h2>Análise de Fluxo entre Estações</h2>
+        <p style="text-align: justify;">Depois que Monty eliminou uma cabra, com que frequência o carro fica atrás da porta restante?</p>
 
-        <p style="text-align: justify;">Podemos usar a classificação cruzada para analisar o fluxo de bicicletas entre as diferentes estações:</p>
-
-        <pre><code><span style="color: black"># Fluxo entre estações usando pivot
-bike_trips.pivot('Start Station', 'End Station')</span></code></pre>
+        <pre><code><span style="color: black">remaining_door = games.group('Remaining')
+remaining_door</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -475,41 +414,22 @@ bike_trips.pivot('Start Station', 'End Station')</span></code></pre>
                     <table border="1" class="dataframe">
                         <thead>
                         <tr>
-                            <th>End Station</th>
-                            <th>Beach</th>
-                            <th>Downtown</th>
-                            <th>Park</th>
-                            <th>University</th>
+                            <th>Remaining</th>
+                            <th>count</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>Beach</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>0</td>
+                            <td>car</td>
+                            <td>6681</td>
                         </tr>
                         <tr>
-                            <td>Downtown</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>1</td>
+                            <td>first goat</td>
+                            <td>1176</td>
                         </tr>
                         <tr>
-                            <td>Park</td>
-                            <td>0</td>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>University</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>0</td>
+                            <td>second goat</td>
+                            <td>1643</td>
                         </tr>
                         </tbody>
                     </table>
@@ -518,14 +438,13 @@ bike_trips.pivot('Start Station', 'End Station')</span></code></pre>
             </tbody>
         </table>
 
-        <p style="text-align: justify;">Esta tabela mostra o número de viagens entre cada par de estações. Por exemplo, há uma viagem da estação Downtown para a estação Beach, e uma viagem da estação Beach para a estação Downtown.</p>
+        <p style="text-align: justify;">Como disse nossa solução anterior, o carro fica atrás da porta restante dois terços do tempo, com uma boa aproximação. O competidor tem duas vezes mais chances de conseguir o carro se trocar do que se continuar com sua escolha original.</p>
 
-        <h2>Análise por Condição Climática</h2>
+        <p style="text-align: justify;">Para ver isso graficamente, podemos juntar as duas tabelas acima e desenhar gráficos de barras sobrepostos.</p>
 
-        <p style="text-align: justify;">Vamos analisar como as condições climáticas afetam o uso do sistema de compartilhamento de bicicletas:</p>
-
-        <pre><code><span style="color: black"># Contagem de viagens por condição climática
-bike_trips.group('Weather')</span></code></pre>
+        <pre><code><span style="color: black">joined = original_choice.join('Guess', remaining_door, 'Remaining')
+combined = joined.relabeled(0, 'Item').relabeled(1, 'Original Door').relabeled(2, 'Remaining Door')
+combined</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -534,22 +453,26 @@ bike_trips.group('Weather')</span></code></pre>
                     <table border="1" class="dataframe">
                         <thead>
                         <tr>
-                            <th>Weather</th>
-                            <th>count</th>
+                            <th>Item</th>
+                            <th>Original Door</th>
+                            <th>Remaining Door</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>Clear</td>
-                            <td>5</td>
+                            <td>car</td>
+                            <td>3319</td>
+                            <td>6681</td>
                         </tr>
                         <tr>
-                            <td>Cloudy</td>
-                            <td>3</td>
+                            <td>first goat</td>
+                            <td>3311</td>
+                            <td>1676</td>
                         </tr>
                         <tr>
-                            <td>Rainy</td>
-                            <td>2</td>
+                            <td>second goat</td>
+                            <td>3370</td>
+                            <td>1643</td>
                         </tr>
                         </tbody>
                     </table>
@@ -557,111 +480,19 @@ bike_trips.group('Weather')</span></code></pre>
             </tr>
             </tbody>
         </table>
+        <br>
+        <pre><code><span style="color: black">combined.barh(0)</span></code></pre>
 
-        <p style="text-align: justify;">Agora, vamos analisar a duração média das viagens por condição climática:</p>
+        <p style="text-align: justify;">Observe como as três barras azuis são quase iguais – a escolha original tem a mesma probabilidade de ser qualquer um dos três itens disponíveis. Mas a barra dourada correspondente a <code>Car</code> é duas vezes mais longa que a azul.</p>
 
-        <pre><code><span style="color: black"># Duração média por condição climática
-bike_trips.group('Weather', np.mean).select('Weather', 'Duration mean')</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[8]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Weather</th>
-                            <th>Duration mean</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Clear</td>
-                            <td>15.02</td>
-                        </tr>
-                        <tr>
-                            <td>Cloudy</td>
-                            <td>14</td>
-                        </tr>
-                        <tr>
-                            <td>Rainy</td>
-                            <td>13.15</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p style="text-align: justify;">Podemos observar que as viagens tendem a ser um pouco mais longas em dias ensolarados (15.02 minutos em média) em comparação com dias nublados (14 minutos) ou chuvosos (13.15 minutos). Isso pode indicar que as pessoas estão mais dispostas a fazer viagens mais longas quando o tempo está bom.</p>
-
-        <h2>Combinando Análises</h2>
-
-        <p style="text-align: justify;">Podemos combinar diferentes variáveis para obter insights mais detalhados. Por exemplo, vamos analisar a duração média das viagens por tipo de usuário e condição climática:</p>
-
-        <pre><code><span style="color: black"># Duração média por tipo de usuário e condição climática
-bike_trips.pivot('User Type', 'Weather', values='Duration', collect=np.mean)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[9]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Weather</th>
-                            <th>Casual</th>
-                            <th>Member</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Clear</td>
-                            <td>16.7</td>
-                            <td>13.87</td>
-                        </tr>
-                        <tr>
-                            <td>Cloudy</td>
-                            <td>15.95</td>
-                            <td>10.1</td>
-                        </tr>
-                        <tr>
-                            <td>Rainy</td>
-                            <td>0</td>
-                            <td>13.15</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p style="text-align: justify;">Esta tabela mostra que os usuários casuais tendem a fazer viagens mais longas em dias ensolarados e nublados, mas não há registros de usuários casuais em dias chuvosos em nossos dados. Os membros assinantes, por outro lado, continuam a usar o sistema mesmo em dias chuvosos, o que sugere que eles dependem das bicicletas para seus deslocamentos diários, independentemente do clima.</p>
-
-        <h2>Conclusão</h2>
-
-        <p style="text-align: justify;">Nesta análise, aplicamos vários conceitos que aprendemos sobre funções e tabelas para explorar dados de um sistema de compartilhamento de bicicletas. Utilizamos métodos como <code>group</code>, <code>pivot</code> e funções como <code>np.mean</code> para extrair insights dos dados.</p>
-
-        <p style="text-align: justify;">Descobrimos que:</p>
-        <ul>
-            <li>Usuários casuais tendem a fazer viagens mais longas do que membros assinantes</li>
-            <li>As estações Downtown e University são as mais populares para início de viagens</li>
-            <li>As viagens tendem a ser mais longas em dias ensolarados</li>
-            <li>Membros assinantes continuam a usar o sistema mesmo em dias chuvosos, enquanto usuários casuais parecem evitar usar o sistema nessas condições</li>
-        </ul>
-
-        <p style="text-align: justify;">Estes insights podem ser valiosos para os operadores do sistema de compartilhamento de bicicletas, ajudando-os a entender melhor os padrões de uso e a tomar decisões informadas sobre a alocação de recursos, manutenção e expansão do sistema.</p>
-
-
+        <p style="text-align: justify;">A simulação confirma que a competidora tem duas vezes mais chances de vencer se mudar.</p>
 
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/8-4/">← Capítulo 8.4 - Unindo Tabelas por Colunas</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/9-0/">Capítulo 9 - Aleatoriedade →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/9-0/9-3/">← Capítulo 9.3 - Simulação</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/9-0/9-5/">Capítulo 9.5 - Encontrando Probabilidades →</a></td>
             </tr>
             </tbody>
         </table>

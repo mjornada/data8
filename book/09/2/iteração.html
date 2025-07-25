@@ -152,248 +152,277 @@
         <!--###########################################################################################################################################################-->
 
         <pre><code><span style="color: black">from datascience import *
+path_data = '../../../assets/data/'
 import matplotlib
-path_data = '../../assets/data/'
 matplotlib.use('Agg')
 %matplotlib inline
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
 
+        <h1 id="iteracao">Iteração</h1>
 
-        <h1 id="fun-es-e-tabelas">Funções e Tabelas</h1>
-        <p>Estamos construindo um inventário útil de técnicas para identificar padrões e temas em um conjunto de dados usando funções já disponíveis em Python. Agora vamos explorar um recurso central da linguagem de programação Python: a definição de funções.</p>
-        <p>Já usamos funções extensivamente neste texto, mas nunca definimos uma função própria. O objetivo de definir uma função é dar um nome a um processo computacional que pode ser aplicado várias vezes. Existem muitas situações na computação que exigem cálculos repetidos. Por exemplo, frequentemente queremos realizar a mesma manipulação em cada valor em uma coluna de uma tabela.</p>
-        <h2>Definindo uma Função</h2>
+        <p style="text-align: justify;">É frequentemente o caso na programação - especialmente ao lidar com aleatoriedade - que queremos repetir um processo várias vezes. Por exemplo, lembre-se do jogo de apostar em um lançamento de um dado com as seguintes regras:</p>
 
-        <p>A definição da função <code>double</code> abaixo simplesmente duplica um número.</p>
+        <ul>
+            <li>Se o dado mostrar 1 ou 2 pontos, meu ganho líquido é -1 dólar.</li>
+            <li>Se o dado mostrar 3 ou 4 pontos, meu ganho líquido é 0 dólares.</li>
+            <li>Se o dado mostrar 5 ou 6 pontos, meu ganho líquido é 1 dólar.</li>
+        </ul>
 
+        <p style="text-align: justify;">A função <code>apostar_em_um_lançamento</code> não recebe argumentos. Cada vez que é chamada, simula um lançamento de um dado justo e retorna o ganho líquido em dólares.</p>
 
-        <pre><code><span style="color: black"># Nossa primeira definição de função
+        <pre><code><span style="color: black">def bet_on_one_roll():
+    """Retorna meu ganho líquido em uma aposta"""
+    x = np.random.choice(np.arange(1, 7))  # jogue um dado uma vez e registre o número de pontos
+    if x <= 2:
+        return -1
+    elif x <= 4:
+        return 0
+    elif x <= 6:
+        return 1</span></code></pre>
 
-def double(x):
-    """ Double x """
-    return 2*x</span></code></pre>
+        <p style="text-align: justify;">Playing this game once is easy:</p>
 
-        Começamos qualquer definição de função escrevendo `def`. Aqui está um detalhamento das outras partes (a *sintaxe*) desta pequena função:
-
-        ![function syntax](../../images/function_definition.jpg)
-
-        <p>Quando executamos a célula acima, nenhum número específico é duplicado, e o código dentro do corpo de <code>double</code> ainda não é avaliado. Nesse aspecto, nossa função é análoga a uma <em>receita</em>. Cada vez que seguimos as instruções em uma receita, precisamos começar com ingredientes. Cada vez que queremos usar nossa função para dobrar um número, precisamos especificar um número.</p>
-        <p>Podemos chamar <code>double</code> exatamente da mesma forma que chamamos outras funções. Cada vez que fazemos isso, o código no corpo é executado, com o valor do argumento recebendo o nome <code>x</code>.</p>
-
-
-        <pre><code><span style="color: black">double(17)</span></code></pre>
+        <pre><code><span style="color: black">bet_on_one_roll()</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
-                <td style="text-align: left;">34</td>
+                <td style="text-align: left;">0</td>
             </tr>
             </tbody>
         </table>
 
-        <br>
+        <p style="text-align: justify;">Para ter uma ideia de quão variáveis são os resultados, precisamos jogar o jogo várias vezes. Poderíamos executar a célula repetidamente, mas isso é tedioso, e se quisermos fazer isso mil vezes ou um milhão de vezes, esqueça.</p>
 
+        <p style="text-align: justify;">Uma solução mais automatizada é usar uma declaração <code>for</code> para percorrer o conteúdo de uma sequência. Isso é chamado de <em>iteração</em>. Uma declaração <code>for</code> começa com a palavra <code>for</code>, seguida por um nome que queremos dar a cada item na sequência, seguida pela palavra <code>in</code>, e terminando com uma expressão que avalia para uma sequência. O corpo indentado da declaração <code>for</code> é executado uma vez <em>para
+            cada item nessa sequência</em>.</p>
 
-        <pre><code><span style="color: black">double(-0.6/4)</span></code></pre>
+        <pre><code><span style="color: black">for animal in make_array('cat', 'dog', 'rabbit'):
+    print(animal)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
-                <td style="text-align: left;">-0.3</td>
+                <td style="text-align: left;">cat</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">dog</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">rabbit</td>
             </tr>
             </tbody>
         </table>
 
+        <p style="text-align: justify;">É útil escrever código que replique exatamente uma declaração <code>for</code>, sem usar a própria declaração <code>for</code>.</p>
 
-        <p>As duas expressões acima são ambas <em>expressões de chamada</em>. Na segunda, o valor da expressão <code>-0.6/4</code> é calculado e então passado como o argumento nomeado <code>x</code> para a função <code>double</code>. Cada expressão de chamada resulta na execução do corpo de <code>double</code>, mas com um valor diferente de <code>x</code>.</p>
-        <p>O corpo de <code>double</code> tem apenas uma única linha:</p>
-        <p><code>return 2*x</code></p>
-        <p>Executar esta <em>instrução <code>return</code></em> completa a execução do corpo da função <code>double</code> e calcula o valor da expressão de chamada.</p>
-        <p>O argumento para <code>double</code> pode ser qualquer expressão, desde que seu valor seja um número. Por exemplo, pode ser um nome. A função <code>double</code> não sabe ou se importa com a forma como seu argumento é calculado ou armazenado; seu único trabalho é executar seu próprio corpo usando os valores dos argumentos passados para ela.</p>
+        <p style="text-align: justify;">Uma declaração <code>for</code> simplesmente replica o código dentro dela, mas antes de cada iteração, ela atribui um novo valor da sequência fornecida ao nome que escolhemos. Por exemplo, aqui está uma versão desenrolada do loop acima.</p>
 
-        <pre><code><span style="color: black">any_name = 42
-double(any_name)</span></code></pre>
+        <pre><code><span style="color: black">animal = make_array('cat', 'dog', 'rabbit').item(0)
+print(animal)
+animal = make_array('cat', 'dog', 'rabbit').item(1)
+print(animal)
+animal = make_array('cat', 'dog', 'rabbit').item(2)
+print(animal)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
-                <td style="text-align: left;">84</td>
+                <td style="text-align: left;">cat</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">dog</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">rabbit</td>
             </tr>
             </tbody>
         </table>
 
+        <p style="text-align: justify;">Observe que o nome <code>animal</code> é arbitrário, assim como qualquer nome que atribuímos com <code>=</code>.</p>
 
-        <p>O argumento também pode ser qualquer valor que possa ser duplicado. Por exemplo, uma matriz inteira de números pode ser passada como argumento para <code>double</code> e o resultado será outra matriz.</p>
+        <p style="text-align: justify;">Aqui usamos uma declaração <code>for</code> de maneira mais realista: imprimimos os resultados de apostar cinco vezes no dado conforme descrito anteriormente. Isso é chamado de <em>simulação</em> dos resultados de cinco apostas. Usamos a palavra <em>simulação</em> para nos lembrar de que não estamos rolando dados e trocando dinheiro fisicamente, mas usando o Python para imitar o processo.</p>
 
-        <pre><code><span style="color: black">double(make_array(3, 4, 5))</span></code></pre>
+        <p style="text-align: justify;">Para repetir um processo <code>n</code> vezes, é comum usar a sequência <code>np.arange(n)</code> na declaração <code>for</code>. Também é comum usar um nome muito curto para cada item. Em nosso código, usaremos o nome <code>i</code> para nos lembrar de que se refere a um item.</p>
+
+        <pre><code><span style="color: black">for i in np.arange(5):
+    print(bet_on_one_roll())</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
-                <td style="text-align: left;">array([ 6, 8, 10])</td>
+                <td style="text-align: left;">1</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">-1</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">-1</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">1</td>
+            </tr>
+            <tr>
+                <td style="text-align: left;">1</td>
             </tr>
             </tbody>
         </table>
 
-        <p>No entanto, nomes que são definidos dentro de uma função, incluindo argumentos como <code>x</code> de <code>double</code>, têm apenas uma existência passageira. Eles são definidos apenas enquanto a função está sendo chamada e só são acessíveis dentro do corpo da função. Não podemos nos referir a <code>x</code> fora do corpo de <code>double</code>. A terminologia técnica é que <code>x</code> tem <em>escopo local</em>.</p>
-        <p>Portanto, o nome <code>x</code> não é reconhecido fora do corpo da função, mesmo que tenhamos chamado <code>double</code> nas células acima.</p>
+        <p style="text-align: justify;">Neste caso, simplesmente executamos exatamente a mesma ação (aleatória) várias vezes, de modo que o código no corpo da nossa instrução <code>for</code> na verdade não se refere a <code>i</code>.</p>
 
+        <h2>Aumentando Arrays</h2>
 
-        <pre><code><span style="color: black">x</span></code></pre>
+        <p style="text-align: justify;">Embora a declaração <code>for</code> acima simule os resultados de cinco apostas, os resultados são simplesmente impressos e não estão em uma forma que podemos usar para cálculos. Qualquer array de resultados seria mais útil. Assim, um uso típico de uma declaração <code>for</code> é criar um array de resultados, aumentando o array a cada vez.</p>
+
+        <p style="text-align: justify;">O método <code>append</code> em <code>NumPy</code> nos ajuda a fazer isso. A chamada <code>np.append(array_name, value)</code> avalia para um novo array que é <code>array_name</code> aumentado por <code>value</code>. Ao usar <code>append</code>, tenha em mente que todas as entradas de um array devem ter o mesmo tipo.</p>
+
+        <pre><code><span style="color: black">pets = make_array('Cat', 'Dog')
+np.append(pets, 'Another Pet')</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
-                <td style="text-align: left;">
-                    ---------------------------------------------------------------------------
-                    NameError Traceback (most recent call last)
-                    &lt;ipython-input-7-6fcf9dfbd479&gt; in &lt;module&gt;
-                    ----> 1 x
-
-                    NameError: name 'x' is not defined
+                <td style="text-align: left;">array(['Cat', 'Dog', 'Another Pet'], dtype='
+                    <U11
+                    ')
                 </td>
             </tr>
             </tbody>
         </table>
 
-        **Docstrings.** Embora `double` seja relativamente fácil de entender, muitas funções realizam tarefas complicadas e são difíceis de usar sem explicação. (Você pode ter descoberto isso por si mesmo!) Portanto, uma função bem elaborada tem um nome que evoca seu comportamento, bem como documentação. Em Python, isso é chamado de *docstring* — uma descrição de seu comportamento e expectativas sobre seus argumentos. A docstring também pode mostrar chamadas de exemplo para a função, onde a
-        chamada é precedida por `>>>`.
+        <p style="text-align: justify;">Isso mantém o array <code>pets</code> inalterado:</p>
 
-        Uma docstring pode ser qualquer string, desde que seja a primeira coisa no corpo de uma função. Docstrings geralmente são definidas usando aspas triplas no início e no fim, o que permite que uma string abranja várias linhas. A primeira linha é convencionalmente uma descrição completa, mas curta, da função, enquanto as linhas seguintes fornecem orientação adicional para futuros usuários da função.
-
-        Aqui está uma definição de uma função chamada `percent` que recebe dois argumentos. A definição inclui uma docstring.
-
-        <pre><code><span style="color: black"># Uma função com mais de um argumento
-
-def percent(x, total):
-    """Converte x em uma porcentagem do total.
-
-    Mais precisamente, esta função divide x por total,
-    multiplica o resultado por 100 e arredonda o resultado
-    para duas casas decimais.
-
-    >>> percent(4, 16)
-    25.0
-    >>> percent(1, 6)
-    16.67
-    """
-    return round((x/total)*100, 2)</span></code></pre>
-        <pre><code><span style="color: black">percent(33, 200)</span></code></pre>
+        <pre><code><span style="color: black">pets</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[6]:</td>
-                <td style="text-align: left;">16.5</td>
+                <td style="text-align: left;">array(['Cat', 'Dog'], dtype='
+                    <U3
+                    ')
+                </td>
             </tr>
             </tbody>
         </table>
 
-        <p>Compare a função <code>percent</code> definida acima com a função <code>percents</code> definida abaixo. Esta última toma uma matriz como argumento e converte todos os números da matriz em porcentagens do total dos valores na matriz. As porcentagens são todos arredondados para duas casas decimais, desta vez substituindo <code>round</code> por <code>np.round</code> porque o argumento é uma matriz e não um número.</p>
+        <p style="text-align: justify;">Mas muitas vezes, ao usar loops <code>for</code>, será conveniente modificar um array - isto é, alterá-lo - ao aumentá-lo. Isso é feito atribuindo ao array aumentado o mesmo nome do original.</p>
 
-        <pre><code><span style="color: black">def percents(counts):
-    """Converta os valores em array_x em porcentagens do total de array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, 2)</span></code></pre>
-
-        <p>A função <code>percents</code> retorna uma matriz de porcentagens que somam 100, sem arredondamento.</p>
-
-        <pre><code><span style="color: black">some_array = make_array(7, 10, 4)
-percents(some_array)</span></code></pre>
+        <pre><code><span style="color: black">pets = np.append(pets, 'Another Pet')
+pets</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[7]:</td>
-                <td style="text-align: left;">array([33.33, 47.62, 19.05])</td>
+                <td style="text-align: left;">array(['Cat', 'Dog', 'Another Pet'], dtype='
+                    <U11
+                    ')
+                </td>
             </tr>
             </tbody>
         </table>
 
-        <p>É útil entender as etapas que o Python executa para executar uma função. Para facilitar isso, colocamos uma definição de função e uma chamada para essa função na mesma célula abaixo.</p>
+        <h2>Exemplo: Apostando em 5 Rolagens</h2>
 
+        <p style="text-align: justify;">Agora podemos simular cinco apostas no dado e coletar os resultados em uma matriz que chamaremos de <em>matriz de coleção</em>. Começaremos criando uma matriz vazia para isso e, em seguida, anexaremos o resultado de cada aposta. Observe que o corpo do laço <code>for</code> contém duas declarações. Ambas as declarações são executadas para cada item na sequência fornecida.</p>
 
-        <pre><code><span style="color: black">def biggest_difference(array_x):
-    """Encontre a maior diferença em valor absoluto entre dois elementos adjacentes de array_x."""
-    diffs = np.diff(array_x)
-    absolute_diffs = abs(diffs)
-    return max(absolute_diffs)
+        <pre><code><span style="color: black">outcomes = make_array()
 
-some_numbers = make_array(2, 4, 5, 6, 4, -1, 1)
-big_diff = biggest_difference(some_numbers)
-print("The biggest difference is", big_diff)</span></code></pre>
+for i in np.arange(5):
+    outcome_of_bet = bet_on_one_roll()
+    outcomes = np.append(outcomes, outcome_of_bet)
+    
+outcomes</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[8]:</td>
-                <td style="text-align: left;">The biggest difference is 5</td>
+                <td style="text-align: left;">array([-1., -1., 1., 1., -1.])</td>
             </tr>
             </tbody>
         </table>
 
-        <p>Aqui está o que acontece quando executamos aquela célula:</p>
-        <p><img src="../../images/function_execution.jpg" alt="function execution"></p>
+        <p style="text-align: justify;">Vamos reescrever a célula com a instrução <code>for</code> desenrolada:</p>
 
-        <h2>Argumentos Múltiplos</h2>
+        <pre><code><span style="color: black">outcomes = make_array()
 
-        <p>Pode haver várias maneiras de generalizar uma expressão ou bloco de código e, portanto, uma função pode receber vários argumentos, cada um determinando diferentes aspectos do resultado. Por exemplo, a função <code>percents</code> que definimos anteriormente, arredondada para duas casas decimais a cada vez . A definição de dois argumentos a seguir permite que chamadas diferentes sejam arredondadas para valores diferentes.</p>
+i = np.arange(5).item(0)
+outcome_of_bet = bet_on_one_roll()
+outcomes = np.append(outcomes, outcome_of_bet)
 
+i = np.arange(5).item(1)
+outcome_of_bet = bet_on_one_roll()
+outcomes = np.append(outcomes, outcome_of_bet)
 
-        <pre><code><span style="color: black">def percents(counts, decimal_places):
-    """Convert the values in array_x to percents out of the total of array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, decimal_places)
+i = np.arange(5).item(2)
+outcome_of_bet = bet_on_one_roll()
+outcomes = np.append(outcomes, outcome_of_bet)
 
-parts = make_array(2, 1, 4)
-print("Rounded to 1 decimal place: ", percents(parts, 1))
-print("Rounded to 2 decimal places:", percents(parts, 2))
-print("Rounded to 3 decimal places:", percents(parts, 3))</span></code></pre>
+i = np.arange(5).item(3)
+outcome_of_bet = bet_on_one_roll()
+outcomes = np.append(outcomes, outcome_of_bet)
+
+i = np.arange(5).item(4)
+outcome_of_bet = bet_on_one_roll()
+outcomes = np.append(outcomes, outcome_of_bet)
+
+outcomes</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[9]:</td>
-                <td style="text-align: left;">Rounded to 1 decimal place: [28.6 14.3 57.1]
-                    Rounded to 2 decimal places: [28.57 14.29 57.14]
-                    Rounded to 3 decimal places: [28.571 14.286 57.143]
-                </td>
+                <td style="text-align: left;">array([ 1., 0., 0., -1., 1.])</td>
             </tr>
             </tbody>
         </table>
 
-        <p>A flexibilidade desta nova definição tem um preço pequeno: cada vez que a função é chamada, o número de casas decimais deve ser especificado. Os valores padrão dos argumentos permitem que uma função seja chamada com um número variável de argumentos; qualquer argumento que seja especificado na expressão de chamada recebe seu valor padrão, que é indicado na primeira linha da instrução <code>def</code>. Por exemplo, nesta definição final de <code>percents</code>, o argumento opcional
-            <code>decimal_places</code> recebe um valor padrão de 2.</p>
+        <p style="text-align: justify;">O conteúdo do array provavelmente será diferente do array que obtivemos ao executar a célula anterior, mas isso se deve à aleatoriedade no lançamento do dado. O processo de criação do array é exatamente o mesmo.</p>
 
+        <p style="text-align: justify;">Ao capturar os resultados em um array, demos a nós mesmos a capacidade de usar métodos de array para fazer cálculos. Por exemplo, podemos usar <code>np.count_nonzero</code> para contar o número de vezes que o dinheiro mudou de mãos.</p>
 
-        <pre><code><span style="color: black">def percents(counts, decimal_places=2):
-    """Converta os valores em array_x em porcentagens do total de array_x."""
-    total = counts.sum()
-    return np.round((counts/total)*100, decimal_places)
-
-parts = make_array(2, 1, 4)
-print("Rounded to 1 decimal place:", percents(parts, 1))
-print("Rounded to the default number of decimal places:", percents(parts))</span></code></pre>
+        <pre><code><span style="color: black">np.count_nonzero(outcomes)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[10]:</td>
-                <td style="text-align: left;">Rounded to 1 decimal place: [28.6 14.3 57.1]
-                    Rounded to the default number of decimal places: [28.57 14.29 57.14]
-                </td>
+                <td style="text-align: left;">3</td>
             </tr>
             </tbody>
         </table>
 
-        <h2>Nota: Métodos</h2>
+        <h2>Exemplo: Apostando em 300 Rolagens</h2>
 
-        <p>As funções são chamadas colocando expressões de argumento entre parênteses após o nome da função. Qualquer função definida isoladamente é chamada desta forma. Você também viu exemplos de métodos, que são como funções, mas são chamados usando notação de ponto, como <code>some_table.sort(some_label)</code>. As funções que você define sempre serão chamadas usando o nome da função primeiro, passando todos os argumentos.</p>
+        <p style="text-align: justify;">A iteração é uma técnica poderosa. Por exemplo, podemos ver a variação nos resultados de 300 apostas executando exatamente o mesmo código para 300 apostas em vez de cinco.</p>
 
+        <pre><code><span style="color: black">outcomes = make_array()
+
+for i in np.arange(300):
+    outcome_of_bet = bet_on_one_roll()
+    outcomes = np.append(outcomes, outcome_of_bet)</span></code></pre>
+
+        <p style="text-align: justify;">A matriz <code>outcomes</code> contém os resultados de todas as 300 apostas.</p>
+
+        <pre><code><span style="color: black">len(outcomes)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[11]:</td>
+                <td style="text-align: left;">300</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <p style="text-align: justify;">Para ver com que frequência os três diferentes resultados possíveis apareceram, podemos usar os métodos de array <code>outcomes</code> e <code>Table</code>.</p>
+
+        <pre><code><span style="color: black">outcome_table = Table().with_column('Outcome', outcomes)
+outcome_table.group('Outcome').barh(0)</span></code></pre>
+
+        <p style="text-align: justify;">Não surpreendentemente, cada um dos três resultados -1, 0 e 1 apareceu cerca de 100 vezes em 300, com alguma variação. Vamos examinar os valores de "com alguma variação" mais de perto nos capítulos seguintes.</p>
 
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/7-0/7-3/">← Capítulo 7.3 - Gráficos Sobrepostos</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/8-0/8-1/">Capítulo 8.1 - Aplicando Uma Função a Uma Coluna →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/9-0/9-1/">← Capítulo 9.1 - Declarações Condicionais</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/9-0/9-3">Capítulo 9.3 - Simulação →</a></td>
             </tr>
             </tbody>
         </table>
