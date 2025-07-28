@@ -148,144 +148,132 @@
     </div>
     <!-- Main Content -->
     <div style="overflow: hidden">
+<pre><code><span style="color: black">from datascience import Table
+import numpy as np
+path_data = '../../../'
+import matplotlib
+matplotlib.use('Agg')
+%matplotlib inline
+import matplotlib.pyplot as plots
+plots.style.use('fivethirtyeight')
+import warnings
+warnings.simplefilter(action="ignore", category=FutureWarning)
 
-        <!--###########################################################################################################################################################-->
-        <pre><code><span style="color: black">import numpy as np
-path_data = '../../../assets/data/'</span></code></pre>
+from urllib.request import urlopen
+import re
+def read_url(url):
+    return re.sub('\\s+', ' ', urlopen(url).read().decode())</span></code></pre>
         &nbsp;
-        <h1 id="ranges" style="text-align: center">Ranges</h1>
-        <p style="text-align: justify">Um <em>range</em> é um array de números em ordem crescente ou decrescente, cada um separado por um intervalo regular.
-            Ranges são úteis em um número surpreendentemente grande de situações, então vale a pena aprendê-los.</p>
-        <p style="text-align: justify">Ranges são definidos usando a função <code>np.arange</code>, que aceita um, dois ou três argumentos: um início, um fim e um 'passo'.</p>
-        <p style="text-align: justify">Se você passar um argumento para <code>np.arange</code>, este se torna o valor de <code>fim</code>, com <code>início=0</code> e <code>passo=1</code> assumidos. Dois argumentos fornecem o <code>início</code> e o <code>fim</code>, com <code>passo=1</code> assumido. Três argumentos fornecem <code>início</code>, <code>fim</code> e <code>passo</code> explicitamente.</p>
-        <p style="text-align: justify">Um range sempre inclui o valor do <code>início</code>, mas não inclui o valor do <code>fim</code>. Ele conta pelo <code>passo</code> e para antes de chegar ao <code>fim</code>.</p>
+        <pre><code><span style="color: black"># Read two books, fast (again)!
 
-        <pre><code>np.arange(fim): Um<span class="hljs-built_in"> array </span>começando com 0 de inteiros consecutivos crescentes, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
+huck_finn_url = 'https://www.inferentialthinking.com/data/huck_finn.txt'
+huck_finn_text = read_url(huck_finn_url)
+huck_finn_chapters = huck_finn_text.split('CHAPTER ')[44:]
+
+little_women_url = 'https://www.inferentialthinking.com/data/little_women.txt'
+little_women_text = read_url(little_women_url)
+little_women_chapters = little_women_text.split('CHAPTER ')[1:]</span></code></pre>
+        &nbsp;
+        <h1 id="personagens-liter-rios" style="text-align: center">Personagens Literários</h1>
+        <p style="text-align: justify"><em>As Aventuras de Huckleberry Finn</em> descreve uma jornada que Huck e Jim fazem ao longo do rio Mississippi. Tom Sawyer se junta a eles no final, à medida que a ação se intensifica. Tendo carregado o texto, podemos visualizar rapidamente quantas vezes esses personagens foram mencionados em qualquer ponto do livro.</p>
+        &nbsp;
+        <pre><code><span style="color: black"># Obtenha as contagens cumulativas dos nomes Jim, Tom e Huck que aparecem em cada capítulo.
+
+counts = Table().with_columns([
+'Jim', np.cumsum(np.char.count(huck_finn_chapters, 'Jim')),
+'Tom', np.cumsum(np.char.count(huck_finn_chapters, 'Tom')),
+'Huck', np.cumsum(np.char.count(huck_finn_chapters, 'Huck'))
+])
+
+# Trace as contagens cumulativas:
+# quantas vezes no Capítulo 1, quantas vezes nos Capítulos 1 e 2 e assim por diante.
+
+cum_counts = counts.with_column('Chapter', np.arange(1, 44, 1))
+cum_counts.plot(column_for_xticks=3)
+plots.title('Cumulative Number of Times Each Name Appears', y=1.08)</span></code></pre>
+        <img class=" wp-image-80 aligncenter" src="https://literaciadigital.ufms.br/files/2025/04/1-3-1-plot1-300x239.png" alt="" width="366" height="292"/>
+
+        &nbsp;
+        <p style="text-align: justify">No gráfico acima, o eixo horizontal mostra os números dos capítulos e o eixo vertical mostra quantas vezes cada personagem foi mencionado até aquele capítulo inclusive.</p>
+        <p style="text-align: justify">Você pode ver que Jim é um personagem central pelo grande número de vezes que seu nome aparece. Note como Tom é mencionado apenas algumas vezes durante grande parte do livro até que ele chega e se junta a Huck e Jim, após o Capítulo 30. Sua curva e a ascensão de Jim sobem bruscamente a partir desse ponto, conforme a ação envolvendo ambos intensifica. Quanto a Huck, seu nome quase não aparece, porque ele é o narrador.</p>
+        <p style="text-align: justify"><em>Little Women</em> é a história de quatro irmãs que cresceram juntas durante a guerra civil. Neste livro, os números dos capítulos são escritos e os títulos dos capítulos são escritos em letras maiúsculas.</p>
+        &nbsp;
+        <pre><code><span style="color: black"># Os capítulos de Pequenas Mulheres, em uma mesa
+
+Table().with_column('Chapters', little_women_chapters)</span></code></pre>
+        <table style="width: 100%;border-collapse: collapse;font-family: monospace" border="1">
+            <thead>
+            <tr>
+                <th style="text-align: left;padding: 4px;background-color: #f0f0f0">Chapters</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[2]:</td>
-                <td style="text-align: left">array([0, 1, 2, 3, 4])</td>
+                <td style="padding: 4px">ONE PLAYING PILGRIMS "Christmas won't be Christmas witho ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px">TWO A MERRY CHRISTMAS Jo was the first to wake in the gr ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px">THREE THE LAURENCE BOY "Jo! Jo! Where are you?" cried Me ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px">FOUR BURDENS "Oh, dear, how hard it does seem to take up ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px">FIVE BEING NEIGHBORLY "What in the world are you going t ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px">SIX BETH FINDS THE PALACE BEAUTIFUL The big house did pr ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px">SEVEN AMY'S VALLEY OF HUMILIATION "That boy is a perfect ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px">EIGHT JO MEETS APOLLYON "Girls, where are you going?" as ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px">NINE MEG GOES TO VANITY FAIR "I do think it was the most ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px">TEN THE P.C. AND P.O. As spring came on, a new set of am ...</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px;color: #666">... (37 rows omitted)</td>
             </tr>
             </tbody>
         </table>
         &nbsp;
-        <p style="text-align: justify">Observe como o array começa em 0 e vai até 4, não até o valor final de 5.</p>
-
-        <pre><code>np.arange(início, fim): Um<span class="hljs-built_in"> array </span>de inteiros consecutivos crescentes a partir do início, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 9)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[3]:</td>
-                <td style="text-align: left">array([3, 4, 5, 6, 7, 8])</td>
-            </tr>
-            </tbody>
-        </table>
+        <p style="text-align: justify">Podemos rastrear as menções aos personagens principais para aprender sobre o enredo deste livro também. A protagonista Jo interage regularmente com suas irmãs Meg, Beth e Amy, até o capítulo 27, quando ela se muda sozinha para Nova York.</p>
         &nbsp;
-        <pre><code>np.arange(<span class="hljs-keyword">in</span>ício, fim, passo): Um <span class="hljs-keyword">range</span> com uma diferença <span class="hljs-keyword">de</span> passo entre cada par <span class="hljs-keyword">de</span> valores consecutivos, começando a partir <span class="hljs-keyword">do</span> <span class="hljs-keyword">in</span>ício <span class="hljs-keyword">e</span> parando antes <span class="hljs-keyword">do</span> fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 30, 5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[4]:</td>
-                <td style="text-align: left">array([ 3, 8, 13, 18, 23, 28])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <p style="text-align: justify">Este array começa em 3, então dá um passo de 5 para chegar a 8, depois outro passo de 5 para chegar a 13, e assim por diante.</p>
-        <p style="text-align: justify">Quando você especifica um passo, o início, o fim e o passo podem todos ser positivos ou negativos e podem ser números inteiros ou frações.</p>
+        <pre><code><span style="color: black"># Obtenha a contagem cumulativa dos nomes nos capítulos de Little Women
 
-        <pre><code><span style="color: black">np.arange(1.5, -2, -0.5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[5]:</td>
-                <td style="text-align: left">array([ 1.5, 1. , 0.5, 0. , -0.5, -1. , -1.5])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <h2 id="exemplo-f-rmula-de-leibniz-para-pi-">Exemplo: Fórmula de Leibniz para π</h2>
-        <p style="text-align: justify">O grande matemático e filósofo alemão <a href="https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Gottfried Wilhelm Leibniz</a> (1646 - 1716) descobriu uma fórmula maravilhosa para π como uma soma infinita de frações simples. A fórmula é</p>
+counts = Table().with_columns([
+        'Amy', np.cumsum(np.char.count(little_women_chapters, 'Amy')),
+        'Beth', np.cumsum(np.char.count(little_women_chapters, 'Beth')),
+        'Jo', np.cumsum(np.char.count(little_women_chapters, 'Jo')),
+        'Meg', np.cumsum(np.char.count(little_women_chapters, 'Meg')),
+        'Laurie', np.cumsum(np.char.count(little_women_chapters, 'Laurie')),
 
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">π = 4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + …)</div>
-        &nbsp;
-        <p style="text-align: justify">Embora seja necessário um pouco de matemática para estabelecer isso, podemos usar arrays para nos convencer de que a fórmula funciona. Vamos calcular os primeiros 5000 termos da soma infinita de Leibniz e ver se está perto de π.</p>
+    ])
 
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + … - <sup>1</sup>⁄<sub>9999</sub>)</div>
-        &nbsp;
-        <p style="text-align: justify">Calcularemos essa soma finita adicionando todos os termos positivos primeiro e depois subtraindo a soma de todos os termos negativos <a href="#notas-de-roda pé">[1]</a>:</p>
+# Plot the cumulative counts.
 
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ ((1 + <sup>1</sup>⁄<sub>5</sub> + <sup>1</sup>⁄<sub>9</sub> + … + <sup>1</sup>⁄<sub>9997</sub>) - (<sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>11</sub> + … + <sup>1</sup>⁄<sub>9999</sub>))</div>
+cum_counts = counts.with_column('Chapter', np.arange(1, 48, 1))
+cum_counts.plot(column_for_xticks=5)
+plots.title('Cumulative Number of Times Each Name Appears', y=1.08)</span></code></pre>
+        <p style="text-align: justify"><img class="size-medium wp-image-81 aligncenter" src="https://literaciadigital.ufms.br/files/2025/04/1-3-1-plot2-300x236.png" alt="" width="366" height="292"/></p>
         &nbsp;
-        <p style="text-align: justify">Os termos positivos na soma têm 1, 5, 9 e assim por diante nos denominadores. O array <code>by_four_to_20</code> contém esses números até 17:</p>
+        <p style="text-align: justify">Laurie é um jovem que no final se casa com uma das meninas. Veja se consegue usar as tramas para adivinhar qual delas.</p>
 
-        <pre><code><span style="color: black">by_four_to_20 = np.arange(1, 20, 4)
-by_four_to_20</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[6]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, 13, 17])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-
-        Para obter uma aproximação precisa de π, usaremos o array muito mais longo <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">positive_term_denominators = np.arange(1, 10000, 4)
-positive_term_denominators</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[7]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, ..., 9989, 9993, 9997])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-
-        Os termos positivos que realmente queremos somar são apenas 1 sobre esses denominadores:
-        <pre><code><span style="color: black">positive_terms = 1 / positive_term_denominators</span></code></pre>
-        &nbsp;
-
-        Os termos negativos têm 3, 7, 11 e assim por diante em seus denominadores. Este array é apenas 2 adicionado a <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">negative_terms = 1 / (positive_term_denominators + 2)</span></code></pre>
-        &nbsp;
-
-        A soma total é
-        <pre><code><span style="color: black">4 * ( sum(positive_terms) - sum(negative_terms) )</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[10]:</td>
-                <td style="text-align: left">3.1413926535917955</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-
-        Isso está muito próximo de π = 3.14159.... A fórmula de Leibniz parece estar correta!
-
-        &nbsp;
-        <h2 id="notas-de-rodap-">Notas de Rodapé</h2>
-        [1] Surpreendentemente, quando adicionamos <em>infinitamente</em> muitas frações positivas e negativas, a ordem pode importar! Mas nossa aproximação para π usa apenas um número grande e finito de frações, então está tudo bem adicionar os termos em qualquer ordem conveniente.
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-1/">← Capítulo 5.1 - Arrays</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-3/">Capítulo 5.3 - Mais sobre Arrays →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/1-0/1-3/">← Capítulo 1.3 - Traçando os Clássicos</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/1-0/1-3/3-2/">Capítulo 1.3.2 - Outro Tipo de Personagem →</a></td>
             </tr>
             </tbody>
         </table>
-        <!--###########################################################################################################################################################-->
-
     </div>
 </div>
 <div style="clear: both;height: 1px;margin-top: -1px"></div>

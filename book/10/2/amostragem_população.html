@@ -147,145 +147,204 @@
         </ol>
     </div>
     <!-- Main Content -->
-    <div style="overflow: hidden">
+    <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-        <pre><code><span style="color: black">import numpy as np
-path_data = '../../../assets/data/'</span></code></pre>
-        &nbsp;
-        <h1 id="ranges" style="text-align: center">Ranges</h1>
-        <p style="text-align: justify">Um <em>range</em> é um array de números em ordem crescente ou decrescente, cada um separado por um intervalo regular.
-            Ranges são úteis em um número surpreendentemente grande de situações, então vale a pena aprendê-los.</p>
-        <p style="text-align: justify">Ranges são definidos usando a função <code>np.arange</code>, que aceita um, dois ou três argumentos: um início, um fim e um 'passo'.</p>
-        <p style="text-align: justify">Se você passar um argumento para <code>np.arange</code>, este se torna o valor de <code>fim</code>, com <code>início=0</code> e <code>passo=1</code> assumidos. Dois argumentos fornecem o <code>início</code> e o <code>fim</code>, com <code>passo=1</code> assumido. Três argumentos fornecem <code>início</code>, <code>fim</code> e <code>passo</code> explicitamente.</p>
-        <p style="text-align: justify">Um range sempre inclui o valor do <code>início</code>, mas não inclui o valor do <code>fim</code>. Ele conta pelo <code>passo</code> e para antes de chegar ao <code>fim</code>.</p>
 
-        <pre><code>np.arange(fim): Um<span class="hljs-built_in"> array </span>começando com 0 de inteiros consecutivos crescentes, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
+        <pre><code><span style="color: black">from datascience import *
+path_data = '../../../assets/data/'
+import matplotlib
+matplotlib.use('Agg')
+%matplotlib inline
+import matplotlib.pyplot as plots
+plots.style.use('fivethirtyeight')
+import numpy as np</span></code></pre>
+
+        <h1 id="amostragem-de-uma-população">Amostragem de uma População</h1>
+
+        <p style="text-align: justify;">A lei das médias também se aplica quando a amostra aleatória é extraída de indivíduos em uma grande população.</p>
+
+        <p style="text-align: justify;">Como exemplo, vamos estudar uma população de tempos de atraso de voo. A tabela <code>united</code> contém dados de voos domésticos da United Airlines partindo de São Francisco no verão de 2015. Os dados são disponibilizados publicamente pelo <a href="http://www.transtats.bts.gov/Fields.asp?Table_ID=293">Bureau of Transportation Statistics</a> do Departamento de Transporte dos Estados Unidos.</p>
+
+        <p style="text-align: justify;">Há 13.825 linhas, cada uma correspondendo a um voo. As colunas são a data do voo, o número do voo, o código do aeroporto de destino e o tempo de atraso na partida em minutos. Alguns tempos de atraso são negativos: esses voos partiram adiantados.</p>
+
+        <pre><code><span style="color: black">united = Table.read_table(path_data + 'united_summer2015.csv')
+united</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[2]:</td>
-                <td style="text-align: left">array([0, 1, 2, 3, 4])</td>
+                <td style="text-align: left;">
+                    <table border="1" class="dataframe">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Flight Number</th>
+                            <th>Destination</th>
+                            <th>Delay</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>73</td>
+                            <td>HNL</td>
+                            <td>257</td>
+                        </tr>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>217</td>
+                            <td>EWR</td>
+                            <td>28</td>
+                        </tr>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>237</td>
+                            <td>STL</td>
+                            <td>-3</td>
+                        </tr>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>250</td>
+                            <td>SAN</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>267</td>
+                            <td>PHL</td>
+                            <td>64</td>
+                        </tr>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>273</td>
+                            <td>SEA</td>
+                            <td>-6</td>
+                        </tr>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>278</td>
+                            <td>SEA</td>
+                            <td>-8</td>
+                        </tr>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>292</td>
+                            <td>EWR</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>300</td>
+                            <td>HNL</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>6/1/15</td>
+                            <td>317</td>
+                            <td>IND</td>
+                            <td>-10</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
             </tr>
             </tbody>
         </table>
-        &nbsp;
-        <p style="text-align: justify">Observe como o array começa em 0 e vai até 4, não até o valor final de 5.</p>
 
-        <pre><code>np.arange(início, fim): Um<span class="hljs-built_in"> array </span>de inteiros consecutivos crescentes a partir do início, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 9)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
+        <p style="text-align: justify;">Um voo partiu 16 minutos mais cedo e outro atrasou 580 minutos. Os outros atrasos foram quase todos entre -10 minutos e 200 minutos, como mostra o histograma abaixo.</p>
+
+        <pre><code><span style="color: black">united.column('Delay').min()</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[3]:</td>
-                <td style="text-align: left">array([3, 4, 5, 6, 7, 8])</td>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
+                <td style="text-align: left;">-16</td>
             </tr>
             </tbody>
         </table>
-        &nbsp;
-        <pre><code>np.arange(<span class="hljs-keyword">in</span>ício, fim, passo): Um <span class="hljs-keyword">range</span> com uma diferença <span class="hljs-keyword">de</span> passo entre cada par <span class="hljs-keyword">de</span> valores consecutivos, começando a partir <span class="hljs-keyword">do</span> <span class="hljs-keyword">in</span>ício <span class="hljs-keyword">e</span> parando antes <span class="hljs-keyword">do</span> fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 30, 5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
+
+        <pre><code><span style="color: black">united.column('Delay').max()</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[4]:</td>
-                <td style="text-align: left">array([ 3, 8, 13, 18, 23, 28])</td>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
+                <td style="text-align: left;">580</td>
             </tr>
             </tbody>
         </table>
-        &nbsp;
-        <p style="text-align: justify">Este array começa em 3, então dá um passo de 5 para chegar a 8, depois outro passo de 5 para chegar a 13, e assim por diante.</p>
-        <p style="text-align: justify">Quando você especifica um passo, o início, o fim e o passo podem todos ser positivos ou negativos e podem ser números inteiros ou frações.</p>
 
-        <pre><code><span style="color: black">np.arange(1.5, -2, -0.5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
+        <pre><code><span style="color: black">delay_bins = np.append(np.arange(-20, 301, 10), 600)
+united.hist('Delay', bins = delay_bins, unit = 'minute')</span></code></pre>
+        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram1.png" alt="Histograma de atrasos" style="max-width: 100%;">
+
+        <p style="text-align: justify;">Para efeitos desta seção, basta ampliar o grosso dos dados e ignorar os 0,8% dos voos que tiveram atrasos superiores a 200 minutos.</p>
+
+        <pre><code><span style="color: black">united.where('Delay', are.above(200)).num_rows/united.num_rows</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[5]:</td>
-                <td style="text-align: left">array([ 1.5, 1. , 0.5, 0. , -0.5, -1. , -1.5])</td>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
+                <td style="text-align: left;">0.008101989873417</td>
             </tr>
             </tbody>
         </table>
-        &nbsp;
-        <h2 id="exemplo-f-rmula-de-leibniz-para-pi-">Exemplo: Fórmula de Leibniz para π</h2>
-        <p style="text-align: justify">O grande matemático e filósofo alemão <a href="https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Gottfried Wilhelm Leibniz</a> (1646 - 1716) descobriu uma fórmula maravilhosa para π como uma soma infinita de frações simples. A fórmula é</p>
 
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">π = 4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + …)</div>
-        &nbsp;
-        <p style="text-align: justify">Embora seja necessário um pouco de matemática para estabelecer isso, podemos usar arrays para nos convencer de que a fórmula funciona. Vamos calcular os primeiros 5000 termos da soma infinita de Leibniz e ver se está perto de π.</p>
+        <pre><code><span style="color: black">delay_bins = np.arange(-20, 201, 10)
+united.hist('Delay', bins = delay_bins, unit = 'minute')</span></code></pre>
+        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram2.png" alt="Histograma de atrasos limitado" style="max-width: 100%;">
 
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + … - <sup>1</sup>⁄<sub>9999</sub>)</div>
-        &nbsp;
-        <p style="text-align: justify">Calcularemos essa soma finita adicionando todos os termos positivos primeiro e depois subtraindo a soma de todos os termos negativos <a href="#notas-de-roda pé">[1]</a>:</p>
+        <p style="text-align: justify;">A altura da barra [0, 10) é pouco menos de 3% por minuto, o que significa que pouco menos de 30% dos voos tiveram atrasos entre 0 e 10 minutos. Isso é confirmado pela contagem das linhas:</p>
 
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ ((1 + <sup>1</sup>⁄<sub>5</sub> + <sup>1</sup>⁄<sub>9</sub> + … + <sup>1</sup>⁄<sub>9997</sub>) - (<sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>11</sub> + … + <sup>1</sup>⁄<sub>9999</sub>))</div>
-        &nbsp;
-        <p style="text-align: justify">Os termos positivos na soma têm 1, 5, 9 e assim por diante nos denominadores. O array <code>by_four_to_20</code> contém esses números até 17:</p>
-
-        <pre><code><span style="color: black">by_four_to_20 = np.arange(1, 20, 4)
-by_four_to_20</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
+        <pre><code><span style="color: black">united.where('Delay', are.between(0, 10)).num_rows/united.num_rows</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[6]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, 13, 17])</td>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
+                <td style="text-align: left;">0.2954935985895</td>
             </tr>
             </tbody>
         </table>
-        &nbsp;
 
-        Para obter uma aproximação precisa de π, usaremos o array muito mais longo <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">positive_term_denominators = np.arange(1, 10000, 4)
-positive_term_denominators</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[7]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, ..., 9989, 9993, 9997])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
+        <h2>Distribuição Empírica da Amostra</h2>
 
-        Os termos positivos que realmente queremos somar são apenas 1 sobre esses denominadores:
-        <pre><code><span style="color: black">positive_terms = 1 / positive_term_denominators</span></code></pre>
-        &nbsp;
+        <p style="text-align: justify;">Vamos agora pensar nos 13.825 voos como uma população e extrair amostras aleatórias dela com reposição. É útil empacotar nosso código em uma função. A função <code>empirical_hist_delay</code> toma o tamanho da amostra como argumento e desenha um histograma empírico dos resultados.</p>
 
-        Os termos negativos têm 3, 7, 11 e assim por diante em seus denominadores. Este array é apenas 2 adicionado a <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">negative_terms = 1 / (positive_term_denominators + 2)</span></code></pre>
-        &nbsp;
+        <pre><code><span style="color: black">def empirical_hist_delay(n):
+    united.sample(n).hist('Delay', bins = delay_bins, unit = 'minute')</span></code></pre>
 
-        A soma total é
-        <pre><code><span style="color: black">4 * ( sum(positive_terms) - sum(negative_terms) )</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[10]:</td>
-                <td style="text-align: left">3.1413926535917955</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
+        <p style="text-align: justify;">Como vimos com os dados, à medida que o tamanho da amostra aumenta, o histograma empírico da amostra se assemelha mais ao histograma da população. Compare esses histogramas com o histograma da população acima.</p>
 
-        Isso está muito próximo de π = 3.14159.... A fórmula de Leibniz parece estar correta!
+        <pre><code><span style="color: black">empirical_hist_delay(10)</span></code></pre>
+        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram3.png" alt="Histograma empírico com 10 amostras" style="max-width: 100%;">
 
-        &nbsp;
-        <h2 id="notas-de-rodap-">Notas de Rodapé</h2>
-        [1] Surpreendentemente, quando adicionamos <em>infinitamente</em> muitas frações positivas e negativas, a ordem pode importar! Mas nossa aproximação para π usa apenas um número grande e finito de frações, então está tudo bem adicionar os termos em qualquer ordem conveniente.
+        <pre><code><span style="color: black">empirical_hist_delay(100)</span></code></pre>
+        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram4.png" alt="Histograma empírico com 100 amostras" style="max-width: 100%;">
+
+        <p style="text-align: justify;">As discrepâncias mais consistentemente visíveis estão entre os valores que são raros na população. No nosso exemplo, esses valores estão na cauda direita da distribuição. Mas à medida que o tamanho da amostra aumenta, mesmo esses valores começam a aparecer na amostra aproximadamente nas proporções corretas.</p>
+
+        <pre><code><span style="color: black">empirical_hist_delay(1000)</span></code></pre>
+        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram5.png" alt="Histograma empírico com 1000 amostras" style="max-width: 100%;">
+
+        <h2>Convergência do Histograma Empírico da Amostra</h2>
+
+        <p style="text-align: justify;">O que observamos nesta seção pode ser resumido da seguinte forma:</p>
+
+        <p style="text-align: justify;">Para uma grande amostra aleatória, o histograma empírico da amostra se assemelha ao histograma da população, com alta probabilidade.</p>
+
+        <p style="text-align: justify;">Isso justifica o uso de grandes amostras aleatórias na inferência estatística. A ideia é que, como uma grande amostra aleatória provavelmente se assemelha à população da qual foi extraída, as quantidades calculadas a partir dos valores na amostra provavelmente estarão próximas das quantidades correspondentes na população.</p>
+
+        <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-1/">← Capítulo 5.1 - Arrays</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-3/">Capítulo 5.3 - Mais sobre Arrays →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/10-0/10-1/">← Capítulo 10.1 - Distribuições Empíricas</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/10-0/10-3/">Capítulo 10.3 - Distribuição Empírica de Estatística →</a></td>
             </tr>
             </tbody>
         </table>
         <!--###########################################################################################################################################################-->
 
+
     </div>
 </div>
-<div style="clear: both;height: 1px;margin-top: -1px"></div>
+<div style="clear: both; height: 1px; margin-top: -1px;"></div>

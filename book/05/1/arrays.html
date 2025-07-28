@@ -150,137 +150,251 @@
     <div style="overflow: hidden">
 
         <!--###########################################################################################################################################################-->
-        <pre><code><span style="color: black">import numpy as np
+        <pre><code><span style="color: black">from datascience import *
 path_data = '../../../assets/data/'</span></code></pre>
         &nbsp;
-        <h1 id="ranges" style="text-align: center">Ranges</h1>
-        <p style="text-align: justify">Um <em>range</em> é um array de números em ordem crescente ou decrescente, cada um separado por um intervalo regular.
-            Ranges são úteis em um número surpreendentemente grande de situações, então vale a pena aprendê-los.</p>
-        <p style="text-align: justify">Ranges são definidos usando a função <code>np.arange</code>, que aceita um, dois ou três argumentos: um início, um fim e um 'passo'.</p>
-        <p style="text-align: justify">Se você passar um argumento para <code>np.arange</code>, este se torna o valor de <code>fim</code>, com <code>início=0</code> e <code>passo=1</code> assumidos. Dois argumentos fornecem o <code>início</code> e o <code>fim</code>, com <code>passo=1</code> assumido. Três argumentos fornecem <code>início</code>, <code>fim</code> e <code>passo</code> explicitamente.</p>
-        <p style="text-align: justify">Um range sempre inclui o valor do <code>início</code>, mas não inclui o valor do <code>fim</code>. Ele conta pelo <code>passo</code> e para antes de chegar ao <code>fim</code>.</p>
+        <h1 id="arrays" style="text-align: center">Arrays</h1>
+        <p style="text-align: justify">Enquanto existem muitos tipos de coleções em Python, trabalharemos principalmente com arrays nesta aula. Já vimos que a função <code>make_array</code> pode ser usada para criar arrays de números.</p>
+        <p style="text-align: justify">Arrays também podem conter strings ou outros tipos de valores, mas um único array só pode conter um único tipo de dados. (Normalmente não faz sentido agrupar dados diferentes de qualquer maneira.) Por exemplo:</p>
 
-        <pre><code>np.arange(fim): Um<span class="hljs-built_in"> array </span>começando com 0 de inteiros consecutivos crescentes, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(5)</span></code></pre>
+        <pre><code><span style="color: black">english_parts_of_speech = make_array("noun", "pronoun", "verb", "adverb", "adjective", "conjunction", "preposition", "interjection")
+english_parts_of_speech</span></code></pre>
         <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
             <tbody>
             <tr>
                 <td style="text-align: right;color: #888;padding-right: 0.5em">Out[2]:</td>
-                <td style="text-align: left">array([0, 1, 2, 3, 4])</td>
+                <td style="text-align: left">array(['noun', 'pronoun', 'verb', 'adverb', 'adjective', 'conjunction',
+                    'preposition', 'interjection'], dtype='&lt;U12')
+                </td>
             </tr>
             </tbody>
         </table>
         &nbsp;
-        <p style="text-align: justify">Observe como o array começa em 0 e vai até 4, não até o valor final de 5.</p>
+        <p style="text-align: justify">Voltando aos dados de temperatura, criamos arrays de temperaturas médias diárias <a href="http://berkeleyearth.lbl.gov/auto/Regional/TMAX/Text/global-land-TMAX-Trend.txt">altas</a> para as décadas em torno de 1850, 1900, 1950 e 2000.</p>
 
-        <pre><code>np.arange(início, fim): Um<span class="hljs-built_in"> array </span>de inteiros consecutivos crescentes a partir do início, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 9)</span></code></pre>
+        <pre><code><span style="color: black">baseline_high = 14.48
+highs = make_array(baseline_high - 0.880,
+                   baseline_high - 0.093,
+                   baseline_high + 0.105,
+                   baseline_high + 0.684)
+highs</span></code></pre>
         <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
             <tbody>
             <tr>
                 <td style="text-align: right;color: #888;padding-right: 0.5em">Out[3]:</td>
-                <td style="text-align: left">array([3, 4, 5, 6, 7, 8])</td>
+                <td style="text-align: left">array([13.6 , 14.387, 14.585, 15.164])</td>
             </tr>
             </tbody>
         </table>
         &nbsp;
-        <pre><code>np.arange(<span class="hljs-keyword">in</span>ício, fim, passo): Um <span class="hljs-keyword">range</span> com uma diferença <span class="hljs-keyword">de</span> passo entre cada par <span class="hljs-keyword">de</span> valores consecutivos, começando a partir <span class="hljs-keyword">do</span> <span class="hljs-keyword">in</span>ício <span class="hljs-keyword">e</span> parando antes <span class="hljs-keyword">do</span> fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 30, 5)</span></code></pre>
+        <p style="text-align: justify">Arrays podem ser usados em expressões aritméticas para calcular sobre seus conteúdos. Quando um array é combinado com um único número, esse número é combinado com cada elemento do array. Portanto, podemos converter todas essas temperaturas para Fahrenheit escrevendo a fórmula de conversão familiar.</p>
+
+        <pre><code><span style="color: black">(9/5) * highs + 32</span></code></pre>
         <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
             <tbody>
             <tr>
                 <td style="text-align: right;color: #888;padding-right: 0.5em">Out[4]:</td>
-                <td style="text-align: left">array([ 3, 8, 13, 18, 23, 28])</td>
+                <td style="text-align: left">array([56.48 , 57.8966, 58.253 , 59.2952])</td>
             </tr>
             </tbody>
         </table>
-        &nbsp;
-        <p style="text-align: justify">Este array começa em 3, então dá um passo de 5 para chegar a 8, depois outro passo de 5 para chegar a 13, e assim por diante.</p>
-        <p style="text-align: justify">Quando você especifica um passo, o início, o fim e o passo podem todos ser positivos ou negativos e podem ser números inteiros ou frações.</p>
+        <img class="size-full wp-image-288 aligncenter" src="https://literaciadigital.ufms.br/files/2025/04/array_arithmetic.png" alt="" width="1017" height="249"/>
+        <p style="text-align: justify">Arrays também têm <em>métodos</em>, que são funções que operam nos valores do array. A <code>mean</code> de uma coleção de números é seu valor médio: a soma dividida pelo comprimento. Cada par de parênteses nos exemplos abaixo faz parte de uma expressão de chamada; está chamando uma função sem argumentos para realizar um cálculo no array chamado <code>highs</code>.</p>
 
-        <pre><code><span style="color: black">np.arange(1.5, -2, -0.5)</span></code></pre>
+        <pre><code><span style="color: black">highs.size</span></code></pre>
         <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
             <tbody>
             <tr>
                 <td style="text-align: right;color: #888;padding-right: 0.5em">Out[5]:</td>
-                <td style="text-align: left">array([ 1.5, 1. , 0.5, 0. , -0.5, -1. , -1.5])</td>
+                <td style="text-align: left">4</td>
             </tr>
             </tbody>
         </table>
         &nbsp;
-        <h2 id="exemplo-f-rmula-de-leibniz-para-pi-">Exemplo: Fórmula de Leibniz para π</h2>
-        <p style="text-align: justify">O grande matemático e filósofo alemão <a href="https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Gottfried Wilhelm Leibniz</a> (1646 - 1716) descobriu uma fórmula maravilhosa para π como uma soma infinita de frações simples. A fórmula é</p>
-
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">π = 4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + …)</div>
-        &nbsp;
-        <p style="text-align: justify">Embora seja necessário um pouco de matemática para estabelecer isso, podemos usar arrays para nos convencer de que a fórmula funciona. Vamos calcular os primeiros 5000 termos da soma infinita de Leibniz e ver se está perto de π.</p>
-
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + … - <sup>1</sup>⁄<sub>9999</sub>)</div>
-        &nbsp;
-        <p style="text-align: justify">Calcularemos essa soma finita adicionando todos os termos positivos primeiro e depois subtraindo a soma de todos os termos negativos <a href="#notas-de-roda pé">[1]</a>:</p>
-
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ ((1 + <sup>1</sup>⁄<sub>5</sub> + <sup>1</sup>⁄<sub>9</sub> + … + <sup>1</sup>⁄<sub>9997</sub>) - (<sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>11</sub> + … + <sup>1</sup>⁄<sub>9999</sub>))</div>
-        &nbsp;
-        <p style="text-align: justify">Os termos positivos na soma têm 1, 5, 9 e assim por diante nos denominadores. O array <code>by_four_to_20</code> contém esses números até 17:</p>
-
-        <pre><code><span style="color: black">by_four_to_20 = np.arange(1, 20, 4)
-by_four_to_20</span></code></pre>
+        <pre><code><span style="color: black">highs.sum()</span></code></pre>
         <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
             <tbody>
             <tr>
                 <td style="text-align: right;color: #888;padding-right: 0.5em">Out[6]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, 13, 17])</td>
+                <td style="text-align: left">57.736000000000004</td>
             </tr>
             </tbody>
         </table>
         &nbsp;
-
-        Para obter uma aproximação precisa de π, usaremos o array muito mais longo <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">positive_term_denominators = np.arange(1, 10000, 4)
-positive_term_denominators</span></code></pre>
+        <pre><code><span style="color: black">highs.mean()</span></code></pre>
         <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
             <tbody>
             <tr>
                 <td style="text-align: right;color: #888;padding-right: 0.5em">Out[7]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, ..., 9989, 9993, 9997])</td>
+                <td style="text-align: left">14.434000000000001</td>
             </tr>
             </tbody>
         </table>
         &nbsp;
+        <h2 id="fun-es-em-arrays">Funções em Arrays</h2>
+        <p style="text-align: justify">O pacote <code>numpy</code>, abreviado como <code>np</code> em programas, fornece aos programadores Python funções convenientes e poderosas para criar e manipular arrays.</p>
 
-        Os termos positivos que realmente queremos somar são apenas 1 sobre esses denominadores:
-        <pre><code><span style="color: black">positive_terms = 1 / positive_term_denominators</span></code></pre>
+        <pre><code><span style="color: black">import numpy as np</span></code></pre>
         &nbsp;
+        <p style="text-align: justify">Por exemplo, a função <code>diff</code> calcula a diferença entre cada par adjacente de elementos em um array. O primeiro elemento da <code>diff</code> é o segundo elemento menos o primeiro.</p>
 
-        Os termos negativos têm 3, 7, 11 e assim por diante em seus denominadores. Este array é apenas 2 adicionado a <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">negative_terms = 1 / (positive_term_denominators + 2)</span></code></pre>
-        &nbsp;
-
-        A soma total é
-        <pre><code><span style="color: black">4 * ( sum(positive_terms) - sum(negative_terms) )</span></code></pre>
+        <pre><code><span style="color: black">np.diff(highs)</span></code></pre>
         <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
             <tbody>
             <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[10]:</td>
-                <td style="text-align: left">3.1413926535917955</td>
+                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[9]:</td>
+                <td style="text-align: left">array([0.787, 0.198, 0.579])</td>
             </tr>
             </tbody>
         </table>
         &nbsp;
+        <p style="text-align: justify">A <a href="http://docs.scipy.org/doc/numpy/reference/">referência completa do Numpy</a> lista exaustivamente essas funções, mas apenas um pequeno subconjunto é comumente usado para aplicações de processamento de dados. Estes são agrupados em diferentes pacotes dentro de <code>np</code>. Aprender esse vocabulário é uma parte importante da aprendizagem da linguagem Python, então consulte esta lista com frequência enquanto trabalha em exemplos e problemas.</p>
+        <p style="text-align: justify">No entanto, você <strong>não precisa memorizar esses</strong>. Use isso como referência.</p>
+        <p style="text-align: justify">Cada uma dessas funções recebe um array como argumento e retorna um único valor.</p>
 
-        Isso está muito próximo de π = 3.14159.... A fórmula de Leibniz parece estar correta!
-
+        <table style="font-family: monospace;border-collapse: collapse;width: auto" border="1" align="center">
+            <thead>
+            <tr style="background-color: #f0f0f0;border-bottom: 2px solid #ddd">
+                <th style="text-align: left;padding: 4px 8px;min-width: 120px"><strong>Função</strong></th>
+                <th style="text-align: left;padding: 4px 8px;min-width: 300px">Descrição</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.prod</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Multiplica todos os elementos juntos</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.sum</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Adiciona todos os elementos juntos</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.all</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Testa se todos os elementos são valores verdadeiros (números diferentes de zero são verdade)</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.any</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Testa se alguns elementos são valores verdadeiros (números diferentes de zero são verdade)</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.count_nonzero</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Conta o número de elementos diferentes de zero</td>
+            </tr>
+            </tbody>
+        </table>
         &nbsp;
-        <h2 id="notas-de-rodap-">Notas de Rodapé</h2>
-        [1] Surpreendentemente, quando adicionamos <em>infinitamente</em> muitas frações positivas e negativas, a ordem pode importar! Mas nossa aproximação para π usa apenas um número grande e finito de frações, então está tudo bem adicionar os termos em qualquer ordem conveniente.
+        <p style="text-align: justify">Cada uma dessas funções recebe um array como argumento e retorna um array de valores.</p>
+
+        <table style="font-family: monospace;border-collapse: collapse;width: auto;margin-top: 20px" border="1" align="center">
+            <thead>
+            <tr style="background-color: #f0f0f0;border-bottom: 2px solid #ddd">
+                <th style="text-align: left;padding: 4px 8px;min-width: 120px"><strong>Função</strong></th>
+                <th style="text-align: left;padding: 4px 8px;min-width: 300px">Descrição</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.diff</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Diferença entre elementos adjacentes</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.round</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Arredonda cada número para o inteiro mais próximo</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.cumprod</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Um produto acumulado: para cada elemento, multiplique todos os elementos até agora</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.cumsum</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Uma soma cumulativa: para cada elemento, adicione todos os elementos até agora</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.exp</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Exponencie cada elemento</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.log</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Tire o logaritmo natural de cada elemento</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.sqrt</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Tire a raiz quadrada de cada elemento</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.sort</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Classificar os elementos</td>
+            </tr>
+            </tbody>
+        </table>
+        &nbsp;
+        <p style="text-align: justify">Cada uma dessas funções recebe um array de strings e retorna um array.</p>
+
+        <table style="font-family: monospace;border-collapse: collapse;width: auto;margin-top: 20px" border="1" align="center">
+            <thead>
+            <tr style="background-color: #f0f0f0;border-bottom: 2px solid #ddd">
+                <th style="text-align: left;padding: 4px 8px;min-width: 120px"><strong>Função</strong></th>
+                <th style="text-align: left;padding: 4px 8px;min-width: 300px"><strong>Descrição</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.char.lower</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Letras minúsculas de cada elemento</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.char.upper</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Letras maiúsculas de cada elemento</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.char.strip</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Remover espaços no início ou no final de cada elemento</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.char.isalpha</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Se cada elemento contém apenas letras (sem números ou símbolos)</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.char.isnumeric</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Se cada elemento contém apenas números (sem letras)</td>
+            </tr>
+            </tbody>
+        </table>
+        &nbsp;
+        <p style="text-align: justify">Cada uma dessas funções recebe tanto um array de strings quanto uma <em>string de pesquisa</em>; cada uma retorna um array.</p>
+
+        <table style="font-family: monospace;border-collapse: collapse;width: auto;margin-top: 20px" border="1" align="center">
+            <thead>
+            <tr style="background-color: #f0f0f0;border-bottom: 2px solid #ddd">
+                <th style="text-align: left;padding: 4px 8px;min-width: 120px"><strong>Função</strong></th>
+                <th style="text-align: left;padding: 4px 8px;min-width: 300px"><strong>Descrição</strong></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.char.count</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Contar o número de vezes que uma string de pesquisa aparece entre os elementos de um array</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.char.find</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">A posição dentro de cada elemento em que uma string de pesquisa é encontrada primeiro</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.char.rfind</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">A posição dentro de cada elemento em que uma string de pesquisa é encontrada por último</td>
+            </tr>
+            <tr style="background-color: #f8f8f8">
+                <td style="padding: 4px 8px;border: 1px solid #ddd"><code>np.char.startswith</code></td>
+                <td style="padding: 4px 8px;border: 1px solid #ddd">Se cada elemento começa com a string de pesquisa</td>
+            </tr>
+            </tbody>
+        </table>
+        &nbsp;
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-1/">← Capítulo 5.1 - Arrays</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-3/">Capítulo 5.3 - Mais sobre Arrays →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/">← Capítulo 5 - Sequências</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-2/">Capítulo 5.2 - Ranges →</a></td>
             </tr>
             </tbody>
         </table>

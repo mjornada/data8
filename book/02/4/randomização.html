@@ -150,137 +150,35 @@
     <div style="overflow: hidden">
 
         <!--###########################################################################################################################################################-->
-        <pre><code><span style="color: black">import numpy as np
-path_data = '../../../assets/data/'</span></code></pre>
-        &nbsp;
-        <h1 id="ranges" style="text-align: center">Ranges</h1>
-        <p style="text-align: justify">Um <em>range</em> é um array de números em ordem crescente ou decrescente, cada um separado por um intervalo regular.
-            Ranges são úteis em um número surpreendentemente grande de situações, então vale a pena aprendê-los.</p>
-        <p style="text-align: justify">Ranges são definidos usando a função <code>np.arange</code>, que aceita um, dois ou três argumentos: um início, um fim e um 'passo'.</p>
-        <p style="text-align: justify">Se você passar um argumento para <code>np.arange</code>, este se torna o valor de <code>fim</code>, com <code>início=0</code> e <code>passo=1</code> assumidos. Dois argumentos fornecem o <code>início</code> e o <code>fim</code>, com <code>passo=1</code> assumido. Três argumentos fornecem <code>início</code>, <code>fim</code> e <code>passo</code> explicitamente.</p>
-        <p style="text-align: justify">Um range sempre inclui o valor do <code>início</code>, mas não inclui o valor do <code>fim</code>. Ele conta pelo <code>passo</code> e para antes de chegar ao <code>fim</code>.</p>
+        <h1 id="-randomiza-o-" style="text-align: center"><strong>Randomização</strong></h1>
+        <p style="text-align: justify">Uma excelente maneira de evitar fatores de confusão é atribuir indivíduos aos grupos de tratamento e controle <em>aleatoriamente</em>, e então administrar o tratamento àqueles que foram designados para o grupo de tratamento. A randomização mantém os dois grupos semelhantes, exceto pelo tratamento.</p>
+        <p style="text-align: justify">Se você é capaz de randomizar indivíduos nos grupos de tratamento e controle, está realizando um <em>experimento controlado randomizado</em>, também conhecido como <em>ensaio clínico randomizado</em> (ECR). Às vezes, as respostas das pessoas em um experimento são influenciadas por saberem em qual grupo estão. Então você pode querer conduzir um experimento <em>cego</em>, no qual os indivíduos não sabem se estão no grupo de tratamento ou no grupo de controle.
+            Para fazer isso funcionar, você terá que dar ao grupo de controle um <em>placebo</em>, que é algo que se parece exatamente com o tratamento, mas na verdade não tem efeito.</p>
+        <p style="text-align: justify">Os experimentos controlados randomizados há muito tempo são considerados padrão ouro no campo médico, por exemplo, para estabelecer se um novo medicamento funciona. Eles também estão se tornando mais comumente usados em outros campos, como economia.</p>
+        <p style="text-align: justify"><strong>Exemplo: Subsídios de assistência social no México.</strong> Nas aldeias mexicanas na década de 1990, as crianças de famílias pobres muitas vezes não estavam matriculadas na escola. Uma das razões era que as crianças mais velhas podiam trabalhar e assim ajudar a sustentar a família. Santiago Levy, um ministro do Ministério da Fazenda do México, decidiu investigar se programas de assistência social poderiam ser usados para aumentar a matrícula
+            escolar e melhorar as condições de saúde. Ele conduziu um ECR em um conjunto de aldeias, selecionando algumas delas aleatoriamente para receber um novo programa de assistência social chamado PROGRESA. O programa dava dinheiro às famílias pobres se seus filhos frequentassem a escola regularmente e a família usasse cuidados de saúde preventivos. Mais dinheiro era dado se as crianças estivessem no ensino secundário do que no ensino primário, para compensar a perda de salários das
+            crianças, e mais dinheiro era dado para meninas que frequentavam a escola do que para meninos. As aldeias restantes não receberam esse tratamento e formaram o grupo de controle. Devido à randomização, não havia fatores de confusão e foi possível estabelecer que o PROGRESA aumentou a matrícula escolar. Para os meninos, a matrícula aumentou de 73% no grupo de controle para 77% no grupo PROGRESA. Para as meninas, o aumento foi ainda maior, de 67% no grupo de controle para quase 75% no
+            grupo PROGRESA. Devido ao sucesso deste experimento, o governo mexicano apoiou o programa sob o novo nome OPORTUNIDADES, como um investimento em uma população saudável e bem educada.</p>
+        <p style="text-align: justify"><strong>Benefícios da Randomização</strong></p>
+        <p style="text-align: justify">Na terminologia que desenvolvemos, John Snow conduziu um estudo observacional, não um experimento randomizado. Mas ele chamou seu estudo de "grande experimento" porque, como ele escreveu, "Nada menos que trezentas mil pessoas ... foram divididas em dois grupos sem a escolha delas e, na maioria dos casos, sem o conhecimento delas ..."</p>
+        <p style="text-align: justify">Estudos como o de Snow são às vezes chamados de "experimentos naturais". No entanto, a verdadeira randomização não significa simplesmente que os grupos de tratamento e controle são selecionados "sem a escolha deles". A randomização deve ser realizada com muito cuidado, seguindo as leis da probabilidade.</p>
+        <p style="text-align: justify">O método de randomização pode ser tão simples quanto jogar uma moeda. Também pode ser bastante mais complexo. Mas todo método de randomização consiste em uma sequência de etapas cuidadosamente definidas que permitem que as chances sejam especificadas matematicamente. Isso tem duas consequências importantes.</p>
 
-        <pre><code>np.arange(fim): Um<span class="hljs-built_in"> array </span>começando com 0 de inteiros consecutivos crescentes, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[2]:</td>
-                <td style="text-align: left">array([0, 1, 2, 3, 4])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <p style="text-align: justify">Observe como o array começa em 0 e vai até 4, não até o valor final de 5.</p>
+        <ol style="text-align: justify">
+            <li>Isso nos permite considerar — matematicamente — a possibilidade de que a randomização produza grupos de tratamento e controle que sejam bastante diferentes entre si.</li>
+            <li>Isso nos permite fazer afirmações matemáticas precisas sobre as diferenças entre os grupos de tratamento e controle. Isso, por sua vez, nos ajuda a fazer conclusões justificáveis sobre se o tratamento tem algum efeito.</li>
+        </ol>
+        <p style="text-align: justify"><strong>E se você não puder randomizar?</strong></p>
+        <p style="text-align: justify">Em algumas situações, pode não ser possível realizar um experimento controlado randomizado, mesmo quando o objetivo é investigar a causalidade. Por exemplo, suponha que você queira estudar os efeitos do consumo de álcool durante a gravidez e atribua aleatoriamente algumas mulheres grávidas ao seu grupo de "álcool". Você não deve esperar cooperação delas se apresentar uma bebida. Nessas situações, você quase invariavelmente estará conduzindo um estudo
+            observacional, não um experimento. Esteja atento para fatores de confusão.</p>
+        <p style="text-align: justify">Neste curso, você aprenderá como conduzir e analisar seus próprios experimentos randomizados. Isso envolverá mais detalhes do que os apresentados neste capítulo. Por enquanto, concentre-se apenas na ideia principal: para tentar estabelecer causalidade, execute um experimento controlado randomizado se possível. Se estiver conduzindo um estudo observacional, você pode ser capaz de estabelecer uma associação, mas será mais difícil estabelecer a causalidade.
+            Esteja extremamente atento aos fatores de confusão antes de fazer conclusões sobre causalidade com base em um estudo observacional.</p>
 
-        <pre><code>np.arange(início, fim): Um<span class="hljs-built_in"> array </span>de inteiros consecutivos crescentes a partir do início, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 9)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[3]:</td>
-                <td style="text-align: left">array([3, 4, 5, 6, 7, 8])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <pre><code>np.arange(<span class="hljs-keyword">in</span>ício, fim, passo): Um <span class="hljs-keyword">range</span> com uma diferença <span class="hljs-keyword">de</span> passo entre cada par <span class="hljs-keyword">de</span> valores consecutivos, começando a partir <span class="hljs-keyword">do</span> <span class="hljs-keyword">in</span>ício <span class="hljs-keyword">e</span> parando antes <span class="hljs-keyword">do</span> fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 30, 5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[4]:</td>
-                <td style="text-align: left">array([ 3, 8, 13, 18, 23, 28])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <p style="text-align: justify">Este array começa em 3, então dá um passo de 5 para chegar a 8, depois outro passo de 5 para chegar a 13, e assim por diante.</p>
-        <p style="text-align: justify">Quando você especifica um passo, o início, o fim e o passo podem todos ser positivos ou negativos e podem ser números inteiros ou frações.</p>
-
-        <pre><code><span style="color: black">np.arange(1.5, -2, -0.5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[5]:</td>
-                <td style="text-align: left">array([ 1.5, 1. , 0.5, 0. , -0.5, -1. , -1.5])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <h2 id="exemplo-f-rmula-de-leibniz-para-pi-">Exemplo: Fórmula de Leibniz para π</h2>
-        <p style="text-align: justify">O grande matemático e filósofo alemão <a href="https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Gottfried Wilhelm Leibniz</a> (1646 - 1716) descobriu uma fórmula maravilhosa para π como uma soma infinita de frações simples. A fórmula é</p>
-
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">π = 4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + …)</div>
-        &nbsp;
-        <p style="text-align: justify">Embora seja necessário um pouco de matemática para estabelecer isso, podemos usar arrays para nos convencer de que a fórmula funciona. Vamos calcular os primeiros 5000 termos da soma infinita de Leibniz e ver se está perto de π.</p>
-
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + … - <sup>1</sup>⁄<sub>9999</sub>)</div>
-        &nbsp;
-        <p style="text-align: justify">Calcularemos essa soma finita adicionando todos os termos positivos primeiro e depois subtraindo a soma de todos os termos negativos <a href="#notas-de-roda pé">[1]</a>:</p>
-
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ ((1 + <sup>1</sup>⁄<sub>5</sub> + <sup>1</sup>⁄<sub>9</sub> + … + <sup>1</sup>⁄<sub>9997</sub>) - (<sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>11</sub> + … + <sup>1</sup>⁄<sub>9999</sub>))</div>
-        &nbsp;
-        <p style="text-align: justify">Os termos positivos na soma têm 1, 5, 9 e assim por diante nos denominadores. O array <code>by_four_to_20</code> contém esses números até 17:</p>
-
-        <pre><code><span style="color: black">by_four_to_20 = np.arange(1, 20, 4)
-by_four_to_20</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[6]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, 13, 17])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-
-        Para obter uma aproximação precisa de π, usaremos o array muito mais longo <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">positive_term_denominators = np.arange(1, 10000, 4)
-positive_term_denominators</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[7]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, ..., 9989, 9993, 9997])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-
-        Os termos positivos que realmente queremos somar são apenas 1 sobre esses denominadores:
-        <pre><code><span style="color: black">positive_terms = 1 / positive_term_denominators</span></code></pre>
-        &nbsp;
-
-        Os termos negativos têm 3, 7, 11 e assim por diante em seus denominadores. Este array é apenas 2 adicionado a <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">negative_terms = 1 / (positive_term_denominators + 2)</span></code></pre>
-        &nbsp;
-
-        A soma total é
-        <pre><code><span style="color: black">4 * ( sum(positive_terms) - sum(negative_terms) )</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[10]:</td>
-                <td style="text-align: left">3.1413926535917955</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-
-        Isso está muito próximo de π = 3.14159.... A fórmula de Leibniz parece estar correta!
-
-        &nbsp;
-        <h2 id="notas-de-rodap-">Notas de Rodapé</h2>
-        [1] Surpreendentemente, quando adicionamos <em>infinitamente</em> muitas frações positivas e negativas, a ordem pode importar! Mas nossa aproximação para π usa apenas um número grande e finito de frações, então está tudo bem adicionar os termos em qualquer ordem conveniente.
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-1/">← Capítulo 5.1 - Arrays</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-3/">Capítulo 5.3 - Mais sobre Arrays →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/2-0/2-3/">← Capítulo 2.3 - Estabelecendo Causalidade</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/2-0/2-5/">Capítulo 2.5 - Notas Finais →</a></td>
             </tr>
             </tbody>
         </table>

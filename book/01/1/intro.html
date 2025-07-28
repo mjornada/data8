@@ -148,144 +148,23 @@
     </div>
     <!-- Main Content -->
     <div style="overflow: hidden">
+        <h1 id="cap-tulo-1-introdu-o" style="text-align: center">Introdução</h1>
+        <p style="text-align: justify">Os dados são descrições do mundo que nos rodeia, recolhidos através da observação e armazenados em computadores. Os computadores permitem-nos inferir propriedades do mundo a partir destas descrições. Ciência de dados é a disciplina que tira conclusões de dados usando computação. Existem três aspectos principais da análise de dados eficaz: exploração, predição e inferência. Este texto desenvolve uma abordagem consistente para todos os três, introduzindo
+            ideias estatísticas e ideias fundamentais na ciência da computação simultaneamente. Nós nos concentramos em um conjunto mínimo de técnicas básicas que podem ser aplicadas a uma vasta gama de aplicações do mundo real. Uma base em ciência de dados requer não apenas a compreensão de técnicas estatísticas e computacionais, mas também o reconhecimento de como elas se aplicam a cenários reais.</p>
+        <p style="text-align: justify">Para qualquer aspecto do mundo que desejemos estudar – seja o clima da Terra, os mercados mundiais, as pesquisas políticas ou a mente humana – os dados que coletamos normalmente oferecem uma descrição incompleta do assunto em questão. Um desafio central da ciência de dados é tirar conclusões confiáveis ​​usando essas informações parciais.</p>
+        <p style="text-align: justify">Nesta empreitada, combinaremos duas ferramentas essenciais: computação e randomização. Por exemplo, podemos querer compreender as tendências das alterações climáticas utilizando observações de temperatura. Os computadores nos permitirão usar todas as informações disponíveis para tirar conclusões. Em vez de nos concentrarmos apenas na temperatura média de uma região, consideraremos toda a gama de temperaturas em conjunto para construir uma análise mais
+            matizada. A aleatoriedade nos permitirá considerar as muitas maneiras diferentes pelas quais informações incompletas podem ser completadas. Em vez de assumir que as temperaturas variam de uma forma particular, aprenderemos a usar a aleatoriedade como forma de imaginar muitos cenários possíveis, todos consistentes com os dados que observamos.</p>
+        <p style="text-align: justify">Aplicar esta abordagem requer aprender a programar um computador e, portanto, este texto intercala uma introdução completa à programação que não pressupõe nenhum conhecimento prévio. Os leitores com experiência em programação descobrirão que cobrimos vários tópicos de computação que não aparecem em um currículo introdutório típico de ciência da computação. A ciência de dados também exige um raciocínio cuidadoso sobre quantidades numéricas, mas este texto
+            não pressupõe qualquer formação em matemática ou estatística além da álgebra básica. Você encontrará muito poucas equações neste texto. Em vez disso, as técnicas são descritas aos leitores na mesma linguagem em que são descritas aos computadores que as executam – uma linguagem de programação.</p>
 
-        <!--###########################################################################################################################################################-->
-        <pre><code><span style="color: black">import numpy as np
-path_data = '../../../assets/data/'</span></code></pre>
-        &nbsp;
-        <h1 id="ranges" style="text-align: center">Ranges</h1>
-        <p style="text-align: justify">Um <em>range</em> é um array de números em ordem crescente ou decrescente, cada um separado por um intervalo regular.
-            Ranges são úteis em um número surpreendentemente grande de situações, então vale a pena aprendê-los.</p>
-        <p style="text-align: justify">Ranges são definidos usando a função <code>np.arange</code>, que aceita um, dois ou três argumentos: um início, um fim e um 'passo'.</p>
-        <p style="text-align: justify">Se você passar um argumento para <code>np.arange</code>, este se torna o valor de <code>fim</code>, com <code>início=0</code> e <code>passo=1</code> assumidos. Dois argumentos fornecem o <code>início</code> e o <code>fim</code>, com <code>passo=1</code> assumido. Três argumentos fornecem <code>início</code>, <code>fim</code> e <code>passo</code> explicitamente.</p>
-        <p style="text-align: justify">Um range sempre inclui o valor do <code>início</code>, mas não inclui o valor do <code>fim</code>. Ele conta pelo <code>passo</code> e para antes de chegar ao <code>fim</code>.</p>
-
-        <pre><code>np.arange(fim): Um<span class="hljs-built_in"> array </span>começando com 0 de inteiros consecutivos crescentes, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[2]:</td>
-                <td style="text-align: left">array([0, 1, 2, 3, 4])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <p style="text-align: justify">Observe como o array começa em 0 e vai até 4, não até o valor final de 5.</p>
-
-        <pre><code>np.arange(início, fim): Um<span class="hljs-built_in"> array </span>de inteiros consecutivos crescentes a partir do início, parando antes do fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 9)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[3]:</td>
-                <td style="text-align: left">array([3, 4, 5, 6, 7, 8])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <pre><code>np.arange(<span class="hljs-keyword">in</span>ício, fim, passo): Um <span class="hljs-keyword">range</span> com uma diferença <span class="hljs-keyword">de</span> passo entre cada par <span class="hljs-keyword">de</span> valores consecutivos, começando a partir <span class="hljs-keyword">do</span> <span class="hljs-keyword">in</span>ício <span class="hljs-keyword">e</span> parando antes <span class="hljs-keyword">do</span> fim.
-</code></pre>
-        <pre><code><span style="color: black">np.arange(3, 30, 5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[4]:</td>
-                <td style="text-align: left">array([ 3, 8, 13, 18, 23, 28])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <p style="text-align: justify">Este array começa em 3, então dá um passo de 5 para chegar a 8, depois outro passo de 5 para chegar a 13, e assim por diante.</p>
-        <p style="text-align: justify">Quando você especifica um passo, o início, o fim e o passo podem todos ser positivos ou negativos e podem ser números inteiros ou frações.</p>
-
-        <pre><code><span style="color: black">np.arange(1.5, -2, -0.5)</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[5]:</td>
-                <td style="text-align: left">array([ 1.5, 1. , 0.5, 0. , -0.5, -1. , -1.5])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-        <h2 id="exemplo-f-rmula-de-leibniz-para-pi-">Exemplo: Fórmula de Leibniz para π</h2>
-        <p style="text-align: justify">O grande matemático e filósofo alemão <a href="https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Gottfried Wilhelm Leibniz</a> (1646 - 1716) descobriu uma fórmula maravilhosa para π como uma soma infinita de frações simples. A fórmula é</p>
-
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">π = 4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + …)</div>
-        &nbsp;
-        <p style="text-align: justify">Embora seja necessário um pouco de matemática para estabelecer isso, podemos usar arrays para nos convencer de que a fórmula funciona. Vamos calcular os primeiros 5000 termos da soma infinita de Leibniz e ver se está perto de π.</p>
-
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ (1 - <sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>5</sub> - <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>9</sub> - <sup>1</sup>⁄<sub>11</sub> + … - <sup>1</sup>⁄<sub>9999</sub>)</div>
-        &nbsp;
-        <p style="text-align: justify">Calcularemos essa soma finita adicionando todos os termos positivos primeiro e depois subtraindo a soma de todos os termos negativos <a href="#notas-de-roda pé">[1]</a>:</p>
-
-        <div style="text-align: center;font-family: serif;font-size: 2.2em">4 ⋅ ((1 + <sup>1</sup>⁄<sub>5</sub> + <sup>1</sup>⁄<sub>9</sub> + … + <sup>1</sup>⁄<sub>9997</sub>) - (<sup>1</sup>⁄<sub>3</sub> + <sup>1</sup>⁄<sub>7</sub> + <sup>1</sup>⁄<sub>11</sub> + … + <sup>1</sup>⁄<sub>9999</sub>))</div>
-        &nbsp;
-        <p style="text-align: justify">Os termos positivos na soma têm 1, 5, 9 e assim por diante nos denominadores. O array <code>by_four_to_20</code> contém esses números até 17:</p>
-
-        <pre><code><span style="color: black">by_four_to_20 = np.arange(1, 20, 4)
-by_four_to_20</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[6]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, 13, 17])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-
-        Para obter uma aproximação precisa de π, usaremos o array muito mais longo <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">positive_term_denominators = np.arange(1, 10000, 4)
-positive_term_denominators</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[7]:</td>
-                <td style="text-align: left">array([ 1, 5, 9, ..., 9989, 9993, 9997])</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-
-        Os termos positivos que realmente queremos somar são apenas 1 sobre esses denominadores:
-        <pre><code><span style="color: black">positive_terms = 1 / positive_term_denominators</span></code></pre>
-        &nbsp;
-
-        Os termos negativos têm 3, 7, 11 e assim por diante em seus denominadores. Este array é apenas 2 adicionado a <code>positive_term_denominators</code>.
-        <pre><code><span style="color: black">negative_terms = 1 / (positive_term_denominators + 2)</span></code></pre>
-        &nbsp;
-
-        A soma total é
-        <pre><code><span style="color: black">4 * ( sum(positive_terms) - sum(negative_terms) )</span></code></pre>
-        <table style="font-family: monospace;border-spacing: 0;border-collapse: collapse;width: auto;margin-left: 1em">
-            <tbody>
-            <tr>
-                <td style="text-align: right;color: #888;padding-right: 0.5em">Out[10]:</td>
-                <td style="text-align: left">3.1413926535917955</td>
-            </tr>
-            </tbody>
-        </table>
-        &nbsp;
-
-        Isso está muito próximo de π = 3.14159.... A fórmula de Leibniz parece estar correta!
-
-        &nbsp;
-        <h2 id="notas-de-rodap-">Notas de Rodapé</h2>
-        [1] Surpreendentemente, quando adicionamos <em>infinitamente</em> muitas frações positivas e negativas, a ordem pode importar! Mas nossa aproximação para π usa apenas um número grande e finito de frações, então está tudo bem adicionar os termos em qualquer ordem conveniente.
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-1/">← Capítulo 5.1 - Arrays</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/5-0/5-3/">Capítulo 5.3 - Mais sobre Arrays →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/1-0/">← Capítulo 1 - O que é Ciência de Dados?</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/1-0/1-1/1-1/">Capítulo 1.1.1 - Ferramentas Computacionais →</a></td>
             </tr>
             </tbody>
         </table>
-        <!--###########################################################################################################################################################-->
-
     </div>
 </div>
 <div style="clear: both;height: 1px;margin-top: -1px"></div>
