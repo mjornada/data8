@@ -160,6 +160,7 @@ import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
 
+        <br>
         <h1 id="problema-monty-hall">O Problema de Monty Hall</h1>
 
         <p style="text-align: justify;">Este <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">problema</a> tem confundido muitas pessoas ao longo dos anos, <a href="https://web.archive.org/web/20140413131827/http://www.decisionsciences.org/DecisionLine/Vol30/30_1/vazs30_1.pdf">incluindo matemáticos</a>. Vamos ver se conseguimos resolvê-lo por meio de simulação.</p>
@@ -215,7 +216,7 @@ import numpy as np</span></code></pre>
         <p style="text-align: justify;"><strong>Os bodes:</strong> Começamos configurando uma array <code>goats</code> que contém nomes pouco imaginativos para os dois bodes.</p>
 
         <pre><code><span style="color: black">goats = make_array('first goat', 'second goat')</span></code></pre>
-
+        <br>
         <p style="text-align: justify;">Para ajudar Monty a conduzir o jogo, teremos que identificar qual cabra está selecionada e qual está revelada atrás da porta aberta. A função <code>other_goat</code> pega uma cabra e devolve a outra.</p>
 
         <pre><code><span style="color: black">def other_goat(x):
@@ -234,7 +235,7 @@ import numpy as np</span></code></pre>
             </tbody>
         </table>
 
-
+        <br>
         <p style="text-align: justify;">A string <code>watermelon</code> não é o nome de uma das cabras, então quando <code>watermelon</code> é a entrada, <code>other_goat</code> não faz nada.</p>
 
         <p style="text-align: justify;"><strong>As opções:</strong> O array <code>hidden_behind_doors</code> contém as três coisas que estão atrás das portas.</p>
@@ -245,14 +246,13 @@ hidden_behind_doors</span></code></pre>
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
-                <td style="text-align: left;">array(['first goat', 'second goat', 'car'], dtype='
-                    <U11
-                    ')
+                <td style="text-align: left;">array(['first goat', 'second goat', 'car'], dtype='&lt;U11')
                 </td>
             </tr>
             </tbody>
         </table>
 
+        <br>
         <p style="text-align: justify;">Agora estamos prontos para simular uma jogada. Para fazer isso, vamos definir uma função <code>monty_hall_game</code> que não recebe argumentos. Quando a função é chamada, ela joga o jogo de Monty uma vez e retorna uma lista consistindo de:</p>
 
         <ul>
@@ -282,7 +282,7 @@ hidden_behind_doors</span></code></pre>
     if contestant_guess == 'car':
         revealed = np.random.choice(goats)
         return [contestant_guess, revealed, other_goat(revealed)]</span></code></pre>
-
+        <br>
         <p style="text-align: justify;">Vamos brincar! Execute a célula várias vezes e veja como os resultados mudam.</p>
 
         <pre><code><span style="color: black">monty_hall_game()</span></code></pre>
@@ -294,7 +294,7 @@ hidden_behind_doors</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;"><strong>Passo 3: Número de Repetições</strong></p>
 
         <p style="text-align: justify;">Para medir a frequência com que os diferentes resultados ocorrem, precisamos jogar o jogo muitas vezes e coletar os resultados. Vamos executar 10.000 repetições.</p>
@@ -321,168 +321,134 @@ games = Table(['Guess', 'Revealed', 'Remaining'])
 
 for i in np.arange(10000):
     games.append(monty_hall_game())</span></code></pre>
-
+        <br>
         <p style="text-align: justify;">A simulação está concluída. Observe como o código é curto. A maior parte do trabalho foi feita na simulação do resultado de um jogo.</p>
 
-        <pre><code><span style="color: black">games.show(3)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <pre><code><span style="color: black;">games.show(3)</span></code></pre>
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Guess</th>
+                <th style="text-align: left; padding: 4px 8px;">Revealed</th>
+                <th style="text-align: left; padding: 4px 8px;">Remaining</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Guess</th>
-                            <th>Revealed</th>
-                            <th>Remaining</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>first goat</td>
-                            <td>second goat</td>
-                            <td>car</td>
-                        </tr>
-                        <tr>
-                            <td>first goat</td>
-                            <td>second goat</td>
-                            <td>car</td>
-                        </tr>
-                        <tr>
-                            <td>car</td>
-                            <td>first goat</td>
-                            <td>second goat</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">first goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">second goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">car</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">first goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">second goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">car</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">car</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">first goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">second goat</td>
             </tr>
             </tbody>
         </table>
 
-
+        <br>
         <h2>Visualização</h2>
 
         <p style="text-align: justify;">Para ver se o competidor deve manter sua escolha ou troca original, vamos ver com que frequência o carro fica atrás de cada uma de suas duas opções.</p>
 
         <p style="text-align: justify;">Não é nenhuma surpresa que as três portas apareçam com a mesma frequência que a suposição original do competidor.</p>
 
-        <pre><code><span style="color: black">original_choice = games.group('Guess')
+        <pre><code><span style="color: black;">original_choice = games.group('Guess')
 original_choice</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Guess</th>
+                <th style="text-align: left; padding: 4px 8px;">count</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Guess</th>
-                            <th>count</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>car</td>
-                            <td>3319</td>
-                        </tr>
-                        <tr>
-                            <td>first goat</td>
-                            <td>3311</td>
-                        </tr>
-                        <tr>
-                            <td>second goat</td>
-                            <td>3370</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">car</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3319</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">first goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3311</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">second goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3370</td>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Depois que Monty eliminou uma cabra, com que frequência o carro fica atrás da porta restante?</p>
 
-        <pre><code><span style="color: black">remaining_door = games.group('Remaining')
+        <pre><code><span style="color: black;">remaining_door = games.group('Remaining')
 remaining_door</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Remaining</th>
+                <th style="text-align: left; padding: 4px 8px;">count</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[6]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Remaining</th>
-                            <th>count</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>car</td>
-                            <td>6681</td>
-                        </tr>
-                        <tr>
-                            <td>first goat</td>
-                            <td>1176</td>
-                        </tr>
-                        <tr>
-                            <td>second goat</td>
-                            <td>1643</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">car</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6681</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">first goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1176</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">second goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1643</td>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Como disse nossa solução anterior, o carro fica atrás da porta restante dois terços do tempo, com uma boa aproximação. O competidor tem duas vezes mais chances de conseguir o carro se trocar do que se continuar com sua escolha original.</p>
 
         <p style="text-align: justify;">Para ver isso graficamente, podemos juntar as duas tabelas acima e desenhar gráficos de barras sobrepostos.</p>
 
-        <pre><code><span style="color: black">joined = original_choice.join('Guess', remaining_door, 'Remaining')
+        <pre><code><span style="color: black;">joined = original_choice.join('Guess', remaining_door, 'Remaining')
 combined = joined.relabeled(0, 'Item').relabeled(1, 'Original Door').relabeled(2, 'Remaining Door')
 combined</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Item</th>
+                <th style="text-align: left; padding: 4px 8px;">Original Door</th>
+                <th style="text-align: left; padding: 4px 8px;">Remaining Door</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[7]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Original Door</th>
-                            <th>Remaining Door</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>car</td>
-                            <td>3319</td>
-                            <td>6681</td>
-                        </tr>
-                        <tr>
-                            <td>first goat</td>
-                            <td>3311</td>
-                            <td>1676</td>
-                        </tr>
-                        <tr>
-                            <td>second goat</td>
-                            <td>3370</td>
-                            <td>1643</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">car</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3319</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6681</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">first goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3311</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1676</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">second goat</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3370</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1643</td>
             </tr>
             </tbody>
         </table>
         <br>
         <pre><code><span style="color: black">combined.barh(0)</span></code></pre>
 
+
+        <br>
         <p style="text-align: justify;">Observe como as três barras azuis são quase iguais – a escolha original tem a mesma probabilidade de ser qualquer um dos três itens disponíveis. Mas a barra dourada correspondente a <code>Car</code> é duas vezes mais longa que a azul.</p>
 
         <p style="text-align: justify;">A simulação confirma que a competidora tem duas vezes mais chances de vencer se mudar.</p>

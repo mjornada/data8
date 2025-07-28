@@ -150,8 +150,7 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-
-        <pre><code><span style="color: black">from datascience import *
+        <pre><code><span style="color: black;">from datascience import *
 path_data = '../../../assets/data/'
 import matplotlib
 matplotlib.use('Agg')
@@ -159,101 +158,90 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
-
-        <h1 id="amostragem-de-uma-população">Amostragem de uma População</h1>
-
+        &nbsp;
+        <h1 id="amostragem-de-uma-população" style="text-align: center;">Amostragem de uma População</h1>
         <p style="text-align: justify;">A lei das médias também se aplica quando a amostra aleatória é extraída de indivíduos em uma grande população.</p>
-
         <p style="text-align: justify;">Como exemplo, vamos estudar uma população de tempos de atraso de voo. A tabela <code>united</code> contém dados de voos domésticos da United Airlines partindo de São Francisco no verão de 2015. Os dados são disponibilizados publicamente pelo <a href="http://www.transtats.bts.gov/Fields.asp?Table_ID=293">Bureau of Transportation Statistics</a> do Departamento de Transporte dos Estados Unidos.</p>
-
         <p style="text-align: justify;">Há 13.825 linhas, cada uma correspondendo a um voo. As colunas são a data do voo, o número do voo, o código do aeroporto de destino e o tempo de atraso na partida em minutos. Alguns tempos de atraso são negativos: esses voos partiram adiantados.</p>
 
-        <pre><code><span style="color: black">united = Table.read_table(path_data + 'united_summer2015.csv')
+        <pre><code><span style="color: black;">united = Table.read_table(path_data + 'united_summer2015.csv')
 united</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Date</th>
+                <th style="text-align: left; padding: 4px 8px;">Flight Number</th>
+                <th style="text-align: left; padding: 4px 8px;">Destination</th>
+                <th style="text-align: left; padding: 4px 8px;">Delay</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Flight Number</th>
-                            <th>Destination</th>
-                            <th>Delay</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>73</td>
-                            <td>HNL</td>
-                            <td>257</td>
-                        </tr>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>217</td>
-                            <td>EWR</td>
-                            <td>28</td>
-                        </tr>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>237</td>
-                            <td>STL</td>
-                            <td>-3</td>
-                        </tr>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>250</td>
-                            <td>SAN</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>267</td>
-                            <td>PHL</td>
-                            <td>64</td>
-                        </tr>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>273</td>
-                            <td>SEA</td>
-                            <td>-6</td>
-                        </tr>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>278</td>
-                            <td>SEA</td>
-                            <td>-8</td>
-                        </tr>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>292</td>
-                            <td>EWR</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>300</td>
-                            <td>HNL</td>
-                            <td>20</td>
-                        </tr>
-                        <tr>
-                            <td>6/1/15</td>
-                            <td>317</td>
-                            <td>IND</td>
-                            <td>-10</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">73</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">HNL</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">257</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">217</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">EWR</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">28</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">237</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">STL</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">-3</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">250</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">SAN</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">267</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">PHL</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">64</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">273</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">SEA</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">-6</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">278</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">SEA</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">-8</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">292</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">EWR</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">12</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">300</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">HNL</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">20</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6/1/15</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">317</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">IND</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">-10</td>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Um voo partiu 16 minutos mais cedo e outro atrasou 580 minutos. Os outros atrasos foram quase todos entre -10 minutos e 200 minutos, como mostra o histograma abaixo.</p>
 
-        <pre><code><span style="color: black">united.column('Delay').min()</span></code></pre>
+        <pre><code><span style="color: black;">united.column('Delay').min()</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -262,8 +250,8 @@ united</span></code></pre>
             </tr>
             </tbody>
         </table>
-
-        <pre><code><span style="color: black">united.column('Delay').max()</span></code></pre>
+        &nbsp;
+        <pre><code><span style="color: black;">united.column('Delay').max()</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -272,14 +260,15 @@ united</span></code></pre>
             </tr>
             </tbody>
         </table>
-
-        <pre><code><span style="color: black">delay_bins = np.append(np.arange(-20, 301, 10), 600)
+        &nbsp;
+        <pre><code><span style="color: black;">delay_bins = np.append(np.arange(-20, 301, 10), 600)
 united.hist('Delay', bins = delay_bins, unit = 'minute')</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram1.png" alt="Histograma de atrasos" style="max-width: 100%;">
+        <img class="alignnone size-full wp-image-622" src="https://literaciadigital.ufms.br/files/2025/07/10-2-1.png" alt="" width="437" height="284"/>
 
+        &nbsp;
         <p style="text-align: justify;">Para efeitos desta seção, basta ampliar o grosso dos dados e ignorar os 0,8% dos voos que tiveram atrasos superiores a 200 minutos.</p>
 
-        <pre><code><span style="color: black">united.where('Delay', are.above(200)).num_rows/united.num_rows</span></code></pre>
+        <pre><code><span style="color: black;">united.where('Delay', are.above(200)).num_rows/united.num_rows</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -288,14 +277,15 @@ united.hist('Delay', bins = delay_bins, unit = 'minute')</span></code></pre>
             </tr>
             </tbody>
         </table>
-
-        <pre><code><span style="color: black">delay_bins = np.arange(-20, 201, 10)
+        &nbsp;
+        <pre><code><span style="color: black;">delay_bins = np.arange(-20, 201, 10)
 united.hist('Delay', bins = delay_bins, unit = 'minute')</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram2.png" alt="Histograma de atrasos limitado" style="max-width: 100%;">
+        <img class="alignnone size-full wp-image-623" src="https://literaciadigital.ufms.br/files/2025/07/10-2-2.png" alt="" width="437" height="284"/>
 
+        &nbsp;
         <p style="text-align: justify;">A altura da barra [0, 10) é pouco menos de 3% por minuto, o que significa que pouco menos de 30% dos voos tiveram atrasos entre 0 e 10 minutos. Isso é confirmado pela contagem das linhas:</p>
 
-        <pre><code><span style="color: black">united.where('Delay', are.between(0, 10)).num_rows/united.num_rows</span></code></pre>
+        <pre><code><span style="color: black;">united.where('Delay', are.between(0, 10)).num_rows/united.num_rows</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -304,35 +294,33 @@ united.hist('Delay', bins = delay_bins, unit = 'minute')</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <h2>Distribuição Empírica da Amostra</h2>
-
         <p style="text-align: justify;">Vamos agora pensar nos 13.825 voos como uma população e extrair amostras aleatórias dela com reposição. É útil empacotar nosso código em uma função. A função <code>empirical_hist_delay</code> toma o tamanho da amostra como argumento e desenha um histograma empírico dos resultados.</p>
 
-        <pre><code><span style="color: black">def empirical_hist_delay(n):
+        <pre><code><span style="color: black;">def empirical_hist_delay(n):
     united.sample(n).hist('Delay', bins = delay_bins, unit = 'minute')</span></code></pre>
-
+        &nbsp;
         <p style="text-align: justify;">Como vimos com os dados, à medida que o tamanho da amostra aumenta, o histograma empírico da amostra se assemelha mais ao histograma da população. Compare esses histogramas com o histograma da população acima.</p>
 
-        <pre><code><span style="color: black">empirical_hist_delay(10)</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram3.png" alt="Histograma empírico com 10 amostras" style="max-width: 100%;">
+        <pre><code><span style="color: black;">empirical_hist_delay(10)</span></code></pre>
+        <img class="alignnone size-full wp-image-624" src="https://literaciadigital.ufms.br/files/2025/07/10-2-3.png" alt="" width="424" height="284"/>
 
-        <pre><code><span style="color: black">empirical_hist_delay(100)</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram4.png" alt="Histograma empírico com 100 amostras" style="max-width: 100%;">
+        &nbsp;
+        <pre><code><span style="color: black;">empirical_hist_delay(100)</span></code></pre>
+        <img class="alignnone size-full wp-image-625" src="https://literaciadigital.ufms.br/files/2025/07/10-2-4.png" alt="" width="437" height="284"/>
 
+        &nbsp;
         <p style="text-align: justify;">As discrepâncias mais consistentemente visíveis estão entre os valores que são raros na população. No nosso exemplo, esses valores estão na cauda direita da distribuição. Mas à medida que o tamanho da amostra aumenta, mesmo esses valores começam a aparecer na amostra aproximadamente nas proporções corretas.</p>
 
-        <pre><code><span style="color: black">empirical_hist_delay(1000)</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_2_histogram5.png" alt="Histograma empírico com 1000 amostras" style="max-width: 100%;">
+        <pre><code><span style="color: black;">empirical_hist_delay(1000)</span></code></pre>
+        <img class="alignnone size-full wp-image-626" src="https://literaciadigital.ufms.br/files/2025/07/10-2-5.png" alt="" width="437" height="284"/>
 
+        &nbsp;
         <h2>Convergência do Histograma Empírico da Amostra</h2>
-
         <p style="text-align: justify;">O que observamos nesta seção pode ser resumido da seguinte forma:</p>
-
         <p style="text-align: justify;">Para uma grande amostra aleatória, o histograma empírico da amostra se assemelha ao histograma da população, com alta probabilidade.</p>
-
         <p style="text-align: justify;">Isso justifica o uso de grandes amostras aleatórias na inferência estatística. A ideia é que, como uma grande amostra aleatória provavelmente se assemelha à população da qual foi extraída, as quantidades calculadas a partir dos valores na amostra provavelmente estarão próximas das quantidades correspondentes na população.</p>
-
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
@@ -343,7 +331,6 @@ united.hist('Delay', bins = delay_bins, unit = 'minute')</span></code></pre>
             </tbody>
         </table>
         <!--###########################################################################################################################################################-->
-
 
     </div>
 </div>

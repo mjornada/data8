@@ -150,8 +150,7 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-
-        <pre><code><span style="color: black">from datascience import *
+        <pre><code><span style="color: black;">from datascience import *
 import matplotlib
 path_data = '../../assets/data/'
 matplotlib.use('Agg')
@@ -159,31 +158,24 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
+        <h1 id="fun-es-e-tabelas" style="text-align: center;">Funções e Tabelas</h1>
+        <p style="text-align: justify;">Estamos construindo um inventário útil de técnicas para identificar padrões e temas em um conjunto de dados usando funções já disponíveis em Python. Agora vamos explorar um recurso central da linguagem de programação Python: a definição de funções.</p>
+        <p style="text-align: justify;">Já usamos funções extensivamente neste texto, mas nunca definimos uma função própria. O objetivo de definir uma função é dar um nome a um processo computacional que pode ser aplicado várias vezes. Existem muitas situações na computação que exigem cálculos repetidos. Por exemplo, frequentemente queremos realizar a mesma manipulação em cada valor em uma coluna de uma tabela.</p>
 
-
-        <h1 id="fun-es-e-tabelas">Funções e Tabelas</h1>
-        <p>Estamos construindo um inventário útil de técnicas para identificar padrões e temas em um conjunto de dados usando funções já disponíveis em Python. Agora vamos explorar um recurso central da linguagem de programação Python: a definição de funções.</p>
-        <p>Já usamos funções extensivamente neste texto, mas nunca definimos uma função própria. O objetivo de definir uma função é dar um nome a um processo computacional que pode ser aplicado várias vezes. Existem muitas situações na computação que exigem cálculos repetidos. Por exemplo, frequentemente queremos realizar a mesma manipulação em cada valor em uma coluna de uma tabela.</p>
         <h2>Definindo uma Função</h2>
-
-        <p>A definição da função <code>double</code> abaixo simplesmente duplica um número.</p>
-
-
-        <pre><code><span style="color: black"># Nossa primeira definição de função
+        A definição da função <code>double</code> abaixo simplesmente duplica um número.
+        <pre><code><span style="color: black;"># Nossa primeira definição de função
 
 def double(x):
     """ Double x """
     return 2*x</span></code></pre>
-
         Começamos qualquer definição de função escrevendo `def`. Aqui está um detalhamento das outras partes (a *sintaxe*) desta pequena função:
 
-        ![function syntax](../../images/function_definition.jpg)
+        <img class="alignnone wp-image-487 size-large" src="https://literaciadigital.ufms.br/files/2025/07/8-1-1024x775.jpg" alt="" width="1024" height="775"/>
+        <p style="text-align: justify;">Quando executamos a célula acima, nenhum número específico é duplicado, e o código dentro do corpo de <code>double</code> ainda não é avaliado. Nesse aspecto, nossa função é análoga a uma <em>receita</em>. Cada vez que seguimos as instruções em uma receita, precisamos começar com ingredientes. Cada vez que queremos usar nossa função para dobrar um número, precisamos especificar um número.</p>
+        <p style="text-align: justify;">Podemos chamar <code>double</code> exatamente da mesma forma que chamamos outras funções. Cada vez que fazemos isso, o código no corpo é executado, com o valor do argumento recebendo o nome <code>x</code>.</p>
 
-        <p>Quando executamos a célula acima, nenhum número específico é duplicado, e o código dentro do corpo de <code>double</code> ainda não é avaliado. Nesse aspecto, nossa função é análoga a uma <em>receita</em>. Cada vez que seguimos as instruções em uma receita, precisamos começar com ingredientes. Cada vez que queremos usar nossa função para dobrar um número, precisamos especificar um número.</p>
-        <p>Podemos chamar <code>double</code> exatamente da mesma forma que chamamos outras funções. Cada vez que fazemos isso, o código no corpo é executado, com o valor do argumento recebendo o nome <code>x</code>.</p>
-
-
-        <pre><code><span style="color: black">double(17)</span></code></pre>
+        <pre><code><span style="color: black;">double(17)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -192,11 +184,8 @@ def double(x):
             </tr>
             </tbody>
         </table>
-
-        <br>
-
-
-        <pre><code><span style="color: black">double(-0.6/4)</span></code></pre>
+        &nbsp;
+        <pre><code><span style="color: black;">double(-0.6/4)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -205,15 +194,15 @@ def double(x):
             </tr>
             </tbody>
         </table>
+        <p style="text-align: justify;">As duas expressões acima são ambas <em>expressões de chamada</em>. Na segunda, o valor da expressão <code>-0.6/4</code> é calculado e então passado como o argumento nomeado <code>x</code> para a função <code>double</code>. Cada expressão de chamada resulta na execução do corpo de <code>double</code>, mas com um valor diferente de <code>x</code>.</p>
+        O corpo de <code>double</code> tem apenas uma única linha:
 
+        <code>return 2*x</code>
 
-        <p>As duas expressões acima são ambas <em>expressões de chamada</em>. Na segunda, o valor da expressão <code>-0.6/4</code> é calculado e então passado como o argumento nomeado <code>x</code> para a função <code>double</code>. Cada expressão de chamada resulta na execução do corpo de <code>double</code>, mas com um valor diferente de <code>x</code>.</p>
-        <p>O corpo de <code>double</code> tem apenas uma única linha:</p>
-        <p><code>return 2*x</code></p>
-        <p>Executar esta <em>instrução <code>return</code></em> completa a execução do corpo da função <code>double</code> e calcula o valor da expressão de chamada.</p>
-        <p>O argumento para <code>double</code> pode ser qualquer expressão, desde que seu valor seja um número. Por exemplo, pode ser um nome. A função <code>double</code> não sabe ou se importa com a forma como seu argumento é calculado ou armazenado; seu único trabalho é executar seu próprio corpo usando os valores dos argumentos passados para ela.</p>
+        Executar esta <em>instrução <code>return</code></em> completa a execução do corpo da função <code>double</code> e calcula o valor da expressão de chamada.
+        <p style="text-align: justify;">O argumento para <code>double</code> pode ser qualquer expressão, desde que seu valor seja um número. Por exemplo, pode ser um nome. A função <code>double</code> não sabe ou se importa com a forma como seu argumento é calculado ou armazenado; seu único trabalho é executar seu próprio corpo usando os valores dos argumentos passados para ela.</p>
 
-        <pre><code><span style="color: black">any_name = 42
+        <pre><code><span style="color: black;">any_name = 42
 double(any_name)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
@@ -223,11 +212,9 @@ double(any_name)</span></code></pre>
             </tr>
             </tbody>
         </table>
+        <p style="text-align: justify;">O argumento também pode ser qualquer valor que possa ser duplicado. Por exemplo, uma matriz inteira de números pode ser passada como argumento para <code>double</code> e o resultado será outra matriz.</p>
 
-
-        <p>O argumento também pode ser qualquer valor que possa ser duplicado. Por exemplo, uma matriz inteira de números pode ser passada como argumento para <code>double</code> e o resultado será outra matriz.</p>
-
-        <pre><code><span style="color: black">double(make_array(3, 4, 5))</span></code></pre>
+        <pre><code><span style="color: black;">double(make_array(3, 4, 5))</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -236,36 +223,27 @@ double(any_name)</span></code></pre>
             </tr>
             </tbody>
         </table>
-
-        <p>No entanto, nomes que são definidos dentro de uma função, incluindo argumentos como <code>x</code> de <code>double</code>, têm apenas uma existência passageira. Eles são definidos apenas enquanto a função está sendo chamada e só são acessíveis dentro do corpo da função. Não podemos nos referir a <code>x</code> fora do corpo de <code>double</code>. A terminologia técnica é que <code>x</code> tem <em>escopo local</em>.</p>
-        <p>Portanto, o nome <code>x</code> não é reconhecido fora do corpo da função, mesmo que tenhamos chamado <code>double</code> nas células acima.</p>
-
-
-        <pre><code><span style="color: black">x</span></code></pre>
+        <p style="text-align: justify;">No entanto, nomes que são definidos dentro de uma função, incluindo argumentos como <code>x</code> de <code>double</code>, têm apenas uma existência passageira. Eles são definidos apenas enquanto a função está sendo chamada e só são acessíveis dentro do corpo da função. Não podemos nos referir a <code>x</code> fora do corpo de <code>double</code>. A terminologia técnica é que <code>x</code> tem <em>escopo local</em>.</p>
+        Portanto, o nome <code>x</code> não é reconhecido fora do corpo da função, mesmo que tenhamos chamado <code>double</code> nas células acima.
+        <pre><code><span style="color: black;">x</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
-                <td style="text-align: left;">
-                    ---------------------------------------------------------------------------
+                <td style="text-align: left;">---------------------------------------------------------------------------
                     NameError Traceback (most recent call last)
                     &lt;ipython-input-7-6fcf9dfbd479&gt; in &lt;module&gt;
-                    ----> 1 x
-
-                    NameError: name 'x' is not defined
+                    ----&gt; 1 xNameError: name 'x' is not defined
                 </td>
             </tr>
             </tbody>
         </table>
-
-        **Docstrings.** Embora `double` seja relativamente fácil de entender, muitas funções realizam tarefas complicadas e são difíceis de usar sem explicação. (Você pode ter descoberto isso por si mesmo!) Portanto, uma função bem elaborada tem um nome que evoca seu comportamento, bem como documentação. Em Python, isso é chamado de *docstring* — uma descrição de seu comportamento e expectativas sobre seus argumentos. A docstring também pode mostrar chamadas de exemplo para a função, onde a
-        chamada é precedida por `>>>`.
-
-        Uma docstring pode ser qualquer string, desde que seja a primeira coisa no corpo de uma função. Docstrings geralmente são definidas usando aspas triplas no início e no fim, o que permite que uma string abranja várias linhas. A primeira linha é convencionalmente uma descrição completa, mas curta, da função, enquanto as linhas seguintes fornecem orientação adicional para futuros usuários da função.
-
+        <p style="text-align: justify;">**Docstrings.** Embora `double` seja relativamente fácil de entender, muitas funções realizam tarefas complicadas e são difíceis de usar sem explicação. (Você pode ter descoberto isso por si mesmo!) Portanto, uma função bem elaborada tem um nome que evoca seu comportamento, bem como documentação. Em Python, isso é chamado de *docstring* — uma descrição de seu comportamento e expectativas sobre seus argumentos. A docstring também pode mostrar chamadas de
+            exemplo para a função, onde a
+            chamada é precedida por `&gt;&gt;&gt;`.</p>
+        <p style="text-align: justify;">Uma docstring pode ser qualquer string, desde que seja a primeira coisa no corpo de uma função. Docstrings geralmente são definidas usando aspas triplas no início e no fim, o que permite que uma string abranja várias linhas. A primeira linha é convencionalmente uma descrição completa, mas curta, da função, enquanto as linhas seguintes fornecem orientação adicional para futuros usuários da função.</p>
         Aqui está uma definição de uma função chamada `percent` que recebe dois argumentos. A definição inclui uma docstring.
-
-        <pre><code><span style="color: black"># Uma função com mais de um argumento
+        <pre><code><span style="color: black;"># Uma função com mais de um argumento
 
 def percent(x, total):
     """Converte x em uma porcentagem do total.
@@ -274,13 +252,13 @@ def percent(x, total):
     multiplica o resultado por 100 e arredonda o resultado
     para duas casas decimais.
 
-    >>> percent(4, 16)
+    &gt;&gt;&gt; percent(4, 16)
     25.0
-    >>> percent(1, 6)
+    &gt;&gt;&gt; percent(1, 6)
     16.67
     """
     return round((x/total)*100, 2)</span></code></pre>
-        <pre><code><span style="color: black">percent(33, 200)</span></code></pre>
+        <pre><code><span style="color: black;">percent(33, 200)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -289,17 +267,14 @@ def percent(x, total):
             </tr>
             </tbody>
         </table>
+        <p style="text-align: justify;">Compare a função <code>percent</code> definida acima com a função <code>percents</code> definida abaixo. Esta última toma uma matriz como argumento e converte todos os números da matriz em porcentagens do total dos valores na matriz. As porcentagens são todos arredondados para duas casas decimais, desta vez substituindo <code>round</code> por <code>np.round</code> porque o argumento é uma matriz e não um número.</p>
 
-        <p>Compare a função <code>percent</code> definida acima com a função <code>percents</code> definida abaixo. Esta última toma uma matriz como argumento e converte todos os números da matriz em porcentagens do total dos valores na matriz. As porcentagens são todos arredondados para duas casas decimais, desta vez substituindo <code>round</code> por <code>np.round</code> porque o argumento é uma matriz e não um número.</p>
-
-        <pre><code><span style="color: black">def percents(counts):
+        <pre><code><span style="color: black;">def percents(counts):
     """Converta os valores em array_x em porcentagens do total de array_x."""
     total = counts.sum()
     return np.round((counts/total)*100, 2)</span></code></pre>
-
-        <p>A função <code>percents</code> retorna uma matriz de porcentagens que somam 100, sem arredondamento.</p>
-
-        <pre><code><span style="color: black">some_array = make_array(7, 10, 4)
+        A função <code>percents</code> retorna uma matriz de porcentagens que somam 100, sem arredondamento.
+        <pre><code><span style="color: black;">some_array = make_array(7, 10, 4)
 percents(some_array)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
@@ -309,11 +284,9 @@ percents(some_array)</span></code></pre>
             </tr>
             </tbody>
         </table>
+        <p style="text-align: justify;">É útil entender as etapas que o Python executa para executar uma função. Para facilitar isso, colocamos uma definição de função e uma chamada para essa função na mesma célula abaixo.</p>
 
-        <p>É útil entender as etapas que o Python executa para executar uma função. Para facilitar isso, colocamos uma definição de função e uma chamada para essa função na mesma célula abaixo.</p>
-
-
-        <pre><code><span style="color: black">def biggest_difference(array_x):
+        <pre><code><span style="color: black;">def biggest_difference(array_x):
     """Encontre a maior diferença em valor absoluto entre dois elementos adjacentes de array_x."""
     diffs = np.diff(array_x)
     absolute_diffs = abs(diffs)
@@ -330,16 +303,13 @@ print("The biggest difference is", big_diff)</span></code></pre>
             </tr>
             </tbody>
         </table>
+        Aqui está o que acontece quando executamos aquela célula:
 
-        <p>Aqui está o que acontece quando executamos aquela célula:</p>
-        <p><img src="../../images/function_execution.jpg" alt="function execution"></p>
-
+        <img class="alignnone size-large wp-image-488" src="https://literaciadigital.ufms.br/files/2025/07/8-2-1024x972.jpg" alt="" width="1024" height="972"/>
         <h2>Argumentos Múltiplos</h2>
+        <p style="text-align: justify;">Pode haver várias maneiras de generalizar uma expressão ou bloco de código e, portanto, uma função pode receber vários argumentos, cada um determinando diferentes aspectos do resultado. Por exemplo, a função <code>percents</code> que definimos anteriormente, arredondada para duas casas decimais a cada vez . A definição de dois argumentos a seguir permite que chamadas diferentes sejam arredondadas para valores diferentes.</p>
 
-        <p>Pode haver várias maneiras de generalizar uma expressão ou bloco de código e, portanto, uma função pode receber vários argumentos, cada um determinando diferentes aspectos do resultado. Por exemplo, a função <code>percents</code> que definimos anteriormente, arredondada para duas casas decimais a cada vez . A definição de dois argumentos a seguir permite que chamadas diferentes sejam arredondadas para valores diferentes.</p>
-
-
-        <pre><code><span style="color: black">def percents(counts, decimal_places):
+        <pre><code><span style="color: black;">def percents(counts, decimal_places):
     """Convert the values in array_x to percents out of the total of array_x."""
     total = counts.sum()
     return np.round((counts/total)*100, decimal_places)
@@ -359,12 +329,10 @@ print("Rounded to 3 decimal places:", percents(parts, 3))</span></code></pre>
             </tr>
             </tbody>
         </table>
+        <p style="text-align: justify;">A flexibilidade desta nova definição tem um preço pequeno: cada vez que a função é chamada, o número de casas decimais deve ser especificado. Os valores padrão dos argumentos permitem que uma função seja chamada com um número variável de argumentos; qualquer argumento que seja especificado na expressão de chamada recebe seu valor padrão, que é indicado na primeira linha da instrução <code>def</code>. Por exemplo, nesta definição final de
+            <code>percents</code>, o argumento opcional <code>decimal_places</code> recebe um valor padrão de 2.</p>
 
-        <p>A flexibilidade desta nova definição tem um preço pequeno: cada vez que a função é chamada, o número de casas decimais deve ser especificado. Os valores padrão dos argumentos permitem que uma função seja chamada com um número variável de argumentos; qualquer argumento que seja especificado na expressão de chamada recebe seu valor padrão, que é indicado na primeira linha da instrução <code>def</code>. Por exemplo, nesta definição final de <code>percents</code>, o argumento opcional
-            <code>decimal_places</code> recebe um valor padrão de 2.</p>
-
-
-        <pre><code><span style="color: black">def percents(counts, decimal_places=2):
+        <pre><code><span style="color: black;">def percents(counts, decimal_places=2):
     """Converta os valores em array_x em porcentagens do total de array_x."""
     total = counts.sum()
     return np.round((counts/total)*100, decimal_places)
@@ -382,12 +350,8 @@ print("Rounded to the default number of decimal places:", percents(parts))</span
             </tr>
             </tbody>
         </table>
-
         <h2>Nota: Métodos</h2>
-
-        <p>As funções são chamadas colocando expressões de argumento entre parênteses após o nome da função. Qualquer função definida isoladamente é chamada desta forma. Você também viu exemplos de métodos, que são como funções, mas são chamados usando notação de ponto, como <code>some_table.sort(some_label)</code>. As funções que você define sempre serão chamadas usando o nome da função primeiro, passando todos os argumentos.</p>
-
-
+        <p style="text-align: justify;">As funções são chamadas colocando expressões de argumento entre parênteses após o nome da função. Qualquer função definida isoladamente é chamada desta forma. Você também viu exemplos de métodos, que são como funções, mas são chamados usando notação de ponto, como <code>some_table.sort(some_label)</code>. As funções que você define sempre serão chamadas usando o nome da função primeiro, passando todos os argumentos.</p>
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>

@@ -150,232 +150,159 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-
-        <pre><code><span style="color: black">from datascience import *
+        <pre><code><span style="color: black;">from datascience import *
 path_data = '../../../assets/data/'
 import numpy as np
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 %matplotlib inline</span></code></pre>
-
-        <h1 id="encontrando-probabilidades">Encontrando Probabilidades</h1>
-
+        &nbsp;
+        <h1 id="encontrando-probabilidades" style="text-align: center;">Encontrando Probabilidades</h1>
         <p style="text-align: justify;">Ao longo dos séculos, houve um considerável debate filosófico sobre o que são probabilidades. Algumas pessoas pensam que probabilidades são frequências relativas; outras pensam que são frequências relativas de longo prazo; outras ainda pensam que probabilidades são uma medida subjetiva de seu próprio grau pessoal de incerteza.</p>
-
         <p style="text-align: justify;">Neste curso, a maioria das probabilidades será de frequências relativas, embora muitas tenham interpretações subjetivas. Independentemente disso, as maneiras pelas quais as probabilidades são calculadas e combinadas são consistentes entre as diferentes interpretações.</p>
-
         <p style="text-align: justify;">Por convenção, as probabilidades são números entre 0 e 1, ou, de forma equivalente, 0% e 100%. Eventos impossíveis têm probabilidade 0. Eventos que são certos têm probabilidade 1.</p>
-
         <p style="text-align: justify;">A matemática é a principal ferramenta para encontrar probabilidades exatamente, embora os computadores sejam úteis para esse propósito também. A simulação pode fornecer excelentes aproximações, com alta probabilidade. Nesta seção, desenvolveremos informalmente algumas regras simples que governam o cálculo de probabilidades. Nas seções subsequentes, retornaremos às simulações para aproximar as probabilidades de eventos complexos.</p>
-
         <p style="text-align: justify;">Usaremos a notação padrão P(evento) para denotar a probabilidade de que o "evento" aconteça, e usaremos as palavras "chance" e "probabilidade" de forma intercambiável.</p>
 
         <h2>Quando um Evento Não Acontece</h2>
-
         <p style="text-align: justify;">Se a chance de um evento acontecer é 40%, então a chance de que ele não aconteça é 60%. Este cálculo natural pode ser descrito de forma geral como segue:</p>
-
         <p style="text-align: center;">P(um evento não acontece) = 1 - P(o evento acontece)</p>
 
         <h2>Quando Todos os Resultados são Igualmente Prováveis</h2>
-
         <p style="text-align: justify;">Se você estiver lançando um dado comum, uma suposição natural é que todas as seis faces são igualmente prováveis. Sob essa suposição, as probabilidades de como um lançamento sai podem ser facilmente calculadas como uma proporção. Por exemplo, a chance de o dado mostrar um número par é</p>
-
         <p style="text-align: center;">número de faces pares / número de todas as faces = #{2, 4, 6} / #{1, 2, 3, 4, 5, 6} = 3/6</p>
-
         <p style="text-align: justify;">Semelhantemente,</p>
-
         <p style="text-align: center;">P(dado mostra um múltiplo de 3) = #{3, 6} / #{1, 2, 3, 4, 5, 6} = 2/6</p>
-
         <p style="text-align: justify;">Em geral, <strong>se todos os resultados são igualmente prováveis</strong>,</p>
-
         <p style="text-align: center;">P(um evento acontece) = #{resultados que fazem o evento acontecer} / #{todos os resultados}</p>
-
         <p style="text-align: justify;">Nem todos os fenômenos aleatórios são tão simples quanto o lançamento de um dado. As duas regras principais de probabilidade, desenvolvidas a seguir, permitem que os matemáticos encontrem probabilidades mesmo em situações complexas.</p>
 
         <h2>Quando Ambos os Eventos Devem Acontecer</h2>
-
         <p style="text-align: justify;">Suponha que você tenha uma caixa que contém três bilhetes: um vermelho, um azul e um verde. Suponha que você tire dois bilhetes aleatoriamente sem reposição; ou seja, você embaralha os três bilhetes, tira um, embaralha os dois restantes e tira outro desses dois. Qual é a chance de obter o bilhete verde primeiro, seguido pelo vermelho?</p>
-
         <p style="text-align: justify;">Existem seis pares possíveis de cores: RB, BR, RG, GR, BG, GB (abreviamos os nomes de cada cor para apenas sua primeira letra). Todos esses pares são igualmente prováveis pelo esquema de amostragem, e apenas um deles (GR) faz o evento acontecer. Portanto,</p>
-
         <p style="text-align: center;">P(verde primeiro, depois vermelho) = #{GR} / #{RB, BR, RG, GR, BG, GB} = 1/6</p>
-
         <p style="text-align: justify;">Mas há outra maneira de chegar à resposta, pensando no evento em duas etapas. Primeiro, o bilhete verde precisa ser tirado. Isso tem chance de 1/3, o que significa que o bilhete verde é tirado primeiro em cerca de 1/3 de todas as repetições do experimento. Mas isso não completa o evento. <em>Entre os 1/3 das repetições em que o verde é tirado primeiro</em>, o bilhete vermelho precisa ser tirado em seguida. Isso acontece em cerca de 1/2 dessas repetições, e
             então:</p>
-
         <p style="text-align: center;">P(verde primeiro, depois vermelho) = 1/2 de 1/3 = 1/6</p>
-
         <p style="text-align: justify;">Este cálculo é geralmente escrito "em ordem cronológica," como segue.</p>
-
         <p style="text-align: center;">P(verde primeiro, depois vermelho) = 1/3 × 1/2 = 1/6</p>
-
         <p style="text-align: justify;">O fator de 1/2 é chamado de "a chance condicional de que o bilhete vermelho apareça em segundo lugar, dado que o bilhete verde apareceu primeiro."</p>
-
         <p style="text-align: justify;">Em geral, temos a <strong>regra de multiplicação</strong>:</p>
-
         <p style="text-align: center;">P(dois eventos acontecem ambos) = P(um evento acontece) × P(o outro evento acontece, dado que o primeiro aconteceu)</p>
-
         <p style="text-align: justify;">Assim, quando há duas condições – um evento deve acontecer, bem como outro – a chance é <em>uma fração de uma fração</em>, que é menor do que qualquer uma das duas frações componentes. Quanto mais condições precisam ser satisfeitas, menos provável é que todas sejam satisfeitas.</p>
 
         <h2>Quando um Evento Pode Acontecer de Duas Maneiras Diferentes</h2>
-
         <p style="text-align: justify;">Suponha agora que queremos a chance de um dos dois bilhetes ser verde e o outro vermelho. Este evento não especifica a ordem em que as cores devem aparecer. Então elas podem aparecer em qualquer ordem.</p>
-
         <p style="text-align: justify;">Uma maneira boa de lidar com problemas como esse é <em>particionar</em> o evento para que ele possa acontecer exatamente de uma entre várias maneiras diferentes. A partição natural de "um verde e um vermelho" é: GR, RG.</p>
-
         <p style="text-align: justify;">Cada uma de GR e RG tem chance 1/6 pelo cálculo acima. Então você pode calcular a chance de "um verde e um vermelho" somando-os.</p>
-
         <p style="text-align: center;">P(um verde e um vermelho) = P(GR) + P(RG) = 1/6 + 1/6 = 2/6</p>
-
         <p style="text-align: justify;">Em geral, temos a <strong>regra da adição</strong>:</p>
-
         <p style="text-align: center;">P(um evento acontece) = P(primeira maneira como pode acontecer) + P(segunda maneira como pode acontecer)</p>
-
         <p style="text-align: justify;">desde que o evento aconteça exatamente de uma das duas maneiras.</p>
-
         <p style="text-align: justify;">Assim, quando um evento pode acontecer de duas maneiras diferentes, a chance de que isso aconteça é uma soma de chances, e portanto maior do que a chance de qualquer uma das maneiras individuais.</p>
-
         <p style="text-align: justify;">A regra da multiplicação tem uma extensão natural para mais de dois eventos, como veremos abaixo. Da mesma forma, a regra da adição tem uma extensão natural para eventos que podem acontecer de várias maneiras diferentes.</p>
-
         <p style="text-align: justify;">Encerramos a seção com exemplos que usam combinações de todas essas regras.</p>
 
         <h2>Pelo Menos Um Sucesso</h2>
-
         <p style="text-align: justify;">Os cientistas de dados frequentemente trabalham com amostras aleatórias de populações. Uma questão que às vezes surge é sobre a probabilidade de que um indivíduo específico na população seja selecionado para estar na amostra. Para calcular a chance, esse indivíduo é chamado de "sucesso," e o problema é encontrar a probabilidade de que a amostra contenha um sucesso.</p>
-
         <p style="text-align: justify;">Para entender como essas chances podem ser calculadas, começamos com uma configuração mais simples: lançar uma moeda duas vezes.</p>
-
         <p style="text-align: justify;">Se você lançar uma moeda duas vezes, existem quatro resultados igualmente prováveis: HH, HT, TH e TT. Nós abreviamos "Cara" para C e "Coroa" para T. A chance de obter pelo menos uma cara em dois lançamentos, portanto, é de 3/4.</p>
-
         <p style="text-align: justify;">Outra maneira de chegar a essa resposta é calcular o que acontece se você <em>não</em> obter pelo menos uma cara. Isso é quando ambos os lançamentos resultam em coroas. Então</p>
-
         <p style="text-align: center;">P(pelo menos uma cara em dois lançamentos) = 1 - P(ambos coroas) = 1 - 1/4 = 3/4</p>
-
         <p style="text-align: justify;">Observe também que</p>
-
         <p style="text-align: center;">P(ambos coroas) = 1/4 = 1/2 · 1/2 = (1/2)²</p>
-
         <p style="text-align: justify;">pela regra da multiplicação.</p>
-
         <p style="text-align: justify;">Essas duas observações nos permitem encontrar a chance de pelo menos uma cara em qualquer número dado de lançamentos. Por exemplo,</p>
-
         <p style="text-align: center;">P(pelo menos uma cara em 17 lançamentos) = 1 - P(todos os 17 são coroas) = 1 - (1/2)¹⁷</p>
-
         <p style="text-align: justify;">E agora estamos em posição de encontrar a chance de que o lado com seis pontos apareça pelo menos uma vez em jogadas de um dado.</p>
-
         <p style="text-align: justify;">Por exemplo,</p>
-
         <p style="text-align: center;">P(um único lançamento não é 6) = 1 - P(6) = 5/6</p>
-
         <p style="text-align: justify;">Portanto,</p>
-
         <p style="text-align: center;">P(pelo menos um 6 em dois lançamentos) = 1 - P(ambos os lançamentos não são 6) = 1 - (5/6)²</p>
-
         <p style="text-align: justify;">e</p>
-
         <p style="text-align: center;">P(pelo menos um 6 em 17 lançamentos) = 1 - (5/6)¹⁷</p>
-
         <p style="text-align: justify;">A tabela abaixo mostra essas probabilidades à medida que o número de lançamentos aumenta de 1 para 50.</p>
 
-        <pre><code><span style="color: black">rolls = np.arange(1, 51, 1)
+        <pre><code><span style="color: black;">rolls = np.arange(1, 51, 1)
 results = Table().with_columns(
     'Rolls', rolls,
     'Chance of at least one 6', 1 - (5/6)**rolls
 )
 results</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Rolls</th>
+                <th style="text-align: left; padding: 4px 8px;">Chance of at least one 6</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Rolls</th>
-                            <th>Chance of at least one 6</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>0.166667</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>0.305556</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>0.421296</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>0.517747</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>0.598122</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>0.665102</td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>0.720918</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>0.767432</td>
-                        </tr>
-                        <tr>
-                            <td>9</td>
-                            <td>0.806193</td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td>0.838494</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.166667</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.305556</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.421296</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">4</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.517747</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">5</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.598122</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.665102</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">7</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.720918</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">8</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.767432</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">9</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.806193</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">10</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.838494</td>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">A chance de um 6 aparecer pelo menos uma vez aumenta rapidamente à medida que o número de lançamentos aumenta.</p>
 
-        <pre><code><span style="color: black">results.scatter('Rolls')</span></code></pre>
-
+        <pre><code><span style="color: black;">results.scatter('Rolls')</span></code></pre>
+        <img class="alignnone size-full wp-image-608" src="https://literaciadigital.ufms.br/files/2025/07/9-5-1.png" alt="" width="366" height="318"/>
         <p style="text-align: justify;">Em 50 lançamentos, é quase certo que você obterá pelo menos um 6.</p>
 
-        <pre><code><span style="color: black">results.where('Rolls', are.equal_to(50))</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <pre><code><span style="color: black;">results.where('Rolls', are.equal_to(50))</span></code></pre>
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Rolls</th>
+                <th style="text-align: left; padding: 4px 8px;">Chance of at least one 6</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Rolls</th>
-                            <th>Chance of at least one 6</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>50</td>
-                            <td>0.99989</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">50</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">0.99989</td>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Cálculos como esses podem ser usados para encontrar a chance de um determinado indivíduo ser selecionado em uma amostra aleatória. O cálculo exato dependerá do esquema de amostragem. Mas o que observamos acima geralmente pode ser generalizado: aumentar o tamanho da amostra aleatória aumenta a chance de um indivíduo ser selecionado.</p>
-
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>

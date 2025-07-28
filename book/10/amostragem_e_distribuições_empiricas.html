@@ -157,7 +157,7 @@ import numpy as np
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 %matplotlib inline</span></code></pre>
-
+        <br>
         <h1 id="amostragem-e-distribuicoes-empiricas">Amostragem e Distribuições Empíricas</h1>
 
         <p style="text-align: justify;">Uma parte importante da ciência de dados consiste em tirar conclusões baseadas nos dados de amostras aleatórias. Para interpretar corretamente seus resultados, os cientistas de dados precisam primeiro entender exatamente o que são amostras aleatórias.</p>
@@ -265,7 +265,7 @@ top.set_format(make_array(3, 4), NumberFormatter)</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <h2>Amostragem de Linhas de uma Tabela</h2>
 
         <p style="text-align: justify;">Cada linha de uma tabela de dados representa um indivíduo; em <code>top</code>, cada indivíduo é um filme. A amostragem de indivíduos pode, portanto, ser realizada pela amostragem das linhas de uma tabela.</p>
@@ -317,7 +317,7 @@ top.set_format(make_array(3, 4), NumberFormatter)</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Você também usou <code>where</code>:</p>
 
         <pre><code><span style="color: black">top.where('Title', are.containing('Harry Potter'))</span></code></pre>
@@ -391,7 +391,7 @@ top.set_format(make_array(3, 4), NumberFormatter)</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Embora sejam amostras, não são amostras aleatórias. Não envolvem acaso.</p>
 
         <h2>Amostras de Probabilidade</h2>
@@ -416,6 +416,7 @@ top.set_format(make_array(3, 4), NumberFormatter)</span></code></pre>
 <span class="hljs-symbol">BC:</span> <span class="hljs-number">0</span>
 <span class="hljs-symbol">ABC:</span> <span class="hljs-number">0</span>
 </code></pre>
+        <br>
         <p>A pessoa A tem uma chance maior de ser selecionada do que as pessoas B ou C; de fato, a pessoa A certamente será selecionada. Como essas diferenças são conhecidas e quantificadas, elas podem ser levadas em conta ao trabalhar com a amostra.</p>
         <h2>Uma Amostra Sistemática</h2>
 
@@ -521,7 +522,7 @@ top.take(np.arange(start, top.num_rows, 10))</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p>Execute a célula algumas vezes para ver como a saída varia. </p>
         <p>Esta amostra sistemática é uma amostra probabilística. Neste esquema, todas as linhas têm chance $1/10$ de serem escolhidas. Por exemplo, a Linha 23 é escolhida se e somente se a Linha 3 for escolhida, e a chance disso é $1/10$. </p>
         <p>Mas nem todos os subconjuntos têm a mesma chance de serem escolhidos. Como as linhas selecionadas estão espaçadas uniformemente, a maioria dos subconjuntos de linhas não tem chance de serem escolhidos. Os únicos subconjuntos que são possíveis são aqueles que consistem em linhas separadas por múltiplos de 10. Qualquer um desses subconjuntos é selecionado com chance de 1/10. Outros subconjuntos, como um subconjunto contendo tanto a 15ª quanto a 16ª linha da tabela, ou qualquer

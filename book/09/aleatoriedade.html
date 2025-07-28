@@ -161,6 +161,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')</span></code></pre>
 
+        <br>
         <h1 id="aleatoriedade">Aleatoriedade</h1>
 
         <p style="text-align: justify;">Nos capítulos anteriores, desenvolvemos habilidades necessárias para fazer descrições perspicazes de dados. Cientistas de dados também precisam ser capazes de entender a aleatoriedade. Por exemplo, eles precisam ser capazes de atribuir indivíduos a grupos de tratamento e controle aleatoriamente e, em seguida, tentar dizer se quaisquer diferenças observadas nos resultados dos dois grupos são simplesmente devido à atribuição aleatória ou genuinamente devido
@@ -181,7 +182,7 @@ np.random.choice(two_groups)</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">A grande diferença entre o código acima e todo o outro código que executamos até agora é que o código acima não sempre retorna o mesmo valor. Ele pode retornar <code>treatment</code> ou <code>control</code>, e não sabemos de antemão qual ele escolherá. Podemos repetir o processo fornecendo um segundo argumento, o número de vezes para repetir o processo.</p>
 
         <pre><code><span style="color: black">np.random.choice(two_groups, 10)</span></code></pre>
@@ -191,13 +192,13 @@ np.random.choice(two_groups)</span></code></pre>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
                 <td style="text-align: left;">array(['control', 'control', 'treatment', 'treatment', 'control',
                     'control', 'control', 'control', 'control', 'control'], dtype='
-                    <U9
+                    &lt;U9
                     ')
                 </td>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Uma questão fundamental sobre eventos aleatórios é se eles ocorrem ou não. Por exemplo:</p>
 
         <ul>
@@ -214,10 +215,18 @@ np.random.choice(two_groups)</span></code></pre>
             maior que <code>1 + 1</code>.</p>
 
         <pre><code><span style="color: black">3 > 1 + 1</span></code></pre>
-
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
+                <td style="text-align: left;">True</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
         <p style="text-align: justify;">O valor <code>True</code> indica que a comparação é válida; Python confirmou esse simples fato sobre a relação entre <code>3</code> e <code>1+1</code>. O conjunto completo de operadores de comparação comuns está listado abaixo.</p>
 
-        <table border="1" class="dataframe">
+        <table border="1" class="dataframe" style="margin-left: auto; margin-right: auto;">
             <thead>
             <tr>
                 <th>Comparação</th>
@@ -265,7 +274,7 @@ np.random.choice(two_groups)</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Note os dois sinais de igual <code>==</code> na comparação para determinar a igualdade. Isso é necessário porque Python já usa <code>=</code> para significar atribuição a um nome, como vimos. Não pode usar o mesmo símbolo para um propósito diferente. Portanto, se você quiser verificar se 5 é igual a 10/2, precisa ser cuidadoso: <code>5 = 10/2</code> retorna uma mensagem de erro porque Python assume que você está tentando atribuir o valor da expressão 10/2
             a um nome que é o numeral 5. Em vez disso, você deve usar <code>5 == 10/2</code>, que avalia para <code>True</code>.</p>
 
@@ -273,12 +282,12 @@ np.random.choice(two_groups)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
                 <td style="text-align: left;"> File "
-                    <ipython-input-5-e8c755f5e450>", line 1
-                        5 = 10/2
-                        ^
-                        SyntaxError: can't assign to literal
+                    &lt;ipython-input-5-e8c755f5e450&gt;", line 1
+                    5 = 10/2
+                    ^
+                    SyntaxError: can't assign to literal
                 </td>
             </tr>
             </tbody>
@@ -289,29 +298,15 @@ np.random.choice(two_groups)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
-                <td style="text-align: left;">True</td>
-            </tr>
-            </tbody>
-        </table>
-
-        <p style="text-align: justify;">Uma expressão pode conter várias comparações, e todas elas devem ser verdadeiras para que a expressão inteira seja <code>True</code>. Por exemplo, podemos expressar que <code>1+1</code> está entre <code>1</code> e <code>3</code> usando a seguinte expressão.</p>
-
-        <pre><code><span style="color: black">1 < 1 + 1 < 3</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
-            <tbody>
-            <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
                 <td style="text-align: left;">True</td>
             </tr>
             </tbody>
         </table>
+        <br>
+        <p style="text-align: justify;">Uma expressão pode conter várias comparações, e todas elas devem ser verdadeiras para que a expressão inteira seja <code>True</code>. Por exemplo, podemos expressar que <code>1+1</code> está entre <code>1</code> e <code>3</code> usando a seguinte expressão.</p>
 
-        <p style="text-align: justify;">A média de dois números está sempre entre o número menor e o número maior. Expressamos essa relação para os números <code>x</code> e <code>y</code> abaixo. Você pode tentar valores diferentes de <code>x</code> e <code>y</code> para confirmar esta relação.</p>
-
-        <pre><code><span style="color: black">x = 12
-y = 5
-min(x, y) <= (x+y)/2 <= max(x, y)</span></code></pre>
+        <pre><code><span style="color: black">1 < 1 + 1 < 3</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -320,12 +315,12 @@ min(x, y) <= (x+y)/2 <= max(x, y)</span></code></pre>
             </tr>
             </tbody>
         </table>
+        <br>
+        <p style="text-align: justify;">A média de dois números está sempre entre o número menor e o número maior. Expressamos essa relação para os números <code>x</code> e <code>y</code> abaixo. Você pode tentar valores diferentes de <code>x</code> e <code>y</code> para confirmar esta relação.</p>
 
-        <h2>Comparando Strings</h2>
-
-        <p style="text-align: justify;">Strings também podem ser comparadas, e sua ordem é alfabética. Uma string mais curta é menor que uma string mais longa que começa com a string mais curta.</p>
-
-        <pre><code><span style="color: black">'Dog' > 'Catastrophe' > 'Cat'</span></code></pre>
+        <pre><code><span style="color: black">x = 12
+y = 5
+min(x, y) <= (x+y)/2 <= max(x, y)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -334,10 +329,12 @@ min(x, y) <= (x+y)/2 <= max(x, y)</span></code></pre>
             </tr>
             </tbody>
         </table>
+        <br>
+        <h2>Comparando Strings</h2>
 
-        <p style="text-align: justify;">Vamos voltar à seleção aleatória. Lembre-se do array <code>two_groups</code> que consiste em apenas dois elementos, <code>treatment</code> e <code>control</code>. Para ver se um indivíduo designado aleatoriamente foi para o grupo de tratamento, você pode usar uma comparação:</p>
+        <p style="text-align: justify;">Strings também podem ser comparadas, e sua ordem é alfabética. Uma string mais curta é menor que uma string mais longa que começa com a string mais curta.</p>
 
-        <pre><code><span style="color: black">np.random.choice(two_groups) == 'treatment'</span></code></pre>
+        <pre><code><span style="color: black">'Dog' > 'Catastrophe' > 'Cat'</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -346,7 +343,19 @@ min(x, y) <= (x+y)/2 <= max(x, y)</span></code></pre>
             </tr>
             </tbody>
         </table>
+        <br>
+        <p style="text-align: justify;">Vamos voltar à seleção aleatória. Lembre-se do array <code>two_groups</code> que consiste em apenas dois elementos, <code>treatment</code> e <code>control</code>. Para ver se um indivíduo designado aleatoriamente foi para o grupo de tratamento, você pode usar uma comparação:</p>
 
+        <pre><code><span style="color: black">np.random.choice(two_groups) == 'treatment'</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[9]:</td>
+                <td style="text-align: left;">True</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
         <p style="text-align: justify;">Como antes, a escolha aleatória não será sempre a mesma, então o resultado da comparação também não será sempre o mesmo. Dependerá se <code>treatment</code> ou <code>control</code> foi escolhido. Com qualquer célula que envolva seleção aleatória, é uma boa ideia executar a célula várias vezes para ter uma ideia da variabilidade no resultado.</p>
 
         <h2>Comparando uma Array e um Valor</h2>
@@ -358,24 +367,24 @@ tosses == 'Heads'</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[9]:</td>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[10]:</td>
                 <td style="text-align: left;">array([False, True, False, True, True])</td>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">O método <code>numpy</code> <code>count_nonzero</code> avalia o número de elementos diferentes de zero (ou seja, <code>True</code>) da matriz.</p>
 
         <pre><code><span style="color: black">np.count_nonzero(tosses == 'Heads')</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[10]:</td>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[11]:</td>
                 <td style="text-align: left;">3</td>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>

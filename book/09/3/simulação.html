@@ -150,8 +150,7 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-
-        <pre><code><span style="color: black">from datascience import *
+        <pre><code><span style="color: black;">from datascience import *
 path_data = '../../../assets/data/'
 import matplotlib
 matplotlib.use('Agg')
@@ -159,29 +158,19 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
-
-        <h1 id="simulacao">Simulação</h1>
-
+        &nbsp;
+        <h1 id="simulacao" style="text-align: center;">Simulação</h1>
         <p style="text-align: justify;">A simulação é o processo de usar um computador para imitar um experimento físico. Nesta disciplina, esses experimentos quase invariavelmente envolverão o acaso.</p>
-
         <p style="text-align: justify;">Vimos como simular os resultados de lançamentos de uma moeda. Os passos dessa simulação foram exemplos dos passos que constituirão cada simulação que faremos neste curso. Nesta seção, vamos estabelecer esses passos e segui-los em exemplos.</p>
 
         <h2>O Processo</h2>
-
         <p style="text-align: justify;"><strong>Passo 1: O Que Simular</strong></p>
-
         <p style="text-align: justify;">Decida qual quantidade você deseja simular. Por exemplo, você pode decidir que deseja simular os resultados dos lançamentos de uma moeda. Cada valor simulado será uma Cara ou uma Coroa.</p>
-
         <p style="text-align: justify;"><strong>Passo 2: Simulando Um Valor</strong></p>
-
         <p style="text-align: justify;">Descubra como simular <em>um</em> valor da quantidade especificada no Passo 1. Em nosso exemplo, você precisa descobrir como simular o resultado de <em>um</em> lançamento de uma moeda. Se sua quantidade for mais complicada, talvez você precise de várias linhas de código para obter um valor simulado. Tipicamente, definiremos uma função que retorna o valor simulado.</p>
-
         <p style="text-align: justify;"><strong>Passo 3: Número de Repetições</strong></p>
-
         <p style="text-align: justify;">Decida quantas vezes você deseja simular a quantidade. Você terá que repetir a simulação no Passo 2 tantas vezes. Em um de nossos exemplos anteriores, decidimos simular os resultados de 1000 lançamentos de uma moeda, então precisamos de 1000 repetições para gerar o resultado de um único lançamento.</p>
-
         <p style="text-align: justify;"><strong>Passo 4: Simulando Múltiplos Valores</strong></p>
-
         <p style="text-align: justify;">Finalmente, coloque tudo junto da seguinte maneira.</p>
 
         <ul>
@@ -194,53 +183,39 @@ import numpy as np</span></code></pre>
                 </ul>
             </li>
         </ul>
-
         <p style="text-align: justify;">Isso é tudo! Uma vez que você tenha realizado os passos acima, sua simulação está pronta. A matriz de coleção contém todos os valores simulados.</p>
-
         <p style="text-align: justify;">Neste ponto, você pode usar a matriz de coleção como faria com qualquer outra matriz. Você pode contar quantos valores simulados caem em uma categoria específica, colocar a matriz na coluna de uma tabela e visualizar a distribuição dos valores simulados, e assim por diante.</p>
 
         <h2>Exemplo: Número de Caras em 100 Lançamentos</h2>
-
         <p style="text-align: justify;">É natural esperar que em 100 lançamentos de uma moeda, haverá 50 caras, com algumas variações.</p>
-
         <p style="text-align: justify;">Mas quantas são "algumas"? Qual é a chance de obter exatamente 50 caras? Questões como essas são importantes na ciência de dados não apenas porque são sobre aspectos interessantes de aleatoriedade, mas também porque podem ser usadas na análise de experimentos nos quais as atribuições aos grupos de tratamento e controle são decididas pelo lançamento de uma moeda.</p>
-
         <p style="text-align: justify;">Neste exemplo, vamos simular o número de caras em 100 lançamentos de uma moeda. O histograma de nossos resultados nos dará algumas ideias sobre quantas caras são prováveis.</p>
-
         <p style="text-align: justify;">Vamos começar a simulação, seguindo as etapas acima.</p>
-
         <p style="text-align: justify;"><strong>Etapa 1: O que Simular</strong></p>
-
         <p style="text-align: justify;">A quantidade que vamos simular é o número de caras em 100 lançamentos.</p>
-
         <p style="text-align: justify;"><strong>Etapa 2: Simulando Um Valor</strong></p>
-
         <p style="text-align: justify;">Temos que descobrir como fazer um conjunto de 100 lançamentos e contar o número de caras. Vamos começar criando uma moeda.</p>
 
-        <pre><code><span style="color: black">coin = make_array('Heads', 'Tails')</span></code></pre>
-
+        <pre><code><span style="color: black;">coin = make_array('Heads', 'Tails')</span></code></pre>
         <p style="text-align: justify;">Em nosso exemplo anterior, usamos <code>np.random.choice</code> e um loop <code>for</code> para gerar vários lançamentos. Mas conjuntos de lançamentos de moeda são necessários com tanta frequência na ciência de dados que <code>np.random.choice</code> os simula para nós se incluímos um segundo argumento que é o número de vezes que deve ser lançado.</p>
-
         <p style="text-align: justify;">Aqui estão os resultados de 10 lançamentos.</p>
 
-        <pre><code><span style="color: black">ten_tosses = np.random.choice(coin, 10)
+        <pre><code><span style="color: black;">ten_tosses = np.random.choice(coin, 10)
 ten_tosses</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
                 <td style="text-align: left;">array(['Heads', 'Tails', 'Heads', 'Tails', 'Tails', 'Heads', 'Tails',
-                    'Tails', 'Tails', 'Heads'], dtype='
-                    <U5
-                    ')
+                    'Tails', 'Tails', 'Heads'], dtype='&lt;U5')
                 </td>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Podemos contar o número de caras usando <code>np.count_nonzero</code> como antes:</p>
 
-        <pre><code><span style="color: black">np.count_nonzero(ten_tosses == 'Heads')</span></code></pre>
+        <pre><code><span style="color: black;">np.count_nonzero(ten_tosses == 'Heads')</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -249,11 +224,10 @@ ten_tosses</span></code></pre>
             </tr>
             </tbody>
         </table>
-
-
+        &nbsp;
         <p style="text-align: justify;">Nosso objetivo é simular o número de caras em 100 lançamentos, e não 10. Para fazer isso podemos simplesmente repetir o mesmo código, substituindo 10 por 100.</p>
 
-        <pre><code><span style="color: black">outcomes = np.random.choice(coin, 100)
+        <pre><code><span style="color: black;">outcomes = np.random.choice(coin, 100)
 num_heads = np.count_nonzero(outcomes == 'Heads')
 num_heads</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
@@ -264,27 +238,24 @@ num_heads</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Como queremos fazer isso várias vezes, vamos definir uma função que retorne o valor simulado do número de caras. Podemos fazer isso usando o código desenvolvido na célula acima.</p>
 
-        <pre><code><span style="color: black">def one_simulated_value():
+        <pre><code><span style="color: black;">def one_simulated_value():
     outcomes = np.random.choice(coin, 100)
     return np.count_nonzero(outcomes == 'Heads')</span></code></pre>
-
+        &nbsp;
         <p style="text-align: justify;"><strong>Etapa 3: Número de Repetições</strong></p>
-
         <p style="text-align: justify;">Quantas repetições vamos usar depende de nós. Quanto mais usarmos, mais confiáveis serão nossas simulações, mas mais tempo levará para executar o código. O Python é bastante rápido para lançar moedas, então vamos para 20.000 repetições. Isso significa que vamos fazer o seguinte 20.000 vezes:</p>
+
         <ul>
             <li>Lançar uma moeda 100 vezes e contar o número de caras.</li>
         </ul>
-
         <p style="text-align: justify;">Isso é muitos lançamentos! É bom que tenhamos o Python para fazer isso por nós.</p>
-
         <p style="text-align: justify;"><strong>Etapa 4: Simulando Múltiplos Valores</strong></p>
-
         <p style="text-align: justify;">Estamos prontos para criar uma matriz de 20.000 valores simulados do número de caras em 100 lançamentos de uma moeda.</p>
 
-        <pre><code><span style="color: black">num_repetitions = 20000   # number of repetitions
+        <pre><code><span style="color: black;">num_repetitions = 20000   # number of repetitions
 
 heads = make_array() # empty collection array
 
@@ -293,80 +264,64 @@ for i in np.arange(num_repetitions):   # repita o processo num_repetitions vezes
     heads = np.append(heads, new_value) # aumente a matriz da coleção com o valor simulado
 
 # É isso! A simulação está feita.</span></code></pre>
-
+        &nbsp;
         <p style="text-align: justify;">Verifique se a matriz <code>heads</code> contém 20.000 entradas, uma para cada repetição do experimento.</p>
 
-        <pre><code><span style="color: black">len(heads)</span></code></pre>
+        <pre><code><span style="color: black;">len(heads)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
-                <td style="text-align: left;">2000</td>
+                <td style="text-align: left;">20000</td>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Para ter uma noção da variabilidade no número de caras em 100 lançamentos, podemos reunir os resultados numa tabela e desenhar um histograma.</p>
 
-        <pre><code><span style="color: black">simulation_results = Table().with_columns(
+        <pre><code><span style="color: black;">simulation_results = Table().with_columns(
     'Repetition', np.arange(1, num_repetitions + 1),
     'Number of Heads', heads
 )</span></code></pre>
-        <br>
-        <pre><code><span style="color: black">simulation_results.show(3)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        &nbsp;
+        <pre><code><span style="color: black;">simulation_results.show(3)</span></code></pre>
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Repetition</th>
+                <th style="text-align: left; padding: 4px 8px;">Number of Heads</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Repetition</th>
-                            <th>Number of Heads</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>44</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>54</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>44</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">44</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">54</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">44</td>
             </tr>
             </tbody>
         </table>
-        <br>
-        <pre><code><span style="color: black">simulation_results.hist('Number of Heads', bins = np.arange(30.5, 69.6, 1))</span></code></pre>
-
+        &nbsp;
+        <pre><code><span style="color: black;">simulation_results.hist('Number of Heads', bins = np.arange(30.5, 69.6, 1))</span></code></pre>
+        <img class="alignnone size-full wp-image-595" src="https://literaciadigital.ufms.br/files/2025/07/9-3-1.png" alt="" width="424" height="284"/>
         <p style="text-align: justify;">Cada intervalo tem largura 1 e está centrado em cada valor do número de caras.</p>
-
         <p style="text-align: justify;">Não é surpreendente que o histograma pareça aproximadamente simétrico em torno de 50 caras. A altura da barra em 50 é cerca de 8% por unidade. Como cada intervalo tem largura 1 unidade, isso significa que cerca de 8% das repetições produziram exatamente 50 caras. Não é uma porcentagem enorme, mas é a maior em comparação com a porcentagem em cada outro número de caras.</p>
-
         <p style="text-align: justify;">O histograma também mostra que em quase todas as repetições, o número de caras em 100 lançamentos estava entre 35 e 65. De fato, a maioria das repetições produziu números de caras no intervalo de 45 a 55.</p>
-
         <p style="text-align: justify;">Embora teoricamente seja <em>possível</em> que o número de caras possa estar em qualquer lugar entre 0 e 100, a simulação mostra que o intervalo de valores <em>prováveis</em> é muito menor.</p>
-
         <p style="text-align: justify;">Este é um exemplo de um fenômeno mais geral sobre a variabilidade no lançamento de moedas, como veremos mais adiante no curso.</p>
 
         <h2>Exemplo: Movimentos no Monopoly</h2>
-
         <p style="text-align: justify;">Cada movimento no jogo Monopoly é determinado pelo número total de casas de dois lançamentos de um dado. Se você jogar Monopoly, o que deve esperar obter quando lançar o dado duas vezes?</p>
-
         <p style="text-align: justify;">Podemos explorar isso simulando a soma de dois lançamentos de um dado. Vamos executar a simulação 10.000 vezes. Observe que neste parágrafo concluímos as Etapas 1 e 3 do nosso processo de simulação.</p>
-
         <p style="text-align: justify;">A Etapa 2 é aquela em que escrevemos uma função para simular o número total de casas em um par de lançamentos. Primeiro, vamos planejar nosso código. Criaremos uma array contendo os números de 1 a 6, faremos dois sorteios aleatórios com reposição da array e somaremos os dois números sorteados.</p>
 
-        <pre><code><span style="color: black">die = np.arange(1, 7)
+        <pre><code><span style="color: black;">die = np.arange(1, 7)
 sum(np.random.choice(die, 2))</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
@@ -376,32 +331,30 @@ sum(np.random.choice(die, 2))</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Podemos usar o array <code>die</code> e a expressão acima para definir uma função que simula um movimento no Monopoly.</p>
 
-        <pre><code><span style="color: black">def one_simulated_move():
+        <pre><code><span style="color: black;">def one_simulated_move():
     return sum(np.random.choice(die, 2))</span></code></pre>
-
         <p style="text-align: justify;">Agora podemos criar uma matriz de 10.000 movimentos simulados de Monopólio, começando com uma matriz de coleção vazia e aumentando-a a cada novo movimento simulado.</p>
 
-        <pre><code><span style="color: black">num_repetitions = 10000
+        <pre><code><span style="color: black;">num_repetitions = 10000
 
 moves = make_array()
 for i in np.arange(num_repetitions):
     new_move = one_simulated_move()
     moves = np.append(moves, new_move)</span></code></pre>
-
+        &nbsp;
         <p style="text-align: justify;">Aqui está um histograma dos resultados.</p>
 
-        <pre><code><span style="color: black">results = Table().with_columns(
+        <pre><code><span style="color: black;">results = Table().with_columns(
     'Repetition', np.arange(1, num_repetitions + 1),
     'Sum of Two Rolls', moves
 )
 
 results.hist('Sum of Two Rolls', bins = np.arange(1.5, 12.6, 1))</span></code></pre>
-
+        <img class="alignnone size-full wp-image-596" src="https://literaciadigital.ufms.br/files/2025/07/9-3-2.png" alt="" width="446" height="284"/>
         <p style="text-align: justify;">Sete é o valor mais comum, com as frequências caindo simetricamente em ambos os lados.</p>
-
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>

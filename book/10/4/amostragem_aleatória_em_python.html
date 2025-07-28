@@ -160,6 +160,7 @@ import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
 
+        <br>
         <h1 id="amostragem-aleatória-em-python">Amostragem Aleatória em Python</h1>
 
         <p style="text-align: justify;">Esta seção resume as formas que você aprendeu para amostrar aleatoriamente usando Python e introduz uma nova forma.</p>
@@ -173,191 +174,170 @@ import numpy as np</span></code></pre>
         <pre><code><span style="color: black">faces = np.arange(1, 7)
 die = Table().with_columns('Face', faces)
 die</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Face</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Face</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">4</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">5</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6</td>
             </tr>
             </tbody>
         </table>
 
+        <br>
         <p style="text-align: justify;">Execute a célula abaixo para simular 7 jogadas de um dado.</p>
 
         <pre><code><span style="color: black">die.sample(7)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Face</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Face</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">5</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">5</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">5</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6</td>
             </tr>
             </tbody>
         </table>
 
+        <br>
         <p style="text-align: justify;">Às vezes é mais natural amostrar indivíduos aleatoriamente sem reposição. Isso é chamado de amostra aleatória simples. O argumento <code>with_replacement=False</code> permite que você faça isso.</p>
 
         <pre><code><span style="color: black">actors = Table.read_table(path_data + 'actors.csv')
 actors</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Actor</th>
+                <th style="text-align: left; padding: 4px 8px;">Total Gross</th>
+                <th style="text-align: left; padding: 4px 8px;">Number of Movies</th>
+                <th style="text-align: left; padding: 4px 8px;">Average per Movie</th>
+                <th style="text-align: left; padding: 4px 8px;">#1 Movie</th>
+                <th style="text-align: left; padding: 4px 8px;">Gross</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Actor</th>
-                            <th>Total Gross</th>
-                            <th>Number of Movies</th>
-                            <th>Average per Movie</th>
-                            <th>#1 Movie</th>
-                            <th>Gross</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Harrison Ford</td>
-                            <td>4871.7</td>
-                            <td>41</td>
-                            <td>118.8</td>
-                            <td>Star Wars: The Force Awakens</td>
-                            <td>936.7</td>
-                        </tr>
-                        <tr>
-                            <td>Samuel L. Jackson</td>
-                            <td>4772.8</td>
-                            <td>69</td>
-                            <td>69.2</td>
-                            <td>The Avengers</td>
-                            <td>623.4</td>
-                        </tr>
-                        <tr>
-                            <td>Morgan Freeman</td>
-                            <td>4468.3</td>
-                            <td>61</td>
-                            <td>73.3</td>
-                            <td>The Dark Knight</td>
-                            <td>534.9</td>
-                        </tr>
-                        <tr>
-                            <td>Tom Hanks</td>
-                            <td>4340.8</td>
-                            <td>44</td>
-                            <td>98.7</td>
-                            <td>Toy Story 3</td>
-                            <td>415</td>
-                        </tr>
-                        <tr>
-                            <td>Robert Downey, Jr.</td>
-                            <td>3947.3</td>
-                            <td>53</td>
-                            <td>74.5</td>
-                            <td>The Avengers</td>
-                            <td>623.4</td>
-                        </tr>
-                        <tr>
-                            <td>Eddie Murphy</td>
-                            <td>3810.4</td>
-                            <td>38</td>
-                            <td>100.3</td>
-                            <td>Shrek 2</td>
-                            <td>441.2</td>
-                        </tr>
-                        <tr>
-                            <td>Tom Cruise</td>
-                            <td>3587.2</td>
-                            <td>36</td>
-                            <td>99.6</td>
-                            <td>War of the Worlds</td>
-                            <td>234.3</td>
-                        </tr>
-                        <tr>
-                            <td>Johnny Depp</td>
-                            <td>3368.6</td>
-                            <td>45</td>
-                            <td>74.9</td>
-                            <td>Dead Man's Chest</td>
-                            <td>423.3</td>
-                        </tr>
-                        <tr>
-                            <td>Michael Caine</td>
-                            <td>3351.5</td>
-                            <td>58</td>
-                            <td>57.8</td>
-                            <td>The Dark Knight</td>
-                            <td>534.9</td>
-                        </tr>
-                        <tr>
-                            <td>Scarlett Johansson</td>
-                            <td>3341.2</td>
-                            <td>37</td>
-                            <td>90.3</td>
-                            <td>The Avengers</td>
-                            <td>623.4</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Harrison Ford</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">4871.7</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">41</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">118.8</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Star Wars: The Force Awakens</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">936.7</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Samuel L. Jackson</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">4772.8</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">69</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">69.2</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">The Avengers</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">623.4</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Morgan Freeman</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">4468.3</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">61</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">73.3</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">The Dark Knight</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">534.9</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Tom Hanks</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">4340.8</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">44</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">98.7</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Toy Story 3</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">415</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Robert Downey, Jr.</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3947.3</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">53</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">74.5</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">The Avengers</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">623.4</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Eddie Murphy</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3810.4</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">38</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">100.3</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Shrek 2</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">441.2</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Tom Cruise</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3587.2</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">36</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">99.6</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">War of the Worlds</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">234.3</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Johnny Depp</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3368.6</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">45</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">74.9</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Dead Man's Chest</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">423.3</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Michael Caine</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3351.5</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">58</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">57.8</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">The Dark Knight</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">534.9</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">Scarlett Johansson</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3341.2</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">37</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">90.3</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">The Avengers</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">623.4</td>
             </tr>
             </tbody>
         </table>
 
+        <br>
         <pre><code><span style="color: black"># Amostra aleatória simples de 5 linhas
 actors.sample(5, with_replacement=False)</span></code></pre>
         <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
@@ -415,6 +395,7 @@ actors.sample(5, with_replacement=False)</span></code></pre>
             </tbody>
         </table>
 
+        <br>
         <p style="text-align: justify;">Como <code>amostra</code> fornece a amostra inteira na ordem em que as linhas foram selecionadas, você pode usar métodos de tabela na tabela amostrada para responder a muitas perguntas sobre a amostra. Por exemplo, você pode encontrar o número de vezes que o dado apareceu seis spots, ou o número médio de filmes em que os atores da amostra apareceram, ou se dois atores especificados apareceram na amostra. Você pode precisar de várias linhas de código para
             obter algumas dessas informações.</p>
 
@@ -435,6 +416,7 @@ faces</span></code></pre>
             </tbody>
         </table>
 
+        <br>
         <pre><code><span style="color: black"># 7 rolls of the die
 np.random.choice(faces, 7)</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
@@ -446,6 +428,7 @@ np.random.choice(faces, 7)</span></code></pre>
             </tbody>
         </table>
 
+        <br>
         <p style="text-align: justify;">O argumento <code>replace=False</code> permite obter uma amostra aleatória simples, ou seja, uma amostra sorteada aleatoriamente sem reposição.</p>
 
         <pre><code><span style="color: black"># Array of actor names
@@ -464,6 +447,7 @@ np.random.choice(actor_names, 5, replace=False)</span></code></pre>
             </tbody>
         </table>
 
+        <br>
         <p style="text-align: justify;">Assim como <code>sample</code>, <code>np.random.choice</code> também fornece toda a sequência de elementos amostrados. Você pode usar operações de array para responder a muitas perguntas sobre a amostra. Por exemplo, você pode descobrir qual ator foi o segundo a ser sorteado ou o número de faces do dado que apareceram mais de uma vez. Algumas respostas podem precisar de várias linhas de código.</p>
 
         <h2>Amostragem de uma Distribuição Categórica</h2>
@@ -500,6 +484,7 @@ sample_distribution</span></code></pre>
             </tbody>
         </table>
 
+        <br>
         <p style="text-align: justify;">Como você espera, as proporções na amostra somam 1.</p>
 
         <pre><code><span style="color: black">sum(sample_distribution)</span></code></pre>
@@ -512,6 +497,7 @@ sample_distribution</span></code></pre>
             </tbody>
         </table>
 
+        <br>
         <p style="text-align: justify;">As categorias em <code>species_proportions</code> estão na ordem Vermelho, Rosa, Branco. Essa ordem é preservada por <code>sample_proportions</code>. Se você quiser apenas a proporção de plantas com flores rosas na amostra, você pode usar <code>item</code>:</p>
 
         <pre><code><span style="color: black"># Sample proportion of Heads
@@ -525,8 +511,9 @@ sample_distribution.item(1)</span></code></pre>
             </tbody>
         </table>
 
+        <br>
         <p style="text-align: justify;">Você pode usar <code>sample_proportions</code> e operações de array para responder perguntas baseadas apenas nas proporções de indivíduos amostrados nas diferentes categorias. Você não poderá responder perguntas que exijam informações mais detalhadas sobre a amostra, como quais das plantas amostradas tinha cada uma das cores diferentes.</p>
-
+        <br>
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>

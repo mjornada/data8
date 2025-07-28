@@ -150,8 +150,7 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-
-        <pre><code><span style="color: black">from datascience import *
+        <pre><code><span style="color: black;">from datascience import *
 path_data = '../../../assets/data/'
 import matplotlib
 matplotlib.use('Agg')
@@ -159,162 +158,131 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
-
-        <h1 id="distribuições-empiricas">Distribuições Empíricas</h1>
-
+        &nbsp;
+        <h1 id="distribuições-empiricas" style="text-align: center;">Distribuições Empíricas</h1>
         <p style="text-align: justify;">Em ciência de dados, a palavra "empírica" significa "observada". Distribuições empíricas são distribuições de dados observados, como dados em amostras aleatórias.</p>
-
         <p style="text-align: justify;">Nesta seção, vamos gerar dados e ver como é a distribuição empírica.</p>
-
         <p style="text-align: justify;">Nosso cenário é um experimento simples: lançar um dado várias vezes e acompanhar qual face aparece. A tabela <code>die</code> contém os números de pontos nas faces de um dado. Todos os números aparecem exatamente uma vez, pois estamos assumindo que o dado é justo.</p>
 
-        <pre><code><span style="color: black">die = Table().with_column('Face', np.arange(1, 7, 1))
+        <pre><code><span style="color: black;">die = Table().with_column('Face', np.arange(1, 7, 1))
 die</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Face</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Face</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">4</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">5</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6</td>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <h2>Uma Distribuição de Probabilidade</h2>
-
         <p style="text-align: justify;">O histograma abaixo nos ajuda a visualizar o fato de que cada face aparece com probabilidade de 1/6. Dizemos que o histograma mostra a <em>distribuição</em> das probabilidades sobre todas as faces possíveis. Como todas as barras representam a mesma chance percentual, a distribuição é chamada de <em>uniforme nos inteiros de 1 a 6.</em></p>
 
-        <pre><code><span style="color: black">die_bins = np.arange(0.5, 6.6, 1)
+        <pre><code><span style="color: black;">die_bins = np.arange(0.5, 6.6, 1)
 die.hist(bins = die_bins)</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_1_histogram1.png" alt="Histograma uniforme" style="max-width: 100%;">
+        <img class="alignnone size-full wp-image-614" src="https://literaciadigital.ufms.br/files/2025/07/10-1-1.png" alt="" width="446" height="289"/>
 
+        &nbsp;
         <p style="text-align: justify;">Variáveis cujos valores sucessivos são separados pela mesma quantidade fixa, como os valores nos lançamentos de um dado (valores sucessivos separados por 1), pertencem a uma classe de variáveis chamadas <em>discretas</em>. O histograma acima é chamado de histograma <em>discreto</em>. Seus intervalos são especificados pelo array <code>die_bins</code> e garantem que cada barra esteja centralizada sobre o valor inteiro correspondente.</p>
-
         <p style="text-align: justify;">É importante lembrar que o dado não pode mostrar 1,3 pontos ou 5,2 pontos – ele sempre mostra um número inteiro de pontos. Mas nossa visualização distribui a probabilidade de cada valor sobre a área de uma barra. Embora isso possa parecer um pouco arbitrário neste estágio do curso, será importante mais tarde quando sobrepormos curvas suaves sobre histogramas discretos.</p>
-
         <p style="text-align: justify;">Antes de prosseguir, vamos garantir que os números nos eixos façam sentido. A probabilidade de cada face é 1/6, o que é 16,67% quando arredondado para duas casas decimais. A largura de cada intervalo é de 1 unidade. Portanto, a altura de cada barra é de 16,67% por unidade. Isso concorda com as escalas horizontal e vertical do gráfico.</p>
 
         <h2>Distribuições Empíricas</h2>
-
         <p style="text-align: justify;">A distribuição acima consiste na probabilidade teórica de cada face. É chamada de <em>distribuição de probabilidade</em> e não é baseada em dados observados. Pode ser estudada e entendida sem que qualquer dado seja lançado.</p>
-
         <p style="text-align: justify;"><em>Distribuições empíricas,</em> por outro lado, são distribuições de dados observados. Elas podem ser visualizadas por <em>histogramas empíricos</em>.</p>
-
         <p style="text-align: justify;">Vamos obter alguns dados simulando lançamentos de um dado. Isso pode ser feito amostrando aleatoriamente com reposição dos inteiros de 1 a 6. Já usamos <code>np.random.choice</code> para essas simulações antes. Mas agora vamos introduzir um método da Tabela para fazer isso. Isso tornará mais fácil usarmos nossos métodos de Tabela familiares para visualização.</p>
-
         <p style="text-align: justify;">O método da Tabela é chamado <code>sample</code>. Ele faz sorteios aleatórios com reposição das linhas de uma tabela. Seu argumento é o tamanho da amostra, e ele retorna uma tabela consistindo das linhas que foram selecionadas. Um argumento opcional <code>with_replacement=False</code> especifica que a amostra deve ser extraída sem reposição. Mas isso não se aplica ao lançamento de um dado.</p>
-
         <p style="text-align: justify;">Aqui estão os resultados de 10 lançamentos de um dado.</p>
 
-        <pre><code><span style="color: black">die.sample(10)</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <pre><code><span style="color: black;">die.sample(10)</span></code></pre>
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Face</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Face</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">5</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">4</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">5</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Podemos usar o mesmo método para simular quantas jogadas quisermos e, em seguida, desenhar histogramas empíricos dos resultados. Como faremos isso repetidamente, definimos uma função <code>empirical_hist_die</code> que toma o tamanho da amostra como argumento, lança um dado tantas vezes quanto o argumento e depois desenha um histograma dos resultados observados.</p>
 
-        <pre><code><span style="color: black">def empirical_hist_die(n):
+        <pre><code><span style="color: black;">def empirical_hist_die(n):
     die.sample(n).hist(bins = die_bins)</span></code></pre>
-
         <h2>Histogramas Empíricos</h2>
-
         <p style="text-align: justify;">Aqui está um histograma empírico de 10 lançamentos. Não se parece muito com o histograma de probabilidade acima. Execute a célula algumas vezes para ver como ela varia.</p>
 
-        <pre><code><span style="color: black">empirical_hist_die(10)</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_1_histogram2.png" alt="Histograma empírico com 10 lançamentos" style="max-width: 100%;">
+        <pre><code><span style="color: black;">empirical_hist_die(10)</span></code></pre>
+        <img class="alignnone size-full wp-image-615" src="https://literaciadigital.ufms.br/files/2025/07/10-1-2.png" alt="" width="433" height="284"/>
 
+        &nbsp;
         <p style="text-align: justify;">Quando o tamanho da amostra aumenta, o histograma empírico começa a se parecer mais com o histograma de probabilidades teóricas.</p>
 
-        <pre><code><span style="color: black">empirical_hist_die(100)</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_1_histogram3.png" alt="Histograma empírico com 100 lançamentos" style="max-width: 100%;">
+        <pre><code><span style="color: black;">empirical_hist_die(100)</span></code></pre>
+        <img class="alignnone size-full wp-image-616" src="https://literaciadigital.ufms.br/files/2025/07/10-1-3.png" alt="" width="433" height="284"/>
 
-        <pre><code><span style="color: black">empirical_hist_die(1000)</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_1_histogram4.png" alt="Histograma empírico com 1000 lançamentos" style="max-width: 100%;">
+        &nbsp;
+        <pre><code><span style="color: black;">empirical_hist_die(1000)</span></code></pre>
+        <img class="alignnone size-full wp-image-617" src="https://literaciadigital.ufms.br/files/2025/07/10-1-4.png" alt="" width="446" height="284"/>
 
+        &nbsp;
         <p style="text-align: justify;">À medida que aumentamos o número de lançamentos na simulação, a área de cada barra se aproxima de 16,67%, que é a área de cada barra no histograma de probabilidade.</p>
 
         <h2>A Lei das Médias</h2>
-
         <p style="text-align: justify;">O que observamos acima é um exemplo de uma regra geral chamada <em>lei das médias</em>:</p>
-
         <p style="text-align: justify;">Se um experimento aleatório é repetido de forma independente e em condições idênticas, então, a longo prazo, a proporção de vezes que um evento ocorre se aproxima cada vez mais da probabilidade teórica do evento.</p>
-
         <p style="text-align: justify;">Por exemplo, a longo prazo, a proporção de vezes que a face com quatro pontos aparece se aproxima cada vez mais de 1/6.</p>
-
         <p style="text-align: justify;">Aqui, "independentemente e em condições idênticas" significa que cada repetição é realizada da mesma maneira, independentemente dos resultados de todas as outras repetições.</p>
-
         <p style="text-align: justify;">Sob essas condições, a lei acima implica que, se o experimento aleatório for repetido um grande número de vezes, a proporção de vezes que um evento ocorre tem grande probabilidade de se aproximar da probabilidade teórica do evento.</p>
-
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
@@ -325,8 +293,6 @@ die.hist(bins = die_bins)</span></code></pre>
             </tbody>
         </table>
         <!--###########################################################################################################################################################-->
-
-
 
     </div>
 </div>

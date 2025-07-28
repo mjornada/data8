@@ -160,6 +160,7 @@ import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
 
+        <br>
         <h1 id="iteracao">Iteração</h1>
 
         <p style="text-align: justify;">É frequentemente o caso na programação - especialmente ao lidar com aleatoriedade - que queremos repetir um processo várias vezes. Por exemplo, lembre-se do jogo de apostar em um lançamento de um dado com as seguintes regras:</p>
@@ -181,7 +182,7 @@ import numpy as np</span></code></pre>
         return 0
     elif x <= 6:
         return 1</span></code></pre>
-
+        <br>
         <p style="text-align: justify;">Playing this game once is easy:</p>
 
         <pre><code><span style="color: black">bet_on_one_roll()</span></code></pre>
@@ -193,7 +194,7 @@ import numpy as np</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Para ter uma ideia de quão variáveis são os resultados, precisamos jogar o jogo várias vezes. Poderíamos executar a célula repetidamente, mas isso é tedioso, e se quisermos fazer isso mil vezes ou um milhão de vezes, esqueça.</p>
 
         <p style="text-align: justify;">Uma solução mais automatizada é usar uma declaração <code>for</code> para percorrer o conteúdo de uma sequência. Isso é chamado de <em>iteração</em>. Uma declaração <code>for</code> começa com a palavra <code>for</code>, seguida por um nome que queremos dar a cada item na sequência, seguida pela palavra <code>in</code>, e terminando com uma expressão que avalia para uma sequência. O corpo indentado da declaração <code>for</code> é executado uma vez <em>para
@@ -214,7 +215,7 @@ import numpy as np</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">É útil escrever código que replique exatamente uma declaração <code>for</code>, sem usar a própria declaração <code>for</code>.</p>
 
         <p style="text-align: justify;">Uma declaração <code>for</code> simplesmente replica o código dentro dela, mas antes de cada iteração, ela atribui um novo valor da sequência fornecida ao nome que escolhemos. Por exemplo, aqui está uma versão desenrolada do loop acima.</p>
@@ -238,7 +239,7 @@ print(animal)</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Observe que o nome <code>animal</code> é arbitrário, assim como qualquer nome que atribuímos com <code>=</code>.</p>
 
         <p style="text-align: justify;">Aqui usamos uma declaração <code>for</code> de maneira mais realista: imprimimos os resultados de apostar cinco vezes no dado conforme descrito anteriormente. Isso é chamado de <em>simulação</em> dos resultados de cinco apostas. Usamos a palavra <em>simulação</em> para nos lembrar de que não estamos rolando dados e trocando dinheiro fisicamente, mas usando o Python para imitar o processo.</p>
@@ -266,7 +267,7 @@ print(animal)</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Neste caso, simplesmente executamos exatamente a mesma ação (aleatória) várias vezes, de modo que o código no corpo da nossa instrução <code>for</code> na verdade não se refere a <code>i</code>.</p>
 
         <h2>Aumentando Arrays</h2>
@@ -282,13 +283,13 @@ np.append(pets, 'Another Pet')</span></code></pre>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
                 <td style="text-align: left;">array(['Cat', 'Dog', 'Another Pet'], dtype='
-                    <U11
+                    &lt;U11
                     ')
                 </td>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Isso mantém o array <code>pets</code> inalterado:</p>
 
         <pre><code><span style="color: black">pets</span></code></pre>
@@ -297,13 +298,13 @@ np.append(pets, 'Another Pet')</span></code></pre>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[6]:</td>
                 <td style="text-align: left;">array(['Cat', 'Dog'], dtype='
-                    <U3
+                    &lt;U3
                     ')
                 </td>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Mas muitas vezes, ao usar loops <code>for</code>, será conveniente modificar um array - isto é, alterá-lo - ao aumentá-lo. Isso é feito atribuindo ao array aumentado o mesmo nome do original.</p>
 
         <pre><code><span style="color: black">pets = np.append(pets, 'Another Pet')
@@ -313,13 +314,13 @@ pets</span></code></pre>
             <tr>
                 <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[7]:</td>
                 <td style="text-align: left;">array(['Cat', 'Dog', 'Another Pet'], dtype='
-                    <U11
+                    &lt;U11
                     ')
                 </td>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <h2>Exemplo: Apostando em 5 Rolagens</h2>
 
         <p style="text-align: justify;">Agora podemos simular cinco apostas no dado e coletar os resultados em uma matriz que chamaremos de <em>matriz de coleção</em>. Começaremos criando uma matriz vazia para isso e, em seguida, anexaremos o resultado de cada aposta. Observe que o corpo do laço <code>for</code> contém duas declarações. Ambas as declarações são executadas para cada item na sequência fornecida.</p>
@@ -339,7 +340,7 @@ outcomes</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Vamos reescrever a célula com a instrução <code>for</code> desenrolada:</p>
 
         <pre><code><span style="color: black">outcomes = make_array()
@@ -373,7 +374,7 @@ outcomes</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">O conteúdo do array provavelmente será diferente do array que obtivemos ao executar a célula anterior, mas isso se deve à aleatoriedade no lançamento do dado. O processo de criação do array é exatamente o mesmo.</p>
 
         <p style="text-align: justify;">Ao capturar os resultados em um array, demos a nós mesmos a capacidade de usar métodos de array para fazer cálculos. Por exemplo, podemos usar <code>np.count_nonzero</code> para contar o número de vezes que o dinheiro mudou de mãos.</p>
@@ -387,7 +388,7 @@ outcomes</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        <br>
         <h2>Exemplo: Apostando em 300 Rolagens</h2>
 
         <p style="text-align: justify;">A iteração é uma técnica poderosa. Por exemplo, podemos ver a variação nos resultados de 300 apostas executando exatamente o mesmo código para 300 apostas em vez de cinco.</p>
@@ -409,12 +410,12 @@ for i in np.arange(300):
             </tr>
             </tbody>
         </table>
-
+        <br>
         <p style="text-align: justify;">Para ver com que frequência os três diferentes resultados possíveis apareceram, podemos usar os métodos de array <code>outcomes</code> e <code>Table</code>.</p>
 
         <pre><code><span style="color: black">outcome_table = Table().with_column('Outcome', outcomes)
 outcome_table.group('Outcome').barh(0)</span></code></pre>
-
+        <br>
         <p style="text-align: justify;">Não surpreendentemente, cada um dos três resultados -1, 0 e 1 apareceu cerca de 100 vezes em 300, com alguma variação. Vamos examinar os valores de "com alguma variação" mais de perto nos capítulos seguintes.</p>
 
         <!--###########################################################################################################################################################-->

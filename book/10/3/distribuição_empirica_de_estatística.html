@@ -150,8 +150,7 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-
-        <pre><code><span style="color: black">from datascience import *
+        <pre><code><span style="color: black;">from datascience import *
 path_data = '../../../assets/data/'
 import matplotlib
 matplotlib.use('Agg')
@@ -159,41 +158,35 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plots
 plots.style.use('fivethirtyeight')
 import numpy as np</span></code></pre>
-
-        <h1 id="distribuição-empírica-de-uma-estatística">Distribuição Empírica de uma Estatística</h1>
-
+        &nbsp;
+        <h1 id="distribuição-empírica-de-uma-estatística" style="text-align: center;">Distribuição Empírica de uma Estatística</h1>
         <p style="text-align: justify;">A Lei das Médias implica que, com alta probabilidade, a distribuição empírica de uma grande amostra aleatória se assemelhará à distribuição da população da qual a amostra foi extraída.</p>
-
         <p style="text-align: justify;">A semelhança é visível em dois histogramas: o histograma empírico de uma grande amostra aleatória provavelmente se assemelha ao histograma da população.</p>
-
         <p style="text-align: justify;">Como lembrete, aqui está o histograma dos atrasos de todos os voos em <code>united</code>, e um histograma empírico dos atrasos de uma amostra aleatória de 1.000 desses voos.</p>
 
-        <pre><code><span style="color: black">united = Table.read_table(path_data + 'united_summer2015.csv')</span></code></pre>
-        <br>
-        <pre><code><span style="color: black">delay_bins = np.arange(-20, 201, 10)
+        <pre><code><span style="color: black;">united = Table.read_table(path_data + 'united_summer2015.csv')</span></code></pre>
+        &nbsp;
+        <pre><code><span style="color: black;">delay_bins = np.arange(-20, 201, 10)
 united.hist('Delay', bins = delay_bins, unit = 'minute')
 plots.title('Population');</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_3_histogram1.png" alt="Histograma da população" style="max-width: 100%;">
-        <br>
-        <pre><code><span style="color: black">sample_1000 = united.sample(1000)
+        <img class="alignnone size-full wp-image-630" src="https://literaciadigital.ufms.br/files/2025/07/10-3-1.png" alt="" width="437" height="305"/>
+        <pre><code><span style="color: black;">sample_1000 = united.sample(1000)
 sample_1000.hist('Delay', bins = delay_bins, unit = 'minute')
 plots.title('Sample of Size 1000');</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_3_histogram2.png" alt="Histograma da amostra de tamanho 1000" style="max-width: 100%;">
-
+        <img class="alignnone size-full wp-image-631" src="https://literaciadigital.ufms.br/files/2025/07/10-3-2.png" alt="" width="437" height="305"/>
         <p style="text-align: justify;">Os dois histogramas claramente se assemelham, embora não sejam idênticos.</p>
 
         <h2>Parâmetro</h2>
-
         <p style="text-align: justify;">Frequentemente, estamos interessados em quantidades numéricas associadas a uma população.</p>
+
         <ul>
             <li>Em uma população de eleitores, qual percentual votará no Candidato A?</li>
             <li>Em uma população de usuários do Facebook, qual é o maior número de amigos no Facebook que os usuários têm?</li>
             <li>Em uma população de voos da United, qual é o atraso de partida mediano?</li>
         </ul>
-
         <p style="text-align: justify;">Quantidades numéricas associadas a uma população são chamadas de <em>parâmetros</em>. Para a população de voos em <code>united</code>, sabemos o valor do parâmetro "atraso mediano":</p>
 
-        <pre><code><span style="color: black">np.median(united.column('Delay'))</span></code></pre>
+        <pre><code><span style="color: black;">np.median(united.column('Delay'))</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -202,10 +195,10 @@ plots.title('Sample of Size 1000');</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">A função <code>NumPy</code> <code>median</code> retorna a mediana (ponto intermediário) de um array. Entre todos os voos em <code>united</code>, o atraso médio foi de 2 minutos. Ou seja, cerca de 50% dos voos da população tiveram atrasos de 2 minutos ou menos:</p>
 
-        <pre><code><span style="color: black">united.where('Delay', are.below_or_equal_to(2)).num_rows / united.num_rows</span></code></pre>
+        <pre><code><span style="color: black;">united.where('Delay', are.below_or_equal_to(2)).num_rows / united.num_rows</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -214,12 +207,11 @@ plots.title('Sample of Size 1000');</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Metade de todos os voos partiram no máximo 2 minutos após o horário de partida programado. Isso é um atraso muito curto!</p>
-
         <p style="text-align: justify;"><strong>Nota.</strong> A porcentagem não é exatamente 50% por causa dos "empates", ou seja, voos que tiveram atrasos de exatamente 2 minutos. Houve 480 desses voos. Empates são bastante comuns em conjuntos de dados e não nos preocuparemos com eles neste curso.</p>
 
-        <pre><code><span style="color: black">united.where('Delay', are.equal_to(2)).num_rows</span></code></pre>
+        <pre><code><span style="color: black;">united.where('Delay', are.equal_to(2)).num_rows</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -228,16 +220,13 @@ plots.title('Sample of Size 1000');</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <h2>Estatística</h2>
-
         <p style="text-align: justify;">Em muitas situações, estaremos interessados em descobrir o valor de um parâmetro desconhecido. Para isso, vamos depender de dados de uma grande amostra aleatória retirada da população.</p>
-
         <p style="text-align: justify;">Uma <em>estatística</em> (note o singular!) é qualquer número calculado usando os dados de uma amostra. Portanto, a mediana da amostra é uma estatística.</p>
-
         <p style="text-align: justify;">Lembre-se de que <code>sample_1000</code> contém uma amostra aleatória de 1000 voos da <code>united</code>. O valor observado da mediana da amostra é:</p>
 
-        <pre><code><span style="color: black">np.median(sample_1000.column('Delay'))</span></code></pre>
+        <pre><code><span style="color: black;">np.median(sample_1000.column('Delay'))</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -246,13 +235,12 @@ plots.title('Sample of Size 1000');</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Nosso exemplo - um conjunto de 1.000 voos - nos forneceu um valor observado da estatística. Isso levanta um problema importante de inferência:</p>
+        <p style="text-align: justify;"><strong>A estatística poderia ter sido diferente.</strong>
+            Uma consideração fundamental ao usar qualquer estatística baseada em uma amostra aleatória é que <em>a amostra poderia ter sido diferente</em> e, portanto, a estatística também poderia ter sido diferente.</p>
 
-        <p style="text-align: justify;"><strong>A estatística poderia ter sido diferente.</strong><br>
-        Uma consideração fundamental ao usar qualquer estatística baseada em uma amostra aleatória é que <em>a amostra poderia ter sido diferente</em> e, portanto, a estatística também poderia ter sido diferente.</p>
-
-        <pre><code><span style="color: black">np.median(united.sample(1000).column('Delay'))</span></code></pre>
+        <pre><code><span style="color: black;">np.median(united.sample(1000).column('Delay'))</span></code></pre>
         <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
             <tbody>
             <tr>
@@ -261,112 +249,92 @@ plots.title('Sample of Size 1000');</span></code></pre>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Execute a célula acima algumas vezes para ver como a resposta varia. Muitas vezes é igual a 2, o mesmo valor do parâmetro populacional. Mas às vezes é diferente.</p>
-
         <p style="text-align: justify;"><strong>Quão diferente a estatística poderia ter sido?</strong> Uma maneira de responder a isso é simular a estatística muitas vezes e anotar os valores. Um histograma desses valores nos informará sobre a distribuição da estatística.</p>
-
         <p style="text-align: justify;">Vamos relembrar as principais etapas de uma simulação.</p>
 
         <h2>Simulando uma Estatística</h2>
-
         <p style="text-align: justify;">Vamos simular a mediana da amostra usando os passos que configuramos em um capítulo anterior quando começamos a estudar simulação. Você pode substituir o tamanho da amostra de 1000 por qualquer outro tamanho de amostra, e a mediana da amostra por qualquer outra estatística.</p>
-
         <p style="text-align: justify;"><strong>Passo 1: Decida qual estatística simular.</strong> Já decidimos isso: vamos simular a mediana de uma amostra aleatória de tamanho 1000 retirada da população de atrasos de voos.</p>
-
         <p style="text-align: justify;"><strong>Passo 2: Defina uma função que retorne um valor simulado da estatística.</strong> Extraia uma amostra aleatória de tamanho 1000 e calcule a mediana da amostra. Fizemos isso na célula de código acima. Aqui está novamente, encapsulado em uma função.</p>
 
-        <pre><code><span style="color: black">def random_sample_median():
+        <pre><code><span style="color: black;">def random_sample_median():
     return np.median(united.sample(1000).column('Delay'))</span></code></pre>
-
+        &nbsp;
         <p style="text-align: justify;"><strong>Passo 3: Decidir quantos valores simulados gerar.</strong> Vamos fazer 5.000 repetições.</p>
-
         <p style="text-align: justify;"><strong>Passo 4: Usar um loop <code>for</code> para gerar um array de valores simulados.</strong> Como de costume, começaremos criando um array vazio para coletar nossos resultados. Em seguida, configuraremos um loop <code>for</code> para gerar todos os valores simulados. O corpo do loop consistirá em gerar um valor simulado da mediana da amostra e adicioná-lo ao nosso array de resultados.</p>
-
         <p style="text-align: justify;">A simulação leva um tempo perceptível para ser executada. Isso ocorre porque ela está realizando 5.000 repetições do processo de amostragem de tamanho 1.000 e computando sua mediana. Isso significa muita amostragem e repetição!</p>
 
-        <pre><code><span style="color: black">medians = make_array()
+        <pre><code><span style="color: black;">medians = make_array()
 
 for i in np.arange(5000):
     medians = np.append(medians, random_sample_median())</span></code></pre>
-
+        &nbsp;
         <p style="text-align: justify;">A simulação está concluída. Todas as 5.000 medianas de amostras simuladas foram coletadas no array <code>medians</code>. Agora é hora de visualizar os resultados.</p>
 
         <h2>Visualização</h2>
-
         <p style="text-align: justify;">Aqui estão as medianas de amostras aleatórias simuladas exibidas na tabela <code>simulated_medians</code>.</p>
 
-        <pre><code><span style="color: black">simulated_medians = Table().with_column('Sample Median', medians)
+        <pre><code><span style="color: black;">simulated_medians = Table().with_column('Sample Median', medians)
 simulated_medians</span></code></pre>
-        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Sample Median</th>
+            </tr>
+            </thead>
             <tbody>
             <tr>
-                <td style="text-align: left;">
-                    <table border="1" class="dataframe">
-                        <thead>
-                        <tr>
-                            <th>Sample Median</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                        </tr>
-                        <tr>
-                            <td>2.5</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2.5</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
             </tr>
             </tbody>
         </table>
-
+        &nbsp;
         <p style="text-align: justify;">Também podemos visualizar os dados simulados usando um histograma. O histograma é chamado de <em>histograma empírico da estatística</em>. Ele exibe a <em>distribuição empírica</em> da estatística. Lembre-se de que <em>empírico</em> significa <em>observado</em>.</p>
 
-        <pre><code><span style="color: black">simulated_medians.hist(bins=np.arange(0.5, 5, 1))</span></code></pre>
-        <img src="https://literaciadigital.ufms.br/data8/assets/images/10_3_histogram3.png" alt="Histograma empírico da estatística" style="max-width: 100%;">
+        <pre><code><span style="color: black;">simulated_medians.hist(bins=np.arange(0.5, 5, 1))</span></code></pre>
+        <img class="alignnone size-full wp-image-632" src="https://literaciadigital.ufms.br/files/2025/07/10-3-3.png" alt="" width="433" height="284"/>
 
+        &nbsp;
         <p style="text-align: justify;">Você pode ver que a mediana da amostra é muito provavelmente cerca de 2, que foi o valor da mediana da população. Como amostras de 1000 atrasos de voo tendem a se assemelhar à população de atrasos, não é surpreendente que as medianas dos atrasos dessas amostras estejam próximas à mediana do atraso na população.</p>
-
         <p style="text-align: justify;">Este é um exemplo de como uma estatística pode fornecer uma boa estimativa de um parâmetro.</p>
 
         <h2>O Poder da Simulação</h2>
-
         <p style="text-align: justify;">Se pudéssemos gerar todas as possíveis amostras aleatórias de tamanho 1000, conheceríamos todos os valores possíveis da estatística (a mediana da amostra), bem como as probabilidades de todos esses valores. Poderíamos visualizar todos os valores e probabilidades no histograma de probabilidade da estatística.</p>
-
         <p style="text-align: justify;">Mas em muitas situações, incluindo esta, o número de todas as amostras possíveis é grande o suficiente para exceder a capacidade do computador, e cálculos puramente matemáticos das probabilidades podem ser dificilmente tratáveis.</p>
-
         <p style="text-align: justify;">É aqui que entram os histogramas empíricos.</p>
-
         <p style="text-align: justify;">Sabemos que, pela Lei dos Grandes Números, o histograma empírico da estatística provavelmente se assemelhará ao histograma de probabilidade da estatística, se o tamanho da amostra for grande e se você repetir o processo de amostragem aleatória várias vezes.</p>
-
-        <p style="text-align: justify;">Isso significa que simular processos aleatórios repetidamente é uma maneira de aproximar distribuições de probabilidade <em>sem calcular as probabilidades matematicamente ou gerar todas as possíveis amostras aleatórias</em>. Assim, as simulações computacionais se tornam uma ferramenta poderosa na ciência de dados. Elas podem ajudar os cientistas de dados a entender as propriedades de quantidades aleatórias que seriam complicadas de analisar de outras maneiras.</p>
-
+        <p style="text-align: justify;">Isso significa que simular processos aleatórios repetidamente é uma maneira de aproximar distribuições de probabilidade <em>sem calcular as probabilidades matematicamente ou gerar todas as possíveis amostras aleatórias</em>. Assim, as simulações computacionais se tornam uma ferramenta poderosa na ciência de dados. Elas podem ajudar os cientistas de dados a entender as propriedades de quantidades aleatórias que seriam complicadas de analisar de outras
+            maneiras.</p>
+        <br>
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
@@ -377,7 +345,6 @@ simulated_medians</span></code></pre>
             </tbody>
         </table>
         <!--###########################################################################################################################################################-->
-
 
     </div>
 </div>
