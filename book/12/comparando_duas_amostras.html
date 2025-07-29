@@ -150,25 +150,36 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-        <h1 id="testando-hip-teses" style="text-align: center;">Testando Hipóteses</h1>
-        <p style="text-align: justify;">Cientistas de dados frequentemente se deparam com perguntas de sim-não sobre o mundo. Você já viu alguns exemplos de tais perguntas neste curso:</p>
+        <pre><code><span style="color: black;">import matplotlib
+from datascience import *
+path_data = '../../assets/data/'
+%matplotlib inline
+import matplotlib.pyplot as plots
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+import math
+import scipy.stats as stats
+plots.style.use('fivethirtyeight')</span></code></pre>
+        &nbsp;
+        <h1 id="comparando-duas-amostras">Comparando Duas Amostras</h1>
+        <p style="text-align: justify;">Vimos vários exemplos de avaliação se uma única amostra se parece com sorteios aleatórios de um modelo de chance especificado.</p>
 
         <ul style="text-align: justify;">
-            <li>O chocolate é bom para você?</li>
-            <li>A água da bomba da Broad Street causou cólera?</li>
-            <li>As demografias na Califórnia mudaram na última década?</li>
+            <li>Os painéis de júri do Condado de Alameda se parecem com uma amostra aleatória da população de jurados elegíveis?</li>
+            <li>As plantas de ervilha que Mendel cultivou têm cores consistentes com as chances que ele especificou em seu modelo?</li>
         </ul>
-        <p style="text-align: justify;">Se respondermos a perguntas como essas depende dos dados que temos. Dados do censo sobre a Califórnia podem resolver questões sobre demografia com pouca incerteza sobre a resposta. Sabemos que a água da bomba da Broad Street foi contaminada por resíduos de vítimas de cólera, então podemos fazer uma boa suposição sobre se ela causou cólera.</p>
-        <p style="text-align: justify;">Se o chocolate ou qualquer outro tratamento é bom para você quase certamente terá que ser decidido por especialistas médicos, mas um passo inicial consiste em usar a ciência de dados para analisar dados de estudos e experimentos randomizados.</p>
-        <p style="text-align: justify;">Neste capítulo, tentaremos responder a essas perguntas de sim-não, baseando nossas conclusões em amostras aleatórias e distribuições empíricas.</p>
+        <p style="text-align: justify;">Em todos esses casos, havia apenas uma amostra aleatória, e estávamos tentando decidir como ela foi gerada. Mas frequentemente, cientistas de dados têm que comparar duas amostras aleatórias entre si. Por exemplo, eles podem ter que comparar os resultados de pacientes que foram atribuídos aleatoriamente a um grupo de tratamento e um grupo de controle. Ou eles podem ter aleatorizado usuários da internet para receber duas versões diferentes de um site, após o
+            qual eles gostariam de
+            comparar as ações dos dois grupos aleatórios.</p>
+        <p style="text-align: justify;">Neste capítulo, desenvolvemos uma maneira de usar Python para comparar duas amostras aleatórias e responder a perguntas sobre as semelhanças e diferenças entre elas. Você verá que os métodos que desenvolvemos têm diversas aplicações. Nossos exemplos são da área de medicina, saúde pública e até futebol!</p>
         &nbsp;
 
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/10-0/10-4/">← Capítulo 10.4 - Amostragem Aleatória em Python</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/11-0/11-1/">Capítulo 11.1 - Avaliando um Modelo →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/11-0/11-4/">← Capítulo 11.4 - Probabilidades de Erro</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/12-0/12-1/">Capítulo 12.1 - Teste A/B →</a></td>
             </tr>
             </tbody>
         </table>

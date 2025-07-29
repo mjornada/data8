@@ -150,25 +150,202 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-        <h1 id="testando-hip-teses" style="text-align: center;">Testando Hipóteses</h1>
-        <p style="text-align: justify;">Cientistas de dados frequentemente se deparam com perguntas de sim-não sobre o mundo. Você já viu alguns exemplos de tais perguntas neste curso:</p>
+        <pre><code><span style="color: black;">from datascience import *
+%matplotlib inline
+path_data = '../../../assets/data/'
+import matplotlib.pyplot as plt
+plt.style.use('fivethirtyeight')
+import numpy as np</span></code></pre>
+        &nbsp;
+        <h1 id="percentis" style="text-align: center;">Percentis</h1>
+        <p style="text-align: justify;">Dados numéricos podem ser classificados em ordem crescente ou decrescente. Assim, os valores de um conjunto de dados numéricos têm uma <em>ordem de classificação</em>. Um percentil é o valor em uma posição específica dessa ordem.</p>
+        <p style="text-align: justify;">Por exemplo, se sua pontuação em um teste está no 95º percentil, uma interpretação comum é que apenas 5% das pontuações foram superiores à sua. A mediana é o 50º percentil; é comumente assumido que 50% dos valores em um conjunto de dados estão acima da mediana.</p>
+        <p style="text-align: justify;">Mas algum cuidado é necessário para dar aos percentis uma definição precisa que funcione para todos os rankings e todas as listas. Para entender por que isso é importante, considere um exemplo extremo em que todos os estudantes de uma classe obtêm 75 em um teste. Então, 75 é um candidato natural para a mediana, mas não é verdade que 50% das pontuações estão acima de 75. Além disso, 75 é um candidato igualmente natural para o 95º percentil, o 25º ou
+            qualquer outro percentil. Empates -
+            ou seja, valores de dados iguais - precisam ser levados em conta ao definir percentis.</p>
+        <p style="text-align: justify;">Também é necessário ter cuidado quanto à posição exata na lista ao calcular percentis quando o índice relevante não está claro. Por exemplo, qual deveria ser o 87º percentil de uma coleção de 10 valores? O 8º valor da coleção ordenada, ou o 9º, ou em algum lugar entre eles?</p>
+        <p style="text-align: justify;">Nesta seção, daremos uma definição que funcione consistentemente para todos os rankings e todas as listas.</p>
+
+        <h2 id="um-exemplo-num-rico" style="text-align: justify;">Um Exemplo Numérico</h2>
+        <p style="text-align: justify;">Antes de darmos uma definição geral de todos os percentis, vamos definir o 80º percentil de uma coleção de valores como o menor valor na coleção que é pelo menos tão grande quanto 80% de todos os valores.</p>
+        <p style="text-align: justify;">Por exemplo, vamos considerar os tamanhos dos cinco maiores continentes - África, Antártica, Ásia, América do Norte e América do Sul - arredondados para o milhão mais próximo de milhas quadradas.</p>
+
+        <pre><code><span style="color: black;">sizes = make_array(12, 17, 6, 9, 7)</span></code></pre>
+        <p style="text-align: justify;">O percentil 80 é o menor valor que é pelo menos tão grande quanto 80% dos elementos de 'tamanhos', ou seja, quatro quintos dos cinco elementos. Isso é 12:</p>
+
+        <pre><code><span style="color: black;">np.sort(sizes)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[1]:</td>
+                <td style="text-align: left;">array([ 6, 7, 9, 12, 17])</td>
+            </tr>
+            </tbody>
+        </table>
+        <p style="text-align: justify;">O 80º percentil é um valor da lista, ou seja, 12. Você pode ver que 80% dos valores são menores ou iguais a ele e que é o menor valor da lista para o qual isso é verdade.</p>
+        <p style="text-align: justify;">De forma análoga, o percentil 70 é o menor valor na coleção que é pelo menos tão grande quanto 70% dos elementos de <code>sizes</code>. Agora, 70% de 5 elementos são "3,5 elementos", então o percentil 70 é o Quarto elemento da lista É 12, o mesmo que o 80º percentil para esses dados.</p>
+
+        <h2 id="a-fun-o-percentile-" style="text-align: justify;">A função <code>percentile</code></h2>
+        <p style="text-align: justify;">A função <code>percentil</code> leva dois argumentos: uma classificação entre 0 e 100 e uma matriz. Ela retorna o percentil correspondente do array.</p>
+
+        <pre><code><span style="color: black;">percentile(70, sizes)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[2]:</td>
+                <td style="text-align: left;">12</td>
+            </tr>
+            </tbody>
+        </table>
+        <h3 id="a-defini-o-geral" style="text-align: justify;">A Definição Geral</h3>
+        <p style="text-align: justify;">Seja $p$ um número entre 0 e 100. O percentil $p$ de uma coleção é o menor valor na coleção que é pelo menos tão grande quanto $p\%$ de todos os valores.</p>
+        <p style="text-align: justify;">Por esta definição, qualquer percentil entre 0 e 100 pode ser calculado para qualquer coleção de valores, e ele sempre é um elemento da coleção.</p>
+        <p style="text-align: justify;">Em termos práticos, suponha que há $n$ elementos na coleção. Para encontrar o percentil $p$:</p>
 
         <ul style="text-align: justify;">
-            <li>O chocolate é bom para você?</li>
-            <li>A água da bomba da Broad Street causou cólera?</li>
-            <li>As demografias na Califórnia mudaram na última década?</li>
+            <li>Ordene a coleção em ordem crescente.</li>
+            <li>Encontre p% de n: $(p/100) \times n$. Chame isso de $k$.</li>
+            <li>Se $k$ for um número inteiro, pegue o $k$-ésimo elemento da coleção ordenada.</li>
+            <li>Se $k$ não for um número inteiro, arredonde para cima para o próximo inteiro e pegue esse elemento da coleção ordenada.</li>
         </ul>
-        <p style="text-align: justify;">Se respondermos a perguntas como essas depende dos dados que temos. Dados do censo sobre a Califórnia podem resolver questões sobre demografia com pouca incerteza sobre a resposta. Sabemos que a água da bomba da Broad Street foi contaminada por resíduos de vítimas de cólera, então podemos fazer uma boa suposição sobre se ela causou cólera.</p>
-        <p style="text-align: justify;">Se o chocolate ou qualquer outro tratamento é bom para você quase certamente terá que ser decidido por especialistas médicos, mas um passo inicial consiste em usar a ciência de dados para analisar dados de estudos e experimentos randomizados.</p>
-        <p style="text-align: justify;">Neste capítulo, tentaremos responder a essas perguntas de sim-não, baseando nossas conclusões em amostras aleatórias e distribuições empíricas.</p>
+        <h3 id="exemplo" style="text-align: justify;">Exemplo</h3>
+        <p style="text-align: justify;">A tabela <code>scores_and_sections</code> contém uma linha para cada estudante em uma turma de 359 alunos. As colunas são a seção de discussão do aluno e a nota da prova.</p>
+
+        <pre><code></code></pre>
+        <table style="font-family: monospace; border-collapse: collapse; width: auto; margin-left: 1em;" border="1">
+            <thead>
+            <tr style="background-color: #f0f0f0; border-bottom: 2px solid #ddd;">
+                <th style="text-align: left; padding: 4px 8px;">Section</th>
+                <th style="text-align: left; padding: 4px 8px;">Midterm</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">22</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">12</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">23</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">2</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">14</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">20</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">3</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">25</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">4</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">19</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">1</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">24</td>
+            </tr>
+            <tr>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">5</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">8</td>
+            </tr>
+            <tr style="background-color: #f8f8f8;">
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">6</td>
+                <td style="padding: 4px 8px; border: 1px solid #ddd;">14</td>
+            </tr>
+            </tbody>
+        </table>
+        <pre><code><span style="color: black;">scores_and_sections.select('Midterm').hist(bins=np.arange(-0.5, 25.6, 1))</span></code></pre>
+        <p style="text-align: justify;"><img class="alignnone size-full wp-image-692" src="https://literaciadigital.ufms.br/files/2025/07/13-1-1.png" alt="" width="424" height="284"/></p>
+        <p style="text-align: justify;">Qual foi o percentil 85 das pontuações? Para usar a função <code>percentile</code>, crie um array <code>scores</code> contendo as pontuações intermediárias e encontre o percentil 85:</p>
+
+        <pre><code><span style="color: black;">scores = scores_and_sections.column(1)</span></code></pre>
+        <pre><code><span style="color: black;">percentile(85, scores)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[3]:</td>
+                <td style="text-align: left;">22</td>
+            </tr>
+            </tbody>
+        </table>
+        <p style="text-align: justify;">De acordo com a função percentil, o percentil 85 era 22. Para verificar se isso é consistente com a nossa nova definição, vamos aplicar a definição diretamente.</p>
+        <p style="text-align: justify;">Primeiro, coloque as pontuações em ordem crescente:</p>
+
+        <pre><code><span style="color: black;">sorted_scores = np.sort(scores_and_sections.column(1))</span></code></pre>
+        <p style="text-align: justify;">Existem 359 pontuações no array. A seguir, encontre 85% de 359, que é 305,15.</p>
+
+        <pre><code><span style="color: black;">0.85 * 359</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[4]:</td>
+                <td style="text-align: left;">305.15</td>
+            </tr>
+            </tbody>
+        </table>
+        <p style="text-align: justify;">Isso não é um número inteiro. Pela nossa definição, o 85º percentil é o 306º elemento de <code>sorted_scores</code>, que, pela convenção de indexação do Python, é o item 305 do array.</p>
+
+        <pre><code><span style="color: black;"># O 306º elemento do array classificado
+
+sorted_scores.item(305)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[5]:</td>
+                <td style="text-align: left;">22</td>
+            </tr>
+            </tbody>
+        </table>
+        <p style="text-align: justify;">Essa é a mesma resposta que obtivemos usando <code>percentile</code>. No futuro, usaremos apenas <code>percentile</code>.</p>
+
+        <h2 id="quartis" style="text-align: justify;">Quartis</h2>
+        <p style="text-align: justify;">O <em>primeiro quartil</em> de uma coleção numérica é o 25º percentil. A terminologia surge do <em>primeiro quarto</em>. O segundo quartil é a mediana, e o terceiro quartil é o 75º percentil.</p>
+        <p style="text-align: justify;">Para os dados de <code>scores</code>, esses valores são:</p>
+
+        <pre><code><span style="color: black;">percentile(25, scores)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[6]:</td>
+                <td style="text-align: left;">11</td>
+            </tr>
+            </tbody>
+        </table>
+        <pre><code><span style="color: black;">percentile(50, scores)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[7]:</td>
+                <td style="text-align: left;">16</td>
+            </tr>
+            </tbody>
+        </table>
+        <pre><code><span style="color: black;">percentile(75, scores)</span></code></pre>
+        <table style="font-family: monospace; border-spacing: 0; border-collapse: collapse; width: auto; margin-left: 1em;">
+            <tbody>
+            <tr>
+                <td style="text-align: right; color: #888; padding-right: 0.5em;">Out[8]:</td>
+                <td style="text-align: left;">20</td>
+            </tr>
+            </tbody>
+        </table>
+        <p style="text-align: justify;">As distribuições das pontuações às vezes são resumidas pelo intervalo de "50% intermediários", entre o primeiro e o terceiro quartis.</p>
         &nbsp;
 
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/10-0/10-4/">← Capítulo 10.4 - Amostragem Aleatória em Python</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/11-0/11-1/">Capítulo 11.1 - Avaliando um Modelo →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/13-0/">← Capítulo 13 - Estimação</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/13-0/13-2/">Capítulo 13.2 - Bootstrap →</a></td>
             </tr>
             </tbody>
         </table>
@@ -176,3 +353,4 @@
 
     </div>
 </div>
+<div style="clear: both; height: 1px; margin-top: -1px;"></div>

@@ -150,25 +150,33 @@
     <div style="overflow: hidden;">
 
         <!--###########################################################################################################################################################-->
-        <h1 id="testando-hip-teses" style="text-align: center;">Testando Hipóteses</h1>
-        <p style="text-align: justify;">Cientistas de dados frequentemente se deparam com perguntas de sim-não sobre o mundo. Você já viu alguns exemplos de tais perguntas neste curso:</p>
-
-        <ul style="text-align: justify;">
-            <li>O chocolate é bom para você?</li>
-            <li>A água da bomba da Broad Street causou cólera?</li>
-            <li>As demografias na Califórnia mudaram na última década?</li>
-        </ul>
-        <p style="text-align: justify;">Se respondermos a perguntas como essas depende dos dados que temos. Dados do censo sobre a Califórnia podem resolver questões sobre demografia com pouca incerteza sobre a resposta. Sabemos que a água da bomba da Broad Street foi contaminada por resíduos de vítimas de cólera, então podemos fazer uma boa suposição sobre se ela causou cólera.</p>
-        <p style="text-align: justify;">Se o chocolate ou qualquer outro tratamento é bom para você quase certamente terá que ser decidido por especialistas médicos, mas um passo inicial consiste em usar a ciência de dados para analisar dados de estudos e experimentos randomizados.</p>
-        <p style="text-align: justify;">Neste capítulo, tentaremos responder a essas perguntas de sim-não, baseando nossas conclusões em amostras aleatórias e distribuições empíricas.</p>
+        <pre><code><span style="color: black;">from datascience import *
+%matplotlib inline
+path_data = '../../assets/data/'
+import matplotlib.pyplot as plt
+plt.style.use('fivethirtyeight')
+import numpy as np</span></code></pre>
+        &nbsp;
+        <h1 id="estima-o" style="text-align: center;">Estimação</h1>
+        <p style="text-align: justify;">No capítulo anterior, começamos a desenvolver maneiras de pensar inferencialmente. Em particular, aprendemos como usar dados para decidir entre duas hipóteses sobre o mundo. Mas muitas vezes queremos apenas saber o quão grande é algo.</p>
+        <p style="text-align: justify;">Por exemplo, em um capítulo anterior investigamos quantos aviões de guerra o inimigo poderia ter. Em um ano de eleição, podemos querer saber qual percentual de eleitores favorece um candidato específico. Para avaliar a economia atual, podemos estar interessados na renda anual mediana dos domicílios nos Estados Unidos.</p>
+        <p style="text-align: justify;">Neste capítulo, desenvolveremos uma maneira de <em>estimar</em> um <em>parâmetro</em> desconhecido. Lembre-se de que um parâmetro é um valor numérico associado a uma população.</p>
+        <p style="text-align: justify;">Para descobrir o valor de um parâmetro, precisamos de dados. Se tivermos os dados relevantes para toda a população, podemos simplesmente calcular o parâmetro.</p>
+        <p style="text-align: justify;">Mas se a população for muito grande – por exemplo, se consistir em todos os domicílios nos Estados Unidos – pode ser muito caro e demorado reunir dados de toda a população. Nessas situações, os cientistas de dados dependem da amostragem aleatória da população.</p>
+        <p style="text-align: justify;">Isso leva a uma questão de inferência: Como fazer conclusões justificáveis sobre o parâmetro desconhecido, com base nos dados da amostra aleatória? Responderemos a essa pergunta usando o pensamento inferencial.</p>
+        <p style="text-align: justify;">Uma estatística baseada em uma amostra aleatória pode ser uma estimativa razoável de um parâmetro desconhecido na população. Por exemplo, você pode querer usar a renda anual mediana dos domicílios amostrados como uma estimativa da renda anual mediana de todos os domicílios nos EUA.</p>
+        <p style="text-align: justify;">Mas o valor de qualquer estatística depende da amostra, e a amostra é baseada em seleções aleatórias. Portanto, sempre que os cientistas de dados criam uma estimativa baseada em uma amostra aleatória, eles enfrentam uma pergunta:</p>
+        <p style="text-align: justify;"><strong>"Quão diferente poderia ter sido essa estimativa, se a amostra tivesse sido diferente?"</strong></p>
+        <p style="text-align: justify;">Neste capítulo, você aprenderá uma maneira de responder a essa pergunta. A resposta lhe dará as ferramentas para estimar um parâmetro numérico e quantificar a quantidade de erro em sua estimativa.</p>
+        <p style="text-align: justify;">Começaremos com uma preliminar sobre percentis. O percentil mais famoso é a mediana, frequentemente usada em resumos de dados de renda. Outros percentis serão importantes no método de estimativa que estamos prestes a desenvolver. Portanto, começaremos definindo percentis com cuidado.</p>
         &nbsp;
 
         <!--###########################################################################################################################################################-->
         <table width="100%">
             <tbody>
             <tr>
-                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/10-0/10-4/">← Capítulo 10.4 - Amostragem Aleatória em Python</a></td>
-                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/11-0/11-1/">Capítulo 11.1 - Avaliando um Modelo →</a></td>
+                <td align="left"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/12-0/12-3/">← Capítulo 12.3 - Esvaziar</a></td>
+                <td align="right"><a class="next-page-link" href="https://literaciadigital.ufms.br/data8/13-0/13-1/">Capítulo 13.1 - Percentis →</a></td>
             </tr>
             </tbody>
         </table>
@@ -176,3 +184,4 @@
 
     </div>
 </div>
+<div style="clear: both;height: 1px;margin-top: -1px"></div>
